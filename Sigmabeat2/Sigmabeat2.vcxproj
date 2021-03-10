@@ -237,6 +237,11 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="src\Scenes\Setup.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="src\Scenes\Title.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Common.hpp">
@@ -244,6 +249,8 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="src\Fullscreen\Fullscreen.hpp" />
+    <ClInclude Include="src\Scenes\Setup.hpp" />
+    <ClInclude Include="src\Scenes\Title.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

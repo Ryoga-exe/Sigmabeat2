@@ -1,5 +1,7 @@
 ﻿#include "Common.hpp"
 #include "Fullscreen/Fullscreen.hpp"
+#include "Scenes/Setup.hpp"
+#include "Scenes/Title.hpp"
 
 void Init() {
     System::SetTerminationTriggers(UserAction::CloseButtonClicked);
@@ -18,11 +20,19 @@ void Init() {
 void Main() {
 
     Init();
-    
-    while (System::Update()) {
 
-        if (KeyF11.down()) {
-            Fullscreen::Toggle();
-        }
+    MyApp manager;
+    manager
+        .add<Setup>(SceneState::Setup)
+        .add<Title>(SceneState::Title)
+        .setFadeColor(ColorF(1.0));
+
+    manager.init(SceneState::Setup);
+    
+    while (System::Update() && manager.update()) {
+
+        if (KeyF11.down()) Fullscreen::Toggle();
+
+
     }
 }
