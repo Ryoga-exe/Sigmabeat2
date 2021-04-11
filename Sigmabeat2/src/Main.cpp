@@ -15,6 +15,8 @@ void Init() {
     Window::Centering();
 
     Fullscreen::Init();
+
+    FontAsset::Register(U"Title", 30, Typeface::Regular);
 }
 
 void Main() {
