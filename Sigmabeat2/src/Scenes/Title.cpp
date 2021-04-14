@@ -9,9 +9,7 @@ Title::Title(const InitData& init)
 void Title::update() {
     m_delta += Scene::DeltaTime() * 100;
 
-
-
-    if (KeySpace.down()) {
+    if ((KeySpace | KeyEnter).down()) {
         changeScene(SceneState::Menu);
     }
 }
@@ -25,7 +23,7 @@ void Title::draw() const {
     {
         const Transformer2D tf2(Mat3x2::Scale(Window::ClientHeight() / 1000.0, { x, y + y / 1.5 }));
 
-        FontAsset(U"Title")(U" - PRESS ANY KEY TO START - ")
+        FontAsset(U"Title")(U" - PRESS START KEY TO START - ")
             .drawAt(x, y + y / 1.5, Color(100, (uint32)(((Sin(m_delta / 45.0) + 1.0) / 2.0) * 255)));
     }
     {
