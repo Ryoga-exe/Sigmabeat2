@@ -237,6 +237,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="src\Scenes\Menu.cpp" />
     <ClCompile Include="src\Scenes\Setup.cpp">
       <SubType>
       </SubType>
@@ -249,6 +250,7 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="src\Fullscreen\Fullscreen.hpp" />
+    <ClInclude Include="src\Scenes\Menu.hpp" />
     <ClInclude Include="src\Scenes\Setup.hpp" />
     <ClInclude Include="src\Scenes\Title.hpp" />
   </ItemGroup>

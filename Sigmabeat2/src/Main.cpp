@@ -2,6 +2,7 @@
 #include "Fullscreen/Fullscreen.hpp"
 #include "Scenes/Setup.hpp"
 #include "Scenes/Title.hpp"
+#include "Scenes/Menu.hpp"
 
 void Init() {
     System::SetTerminationTriggers(UserAction::CloseButtonClicked);
@@ -27,6 +28,7 @@ void Main() {
     manager
         .add<Setup>(SceneState::Setup)
         .add<Title>(SceneState::Title)
+        .add<Menu >(SceneState::Menu)
         .setFadeColor(ColorF(1.0));
 
     manager.init(SceneState::Setup);

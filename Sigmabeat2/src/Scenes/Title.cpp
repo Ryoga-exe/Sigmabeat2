@@ -8,6 +8,12 @@ Title::Title(const InitData& init)
 
 void Title::update() {
     m_delta += Scene::DeltaTime() * 100;
+
+
+
+    if (KeySpace.down()) {
+        changeScene(SceneState::Menu);
+    }
 }
 
 void Title::draw() const {
