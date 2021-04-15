@@ -1,0 +1,33 @@
+#Title     Example Title
+#Artist    Example Artist
+#Category  Example
+#Music     Music/example.wav
+#Image     Image/example.png
+#URL       https://example.com
+#BgColor   #44B4B1, #006194
+#DemoStart 3000
+#MusicVol  100
+#SEVol     0
+#OffSet    -100
+#BPM       160
+#Level     3, 5, 7, 12
+
+// Easy
+{
+
+}
+
+// Normal
+{
+
+}
+
+// Hard
+{
+
+}
+
+// Expert
+{
+
+}
