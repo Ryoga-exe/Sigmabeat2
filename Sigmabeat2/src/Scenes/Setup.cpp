@@ -5,12 +5,12 @@ Setup::Setup(const InitData& init)
 }
 
 void Setup::update() {
-	if (m_stopwatch.elapsed() > 2.0s) {
-		changeScene(SceneState::Title);
-	}
+    if (m_stopwatch.elapsed() > 2.0s) {
+        changeScene(SceneState::Title);
+    }
 }
 
 void Setup::draw() const {
-	const ScopedRenderStates2D state(SamplerState::ClampNearest);
-	m_authorLogo.scaled(Min(Window::ClientHeight(), Window::ClientWidth()) / 130.0).drawAt(Scene::Center());
+    const ScopedRenderStates2D state(SamplerState::ClampNearest);
+    m_authorLogo.scaled(Min(Window::ClientHeight(), Window::ClientWidth()) / 130.0).drawAt(Scene::Center());
 }
