@@ -1,5 +1,6 @@
 ﻿#include "Common.hpp"
 #include "Fullscreen/Fullscreen.hpp"
+#include "Singleton/Singleton.hpp"
 #include "Scenes/Setup.hpp"
 #include "Scenes/Title.hpp"
 #include "Scenes/Menu.hpp"
@@ -18,6 +19,10 @@ void Init() {
     Fullscreen::Init();
 
     FontAsset::Register(U"Title", 30, Typeface::Regular);
+}
+
+void Finalize() {
+    SingletonFinalizer::finalize();
 }
 
 void Main() {
@@ -39,4 +44,7 @@ void Main() {
 
 
     }
+
+    Finalize();
+    
 }
