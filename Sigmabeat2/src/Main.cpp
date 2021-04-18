@@ -4,6 +4,7 @@
 #include "Scenes/Setup.hpp"
 #include "Scenes/Title.hpp"
 #include "Scenes/Menu.hpp"
+#include "ScoreManager/ScoreManager.hpp"
 
 void Init() {
     System::SetTerminationTriggers(UserAction::CloseButtonClicked);
@@ -17,6 +18,9 @@ void Init() {
     Window::Centering();
 
     Fullscreen::Init();
+
+    Singleton<Score::Manager>::get_instance().init();
+    Singleton<Score::Manager>::get_instance().load();
 
     FontAsset::Register(U"Title", 30, Typeface::Regular);
 }
@@ -46,5 +50,5 @@ void Main() {
     }
 
     Finalize();
-    
+
 }
