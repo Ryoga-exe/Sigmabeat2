@@ -86,9 +86,9 @@ namespace Score {
                     
                     tagvalue.trim();
 
-                    i = newlinePos;
+                    setScoreData(score, tagname.uppercased(), tagvalue);
 
-                    Print << tagname.uppercased() << U"\t" << tagvalue;
+                    i = newlinePos;
 
                 }
             }
@@ -98,6 +98,31 @@ namespace Score {
         }
 
         m_hasLoaded = true;
+        return true;
+    }
+
+    bool Manager::setScoreData(Data &score, const String &tagname, const String &tagvalue) {
+        if (tagname == U"#TITLE") {
+            score.title = tagvalue;
+        }
+        else if (tagname == U"#ARTIST") {
+            score.artist = tagvalue;
+        }
+        else if (tagname == U"#CATEGORY") {
+            score.category = tagvalue;
+        }
+
+        return true;
+    }
+
+    bool Manager::debugPrint(size_t index) {
+        if (index >= m_scores.size()) return false;
+        Print << U"index    : " << index;
+        Print << U"title    : " << m_scores[index].title;
+        Print << U"artist   : " << m_scores[index].artist;
+        Print << U"category : " << m_scores[index].category;
+
+
         return true;
     }
 

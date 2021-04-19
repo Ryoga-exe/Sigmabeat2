@@ -29,9 +29,11 @@ namespace Score {
         
         void init(const FilePath &scoreDirectory = U"scores/");
         bool load();
-
+        bool debugPrint(size_t index);
 
     private:
+        bool setScoreData(Data &score, const String &tagname, const String &tagvalue);
+
         bool m_hasInitialized;
         bool m_hasLoaded;
         Array<Data> m_scores;
