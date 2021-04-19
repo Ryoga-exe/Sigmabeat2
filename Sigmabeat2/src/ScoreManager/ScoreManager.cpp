@@ -82,12 +82,14 @@ namespace Score {
                     }
                     tagname = content.substr(i, pos - i);
                     
-                    // i = pos;
+                    String tagvalue = content.substr(pos, newlinePos - pos);
+                    
+                    tagvalue.trim();
 
-                    Print << tagname.uppercased();
+                    i = newlinePos;
 
-                    // tagname.uppercased();
-                    // tagname.ltrim();
+                    Print << tagname.uppercased() << U"\t" << tagvalue;
+
                 }
             }
             else {
