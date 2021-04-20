@@ -8,6 +8,9 @@
 
 void Init() {
     System::SetTerminationTriggers(UserAction::CloseButtonClicked);
+# if SIV3D_PLATFORM(WINDOWS)
+    Platform::Windows::TextInput::DisableIME();
+#endif
 
     Window::SetTitle(U"Sigmabeat");
     Scene::SetBackground(Palette::Whitesmoke);
@@ -47,7 +50,6 @@ void Main() {
     while (System::Update() && manager.update()) {
 
         if (KeyF11.down()) Fullscreen::Toggle();
-
 
     }
 
