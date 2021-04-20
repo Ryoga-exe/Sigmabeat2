@@ -14,7 +14,7 @@ namespace Score {
         FilePath imagePath;
         
         uint32 demoStartMs;
-        uint32 offsetMs;
+        int32 offsetMs;
         double bpm;
         Color backgroundColor[4];
 
