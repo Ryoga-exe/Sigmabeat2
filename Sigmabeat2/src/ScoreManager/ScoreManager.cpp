@@ -111,18 +111,51 @@ namespace Score {
         else if (tagname == U"#CATEGORY") {
             score.category = tagvalue;
         }
-
+        else if (tagname == U"#MUSIC") {
+            score.musicPath = score.parentPath + tagvalue;
+        }
+        else if (tagname == U"#IMAGE") {
+            score.imagePath = score.parentPath + tagvalue;
+        }
+        else if (tagname == U"#URL") {
+            score.url = tagvalue;
+        }
+        else if (tagname == U"#DEMOSTART") {
+            score.demoStartMs = Parse<uint32>(tagvalue);
+        }
+        else if (tagname == U"#OFFSET") {
+            score.offsetMs = Parse<int32>(tagvalue);
+        }
+        else if (tagname == U"#BPM") {
+            score.bpm = Parse<double>(tagvalue);
+        }
+        else if (tagname == U"#BGCOLOR") {
+            auto arr = tagvalue.split(U',');
+            for (auto i : step(Min(arr.size(), (size_t)4))) {
+                arr[i].trim();
+                score.backgroundColor[i]
+                    = (arr[i].uppercased() == U"#RANDOM" ? RandomColor(/* { 0,255 }, { 0,255 }, { 0,255 } */) : Color(arr[i]));
+            }
+        }
         return true;
     }
 
     bool Manager::debugPrint(size_t index) {
         if (index >= m_scores.size()) return false;
         Print << U"index    : " << index;
+        Print << U"path     : " << m_scores[index].path;
         Print << U"title    : " << m_scores[index].title;
         Print << U"artist   : " << m_scores[index].artist;
         Print << U"category : " << m_scores[index].category;
-
-
+        Print << U"music    : " << m_scores[index].musicPath;
+        Print << U"image    : " << m_scores[index].imagePath;
+        Print << U"url      : " << m_scores[index].url;
+        Print << U"demostart: " << m_scores[index].demoStartMs;
+        Print << U"offset   : " << m_scores[index].offsetMs;
+        Print << U"bpm      : " << m_scores[index].bpm;
+        for (auto i : step(4)) {
+            Print << U"color    : " << m_scores[index].backgroundColor[i];
+        }
         return true;
     }
 
