@@ -7,6 +7,10 @@ Menu::Menu(const InitData& init)
 
 void Menu::update() {
 
+    if (KeyEscape.down()) {
+        changeScene(SceneState::Setup);
+    }
+
 }
 
 void Menu::draw() const {
