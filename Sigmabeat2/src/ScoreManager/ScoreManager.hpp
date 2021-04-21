@@ -17,6 +17,7 @@ namespace Score {
         int32 offsetMs;
         double bpm;
         Color backgroundColor[4];
+        uint32 level[4];
 
         size_t noteStartSeek;
         bool isValid;

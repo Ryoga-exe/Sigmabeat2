@@ -129,6 +129,13 @@ namespace Score {
         else if (tagname == U"#BPM") {
             score.bpm = Parse<double>(tagvalue);
         }
+        else if (tagname == U"#LEVEL") {
+            auto arr = tagvalue.split(U',');
+            for (auto i : step(Min(arr.size(), (size_t)4))) {
+                arr[i].trim();
+                score.level[i] = ParseOr<uint32>(arr[i], 0);
+            }
+        }
         else if (tagname == U"#BGCOLOR") {
             auto arr = tagvalue.split(U',');
             for (auto i : step(Min(arr.size(), (size_t)4))) {
@@ -156,6 +163,7 @@ namespace Score {
         for (auto i : step(4)) {
             Print << U"color    : " << m_scores[index].backgroundColor[i];
         }
+        Print << U"level    : " << m_scores[index].level;
         return true;
     }
 
