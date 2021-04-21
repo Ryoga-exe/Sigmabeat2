@@ -12,7 +12,8 @@ namespace Score {
         FilePath parentPath;
         FilePath musicPath;
         FilePath imagePath;
-        
+        int32 sortOrder;
+
         uint32 demoStartMs;
         int32 offsetMs;
         double bpm;

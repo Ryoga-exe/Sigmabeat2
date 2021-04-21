@@ -129,6 +129,9 @@ namespace Score {
         else if (tagname == U"#BPM") {
             score.bpm = Parse<double>(tagvalue);
         }
+        else if (tagname == U"#SORTORDER") {
+            score.sortOrder = Parse<int32>(tagvalue);
+        }
         else if (tagname == U"#LEVEL") {
             auto arr = tagvalue.split(U',');
             for (auto i : step(Min(arr.size(), (size_t)4))) {
@@ -160,6 +163,7 @@ namespace Score {
         Print << U"demostart: " << m_scores[index].demoStartMs;
         Print << U"offset   : " << m_scores[index].offsetMs;
         Print << U"bpm      : " << m_scores[index].bpm;
+        Print << U"sortOder : " << m_scores[index].sortOrder;
         for (auto i : step(4)) {
             Print << U"color    : " << m_scores[index].backgroundColor[i];
         }
