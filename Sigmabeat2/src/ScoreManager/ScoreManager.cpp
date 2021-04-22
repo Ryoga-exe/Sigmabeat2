@@ -96,8 +96,10 @@ namespace Score {
                 score.isValid = false;
             }
         }
-
         m_hasLoaded = true;
+
+        m_scores.sort_by([](const Data &a, const Data &b) {return a.priority > b.priority; });
+
         return true;
     }
 
@@ -129,8 +131,8 @@ namespace Score {
         else if (tagname == U"#BPM") {
             score.bpm = Parse<double>(tagvalue);
         }
-        else if (tagname == U"#SORTORDER") {
-            score.sortOrder = Parse<int32>(tagvalue);
+        else if (tagname == U"#PRIORITY") {
+            score.priority = Parse<int32>(tagvalue);
         }
         else if (tagname == U"#LEVEL") {
             auto arr = tagvalue.split(U',');
@@ -163,7 +165,7 @@ namespace Score {
         Print << U"demostart: " << m_scores[index].demoStartMs;
         Print << U"offset   : " << m_scores[index].offsetMs;
         Print << U"bpm      : " << m_scores[index].bpm;
-        Print << U"sortOder : " << m_scores[index].sortOrder;
+        Print << U"priority : " << m_scores[index].priority;
         for (auto i : step(4)) {
             Print << U"color    : " << m_scores[index].backgroundColor[i];
         }

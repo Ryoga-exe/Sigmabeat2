@@ -12,7 +12,7 @@ namespace Score {
         FilePath parentPath;
         FilePath musicPath;
         FilePath imagePath;
-        int32 sortOrder;
+        int32 priority = 0;
 
         uint32 demoStartMs;
         int32 offsetMs;
@@ -21,7 +21,7 @@ namespace Score {
         uint32 level[4];
 
         size_t noteStartSeek;
-        bool isValid;
+        bool isValid = false;
     };
 
     class Manager {
