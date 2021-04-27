@@ -10,7 +10,8 @@ void Title::update() {
     m_delta += Scene::DeltaTime() * 100;
 
     if ((KeySpace | KeyEnter).down()) {
-        changeScene(SceneState::Menu);
+        m_audio.pause(0.5s);
+        changeScene(SceneState::Menu, 1.0s);
     }
 }
 
