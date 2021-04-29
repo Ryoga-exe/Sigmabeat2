@@ -8,5 +8,7 @@ public:
     void draw() const override;
 
 private:
-
+    int32 m_musicNum;
+    int32 m_activeIndex;
+    double m_state;
 };
