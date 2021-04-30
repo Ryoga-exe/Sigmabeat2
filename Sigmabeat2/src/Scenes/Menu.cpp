@@ -61,8 +61,8 @@ void Menu::draw() const {
     double x = activeX + activeSize / 2 + marginSize;
 
     for (int32 index = m_activeIndex + 1; index < m_musicNum; index++) {
-        // もし、完全に画面外ならbreak
-        if (false) {
+        // もし画面外ならbreak
+        if (Window::ClientWidth() < x) {
             break;
         }
 
@@ -80,8 +80,8 @@ void Menu::draw() const {
     x = activeX - activeSize / 2 - marginSize;
 
     for (int32 index = m_activeIndex - 1; index >= 0; index--) {
-        // もし、完全に画面外ならbreak
-        if (false) {
+        // もし画面外ならbreak
+        if (x < 0) {
             break;
         }
         if (index == m_activeIndex - 1) {
