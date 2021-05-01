@@ -13,6 +13,7 @@ namespace Score {
         FilePath musicPath;
         FilePath imagePath;
         int32 priority = 0;
+        Texture texture;
 
         uint32 demoStartMs;
         int32 offsetMs;
@@ -31,10 +32,14 @@ namespace Score {
         
         void init(const FilePath &scoreDirectory = U"scores/");
         bool load();
+
+        const Texture &getTexture(size_t index);
+
         bool debugPrint(size_t index);
 
     private:
         bool setScoreData(Data &score, const String &tagname, const String &tagvalue);
+        Texture m_defaultTexture;
 
         bool m_hasInitialized;
         bool m_hasLoaded;

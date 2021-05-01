@@ -3,7 +3,7 @@
 namespace Score {
 
     Manager::Manager()
-        : m_hasInitialized(false), m_hasLoaded(false){
+        : m_hasInitialized(false), m_hasLoaded(false), m_defaultTexture(U"dat/img/icon.png"){
 
     }
 
@@ -95,6 +95,10 @@ namespace Score {
             else {
                 score.isValid = false;
             }
+
+            if (FileSystem::Exists(score.imagePath)) score.texture = Texture(score.imagePath);
+            else score.texture = m_defaultTexture;
+
         }
         m_hasLoaded = true;
 
@@ -150,6 +154,13 @@ namespace Score {
             }
         }
         return true;
+    }
+
+    const Texture& Manager::getTexture(size_t index) {
+        if (index >= m_scores.size()) {
+            m_defaultTexture;
+        }
+        return m_scores[index].texture;
     }
 
     bool Manager::debugPrint(size_t index) {
