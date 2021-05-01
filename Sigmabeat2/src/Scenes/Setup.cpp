@@ -12,5 +12,5 @@ void Setup::update() {
 
 void Setup::draw() const {
     const ScopedRenderStates2D state(SamplerState::ClampNearest);
-    m_authorLogo.scaled(Min(Window::ClientHeight(), Window::ClientWidth()) / 130.0).drawAt(Scene::Center());
+    m_authorLogo.scaled(Min(Scene::Width(), Scene::Height()) / 130.0).drawAt(Scene::Center());
 }
