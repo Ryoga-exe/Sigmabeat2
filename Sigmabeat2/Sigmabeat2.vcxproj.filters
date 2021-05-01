@@ -389,7 +389,7 @@
     <ClCompile Include="src\ScoreManager\ScoreManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Singleton\Singleton.cpp">
+    <ClCompile Include="src\Base\Singleton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -412,7 +412,7 @@
     <ClInclude Include="src\ScoreManager\ScoreManager.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Singleton\Singleton.hpp">
+    <ClInclude Include="src\Base\Singleton.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

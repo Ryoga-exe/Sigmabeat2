@@ -244,7 +244,7 @@
     </ClCompile>
     <ClCompile Include="src\Scenes\Title.cpp" />
     <ClCompile Include="src\ScoreManager\ScoreManager.cpp" />
-    <ClCompile Include="src\Singleton\Singleton.cpp" />
+    <ClCompile Include="src\Base\Singleton.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Common.hpp">
@@ -256,7 +256,7 @@
     <ClInclude Include="src\Scenes\Setup.hpp" />
     <ClInclude Include="src\Scenes\Title.hpp" />
     <ClInclude Include="src\ScoreManager\ScoreManager.hpp" />
-    <ClInclude Include="src\Singleton\Singleton.hpp" />
+    <ClInclude Include="src\Base\Singleton.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,6 +1,6 @@
 ﻿#include "Common.hpp"
 #include "Fullscreen/Fullscreen.hpp"
-#include "Singleton/Singleton.hpp"
+#include "Base/Singleton.hpp"
 #include "Scenes/Setup.hpp"
 #include "Scenes/Title.hpp"
 #include "Scenes/Menu.hpp"
