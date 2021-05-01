@@ -33,6 +33,7 @@ namespace Score {
         void init(const FilePath &scoreDirectory = U"scores/");
         bool load();
 
+        size_t getScoreSize();
         const Texture &getTexture(size_t index);
 
         bool debugPrint(size_t index);

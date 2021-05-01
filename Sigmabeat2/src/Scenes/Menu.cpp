@@ -1,11 +1,24 @@
 ﻿#include "Menu.hpp"
 
-Menu::Menu(const InitData& init)
-    : IScene(init), m_tileOffsetXVelocity(0.0) {
+namespace UI {
+    constexpr double SelectedTileSize = 250;
+    constexpr double NormalIndexSize = 200;
+    constexpr double SizeBetween = SelectedTileSize - NormalIndexSize;
+    constexpr double MarginSize = NormalIndexSize / 4.0;
+}
 
-    m_musicNum = 6;
-    m_activeIndex = 0;
-    m_state = 0;
+Menu::Menu(const InitData& init)
+    : IScene(init), m_tileOffsetXVelocity(0.0), m_animateState(0.0) {
+    
+    m_selectedTileSize = UI::SelectedTileSize;
+    m_tileSize = UI::NormalIndexSize;
+    m_tileMargin = UI::MarginSize;
+    m_selectedTileX = Scene::CenterF().x;
+
+    m_indexSize = static_cast<int32>(scores.getScoreSize());
+    m_selectedIndex = 0;
+
+    updateTiles();
 }
 
 void Menu::update() {
@@ -14,85 +27,78 @@ void Menu::update() {
         changeScene(SceneState::Setup);
     }
 
-    if (m_activeIndex + 1 < m_musicNum && KeyRight.down()) {
-        m_state = -1.0;
-        m_activeIndex++;
+    if (m_selectedIndex + 1 < m_indexSize && KeyRight.down()) {
+        m_animateState = -1.0;
+        m_selectedIndex++;
     }
     
-    if (m_activeIndex > 0 && KeyLeft.down()) {
-        m_state = 1.0;
-        m_activeIndex--;
+    if (m_selectedIndex > 0 && KeyLeft.down()) {
+        m_animateState = 1.0;
+        m_selectedIndex--;
     }
 
-    if (m_state != 0.00) {
-        m_state = Math::SmoothDamp(m_state, 0.0, m_tileOffsetXVelocity, 0.1, Scene::DeltaTime());
+    if (m_animateState != 0.00) {
+        m_animateState = Math::SmoothDamp(m_animateState, 0.0, m_tileOffsetXVelocity, 0.1, Scene::DeltaTime());
     }
-}
 
+    updateTiles();
 
-namespace UI {
-    constexpr double ActiveIndexSize = 250;
-    constexpr double NormalIndexSize = 200;
-    constexpr double SizeBetween = ActiveIndexSize - NormalIndexSize;
-    constexpr double MarginSize = NormalIndexSize / 4.0;
 }
 
 void Menu::draw() const {
 
-    ClearPrint();
+    if (m_indexSize == 0) return;
 
-    Print << m_activeIndex << U" / " << m_musicNum-1;
-    Print << m_state;
-    Print << m_tileOffsetXVelocity;
+    drawTiles();
 
-    const double
-        activeSize = UI::ActiveIndexSize - UI::SizeBetween * Abs(m_state),
-        normalSize = UI::NormalIndexSize,
-        marginSize = UI::MarginSize;
-    auto [w, h] = Scene::Center();
+}
 
-    double activeX = w - (UI::ActiveIndexSize / 2 + UI::NormalIndexSize / 2 + marginSize) * m_state;
-    
-    const double baseY = h + normalSize / 2;
+void Menu::updateTiles() {
+    auto [centerX, centerY] = Scene::CenterF();
+    m_selectedTileSize = UI::SelectedTileSize - UI::SizeBetween * Abs(m_animateState);
+    m_tileBaseY = centerY + m_tileSize / 2;
+    m_selectedTileX = centerX - (UI::SelectedTileSize / 2 + UI::NormalIndexSize / 2 + m_tileMargin) * m_animateState;
+}
 
-    // drawActiveIndex
-    RectF(Arg::bottomCenter = Vec2{ activeX, baseY }, activeSize).draw(HueToColor(60 * m_activeIndex));
+void Menu::drawTiles() const {
 
-    double x = activeX + activeSize / 2 + marginSize;
+    // drawSelectedIndex
 
-    for (int32 index = m_activeIndex + 1; index < m_musicNum; index++) {
+    RectF(Arg::bottomCenter = Vec2{ m_selectedTileX, m_tileBaseY }, m_selectedTileSize)(scores.getTexture(m_selectedIndex)).draw();
+
+    double x = m_selectedTileX + m_selectedTileSize / 2 + m_tileMargin;
+
+    for (int32 index = m_selectedIndex + 1; index < m_indexSize; index++) {
         // もし画面外ならbreak
-        if (Window::ClientWidth() < x) {
-            break;
+        if (Scene::Width() < x) break;
+
+        RectF tile(Arg::bottomLeft = Vec2{ x, m_tileBaseY }, m_tileSize);
+
+        if (index == m_selectedIndex + 1) {
+            tile.set(Arg::bottomLeft = Vec2{ x, m_tileBaseY }, m_tileSize + UI::SizeBetween * Max(0.0, m_animateState));
+            x += UI::SizeBetween * Max(0.0, m_animateState);
         }
 
-        if (index == m_activeIndex + 1) {
-            RectF(Arg::bottomLeft = Vec2{ x, baseY }, normalSize + UI::SizeBetween * Max(0.0, m_state)).draw(HueToColor(60 * index));
-            x += UI::SizeBetween * Max(0.0, m_state);
-        }
-        else {
-            RectF(Arg::bottomLeft = Vec2{ x, baseY }, normalSize).draw(HueToColor(60 * index));
-        }
+        tile(scores.getTexture(index)).draw();
 
-        x += marginSize + normalSize;
+        x += m_tileMargin + m_tileSize;
     }
 
-    x = activeX - activeSize / 2 - marginSize;
+    x = m_selectedTileX - m_selectedTileSize / 2 - m_tileMargin;
 
-    for (int32 index = m_activeIndex - 1; index >= 0; index--) {
+    for (int32 index = m_selectedIndex - 1; index >= 0; index--) {
         // もし画面外ならbreak
-        if (x < 0) {
-            break;
-        }
-        if (index == m_activeIndex - 1) {
-            RectF(Arg::bottomRight = Vec2{ x, baseY }, normalSize - UI::SizeBetween * Min(0.0, m_state)).draw(HueToColor(60 * index));
-            x += UI::SizeBetween * Min(0.0, m_state);
-        }
-        else {
-            RectF(Arg::bottomRight = Vec2{ x, baseY }, normalSize).draw(HueToColor(60 * index));
+        if (x < 0) break;
+
+        RectF tile(Arg::bottomRight = Vec2{ x, m_tileBaseY }, m_tileSize);
+
+        if (index == m_selectedIndex - 1) {
+            tile.set(Arg::bottomRight = Vec2{ x, m_tileBaseY }, m_tileSize - UI::SizeBetween * Min(0.0, m_animateState));
+            x += UI::SizeBetween * Min(0.0, m_animateState);
         }
 
-        x -= marginSize + normalSize;
+        tile(scores.getTexture(index)).draw();
+
+        x -= m_tileMargin + m_tileSize;
     }
-
 }

@@ -156,6 +156,10 @@ namespace Score {
         return true;
     }
 
+    size_t Manager::getScoreSize() {
+        return m_scores.size();
+    }
+
     const Texture& Manager::getTexture(size_t index) {
         if (index >= m_scores.size()) {
             m_defaultTexture;
