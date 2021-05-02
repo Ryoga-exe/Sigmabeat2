@@ -15,10 +15,10 @@ void Init() {
     Window::SetTitle(U"Sigmabeat");
     Scene::SetBackground(Palette::Whitesmoke);
 
-    Scene::SetScaleMode(ScaleMode::ResizeFill);
-    Window::SetStyle(WindowStyle::Sizable);
     Window::Resize(1280, 720);
     Window::Centering();
+    Window::SetStyle(WindowStyle::Sizable);
+    Scene::SetScaleMode(ScaleMode::ResizeFill);
 
     Fullscreen::Init();
 
