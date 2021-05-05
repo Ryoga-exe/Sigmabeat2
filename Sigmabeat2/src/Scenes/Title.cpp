@@ -1,16 +1,17 @@
 ﻿#include "Title.hpp"
 
 Title::Title(const InitData& init)
-    : IScene(init), m_delta(0.0), m_titleLogo(U"dat/img/logo.png"), m_audio(U"dat/wav/opening.wav", Arg::loop = true) {
-    m_audio.play();
+    : IScene(init), m_delta(0.0), m_titleLogo(U"dat/img/logo.png") {
 
+    AudioAsset(U"Opening").setLoop(true);
+    AudioAsset(U"Opening").play();
 }
 
 void Title::update() {
     m_delta += Scene::DeltaTime() * 100;
 
     if ((KeySpace | KeyEnter).down()) {
-        m_audio.pause(0.5s);
+        AudioAsset(U"Opening").pause(0.5s);
         changeScene(SceneState::Menu, 1.0s);
     }
 }

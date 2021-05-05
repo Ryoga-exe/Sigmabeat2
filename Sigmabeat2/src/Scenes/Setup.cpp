@@ -5,7 +5,7 @@ Setup::Setup(const InitData& init)
 }
 
 void Setup::update() {
-    if (m_stopwatch.elapsed() > 2.0s) {
+    if (m_stopwatch.elapsed() > 2.0s && AudioAsset::IsReady(U"Opening")) {
         changeScene(SceneState::Title);
     }
 }

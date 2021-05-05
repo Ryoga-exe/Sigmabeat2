@@ -10,5 +10,4 @@ public:
 private:
     double m_delta = 0.0;
     const Texture m_titleLogo;
-    const Audio m_audio;
 };
