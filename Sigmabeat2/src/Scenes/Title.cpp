@@ -15,7 +15,7 @@ void Title::update() {
     m_delta += Scene::DeltaTime() * 100;
 
     if ((KeySpace | KeyEnter).down()) {
-        AudioAsset(U"Opening").pause(0.5s);
+        AudioAsset(U"Opening").stop(0.5s);
         changeScene(SceneState::Menu, 1.0s);
     }
 }
