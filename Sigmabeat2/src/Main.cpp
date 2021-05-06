@@ -26,7 +26,6 @@ void Init() {
     Singleton<Score::Manager>::get_instance().load();
 
     FontAsset::Register(U"Title", 30, Typeface::Regular);
-    AudioAsset::Register(U"Opening", U"dat/wav/opening.wav", AssetParameter::LoadAsync());
 }
 
 void Finalize() {

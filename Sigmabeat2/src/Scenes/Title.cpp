@@ -7,6 +7,10 @@ Title::Title(const InitData& init)
     AudioAsset(U"Opening").play();
 }
 
+Title::~Title() {
+    AudioAsset::Unregister(U"Opening");
+}
+
 void Title::update() {
     m_delta += Scene::DeltaTime() * 100;
 
