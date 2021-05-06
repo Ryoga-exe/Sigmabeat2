@@ -13,7 +13,7 @@ private:
     void updateTiles();
     void drawTiles() const;
 
-    Score::Manager& scores = Singleton<Score::Manager>::get_instance();
+    Score::Manager& m_scores = Singleton<Score::Manager>::get_instance();
 
     int32  m_indexSize;
     int32  m_selectedIndex;

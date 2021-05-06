@@ -15,7 +15,7 @@ Menu::Menu(const InitData& init)
     m_tileMargin = UI::MarginSize;
     m_selectedTileX = Scene::CenterF().x;
 
-    m_indexSize = static_cast<int32>(scores.getScoreSize());
+    m_indexSize = static_cast<int32>(m_scores.getScoreSize());
     m_selectedIndex = 0;
 
     updateTiles();
@@ -64,7 +64,7 @@ void Menu::drawTiles() const {
 
     // drawSelectedIndex
 
-    RectF(Arg::bottomCenter = Vec2{ m_selectedTileX, m_tileBaseY }, m_selectedTileSize)(scores.getTexture(m_selectedIndex)).draw();
+    RectF(Arg::bottomCenter = Vec2{ m_selectedTileX, m_tileBaseY }, m_selectedTileSize)(m_scores.getTexture(m_selectedIndex)).draw();
 
     double x = m_selectedTileX + m_selectedTileSize / 2 + m_tileMargin;
 
@@ -79,7 +79,7 @@ void Menu::drawTiles() const {
             x += UI::SizeBetween * Max(0.0, m_animateState);
         }
 
-        tile(scores.getTexture(index)).draw();
+        tile(m_scores.getTexture(index)).draw();
 
         x += m_tileMargin + m_tileSize;
     }
@@ -97,7 +97,7 @@ void Menu::drawTiles() const {
             x += UI::SizeBetween * Min(0.0, m_animateState);
         }
 
-        tile(scores.getTexture(index)).draw();
+        tile(m_scores.getTexture(index)).draw();
 
         x -= m_tileMargin + m_tileSize;
     }
