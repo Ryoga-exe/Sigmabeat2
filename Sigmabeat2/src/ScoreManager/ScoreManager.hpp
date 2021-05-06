@@ -3,6 +3,8 @@
 
 namespace Score {
 
+    const String unvalid = U"unvalid";
+
     struct Data {
         String title;
         String artist;
@@ -34,7 +36,9 @@ namespace Score {
         bool load();
 
         size_t getScoreSize();
-        const Texture &getTexture(size_t index);
+        const Texture& getTexture(size_t index);
+        const String& getTitle   (size_t index);
+        const String& getArtist  (size_t index);
 
         bool debugPrint(size_t index);
 

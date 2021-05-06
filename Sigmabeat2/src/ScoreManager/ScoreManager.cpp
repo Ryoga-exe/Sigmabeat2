@@ -167,6 +167,20 @@ namespace Score {
         return m_scores[index].texture;
     }
 
+    const String& Manager::getTitle(size_t index) {
+        if (index >= m_scores.size()) {
+            return unvalid;
+        }
+        return m_scores[index].title;
+    }
+
+    const String& Manager::getArtist(size_t index) {
+        if (index >= m_scores.size()) {
+            return unvalid;
+        }
+        return m_scores[index].artist;
+    }
+
     bool Manager::debugPrint(size_t index) {
         if (index >= m_scores.size()) return false;
         Print << U"index    : " << index;
