@@ -51,6 +51,8 @@ void Menu::draw() const {
 
     drawTiles();
 
+    // FontAsset(U"Menu")(U"MUSIC SELECT").draw(Arg::topCenter = Point{Scene::Center().x , 0}, Palette::Black);
+
 }
 
 void Menu::updateTiles() {
