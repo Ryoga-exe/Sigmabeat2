@@ -232,6 +232,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Config\Config.cpp" />
     <ClCompile Include="src\Fullscreen\Fullscreen.cpp" />
     <ClCompile Include="src\Main.cpp">
       <SubType>
@@ -251,6 +252,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="src\Config\Config.hpp" />
     <ClInclude Include="src\Fullscreen\Fullscreen.hpp" />
     <ClInclude Include="src\Scenes\Menu.hpp" />
     <ClInclude Include="src\Scenes\Setup.hpp" />
