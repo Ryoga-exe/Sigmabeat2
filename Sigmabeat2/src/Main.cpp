@@ -1,5 +1,6 @@
 ﻿#include "Common.hpp"
 #include "Fullscreen/Fullscreen.hpp"
+#include "Config/Config.hpp"
 #include "Base/Singleton.hpp"
 #include "Scenes/Setup.hpp"
 #include "Scenes/Title.hpp"
@@ -12,20 +13,24 @@ void Init() {
     Platform::Windows::TextInput::DisableIME();
 #endif
 
+    Config::Data data;
+    Config::Load(data);
+
     Window::SetTitle(U"Sigmabeat");
+
+    Window::Resize(data.windowSize);
+    Window::Centering();
+    Window::SetStyle(data.windowSizable ? WindowStyle::Sizable : WindowStyle::Fixed);
+    Scene::SetScaleMode(ScaleMode::ResizeFill);
     Scene::SetBackground(Palette::Whitesmoke);
 
-    Window::Resize(1280, 720);
-    Window::Centering();
-    Window::SetStyle(WindowStyle::Sizable);
-    Scene::SetScaleMode(ScaleMode::ResizeFill);
+    Fullscreen::Init(data.windowSizable);
 
-    Fullscreen::Init();
-
-    Singleton<Score::Manager>::get_instance().init();
+    Singleton<Score::Manager>::get_instance().init(data.scoreDirectory);
     Singleton<Score::Manager>::get_instance().load();
 
     FontAsset::Register(U"Title", 30, Typeface::Regular);
+    FontAsset::Register(U"Menu", 60, Typeface::Bold);
 }
 
 void Finalize() {

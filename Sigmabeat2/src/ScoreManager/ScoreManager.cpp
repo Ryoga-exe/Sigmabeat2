@@ -11,16 +11,17 @@ namespace Score {
 
     }
 
-    void Manager::init(const FilePath& scoreDirectory) {
-        for (const auto& path : FileSystem::DirectoryContents(scoreDirectory, true)) {
-            if (FileSystem::IsFile(path) && FileSystem::Extension(path) == U"sgm") {
-                Data file;
-                file.path = path;
-                file.parentPath = FileSystem::ParentPath(path);
-                m_scores << file;
+    void Manager::init(const Array<FilePath>& scoreDirectory) {
+        for (const auto dir : scoreDirectory) {
+            for (const auto& path : FileSystem::DirectoryContents(dir, true)) {
+                if (FileSystem::IsFile(path) && FileSystem::Extension(path) == U"sgm") {
+                    Data file;
+                    file.path = path;
+                    file.parentPath = FileSystem::ParentPath(path);
+                    m_scores << file;
+                }
             }
         }
-
         m_hasInitialized = true;
     }
     // json形式にも対応させたい
