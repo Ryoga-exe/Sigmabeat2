@@ -12,7 +12,7 @@ namespace Config {
 
         for (const auto& object : toml[U"Score.directory"].arrayView())
         {
-            data.scoreDirectory << object.get<String>();
+            data.scoreDirectory << object.get<FilePath>();
         }
 
         return true;
