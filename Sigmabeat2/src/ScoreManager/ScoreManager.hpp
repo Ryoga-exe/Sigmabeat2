@@ -32,7 +32,7 @@ namespace Score {
         Manager();
         ~Manager();
         
-        void init(const FilePath &scoreDirectory = U"scores/");
+        void init(const FilePath& scoreDirectory = U"scores/");
         bool load();
 
         size_t getScoreSize();

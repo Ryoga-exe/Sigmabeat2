@@ -11,7 +11,7 @@ namespace Score {
 
     }
 
-    void Manager::init(const FilePath &scoreDirectory) {
+    void Manager::init(const FilePath& scoreDirectory) {
         for (const auto& path : FileSystem::DirectoryContents(scoreDirectory, true)) {
             if (FileSystem::IsFile(path) && FileSystem::Extension(path) == U"sgm") {
                 Data file;
@@ -29,7 +29,7 @@ namespace Score {
             return false;
         }
 
-        for (auto &score : m_scores) {
+        for (auto& score : m_scores) {
             TextReader reader(score.path);
 
             if (reader) {
@@ -102,12 +102,12 @@ namespace Score {
         }
         m_hasLoaded = true;
 
-        m_scores.sort_by([](const Data &a, const Data &b) {return a.priority > b.priority; });
+        m_scores.sort_by([](const Data& a, const Data& b) {return a.priority > b.priority; });
 
         return true;
     }
 
-    bool Manager::setScoreData(Data &score, const String &tagname, const String &tagvalue) {
+    bool Manager::setScoreData(Data& score, const String& tagname, const String& tagvalue) {
         if (tagname == U"#TITLE") {
             score.title = tagvalue;
         }
