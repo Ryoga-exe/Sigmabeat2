@@ -2,7 +2,7 @@
 #include "../Common.hpp"
 
 namespace Fullscreen {
-    void Init();
-    bool Set(bool fullscreen);
+    void Init(bool sizable);
+    bool Set(bool fullscreen = false);
     bool Toggle();
 }
