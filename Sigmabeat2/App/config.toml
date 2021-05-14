@@ -1,0 +1,7 @@
+[Window]
+width = 1280
+height = 720
+sizable = true
+
+[Score]
+directory = ["Score"]
