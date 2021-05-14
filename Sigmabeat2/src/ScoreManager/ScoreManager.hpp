@@ -43,7 +43,7 @@ namespace Score {
         bool debugPrint(size_t index);
 
     private:
-        bool setScoreData(Data &score, const String &tagname, const String &tagvalue);
+        bool setScoreData(Data& score, const String& tagname, const String& tagvalue);
         Texture m_defaultTexture;
 
         bool m_hasInitialized;
