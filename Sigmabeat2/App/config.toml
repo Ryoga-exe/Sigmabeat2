@@ -4,4 +4,4 @@ height = 720
 sizable = true
 
 [Score]
-directory = ["Score"]
+directory = ["Scores/"]
