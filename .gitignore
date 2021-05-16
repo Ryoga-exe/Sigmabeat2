@@ -391,3 +391,6 @@ AS_DEBUG/
 include/
 lib/
 */App/example/
+
+## Sigmabeat
+ReleaseScores/
