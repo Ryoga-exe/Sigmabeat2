@@ -3,6 +3,11 @@
 Setup::Setup(const InitData& init)
     : IScene(init), m_stopwatch(true), m_authorLogo(U"dat/img/ryoga-exe.png"){
     AudioAsset::Register(U"Opening", U"dat/wav/opening.wav", AssetParameter::LoadAsync());
+
+    if (AudioAsset::IsRegistered(U"Menu.demo")) {
+        AudioAsset(U"Menu.demo").stop();
+        AudioAsset::Unregister(U"Menu.demo");
+    }
 }
 
 void Setup::update() {

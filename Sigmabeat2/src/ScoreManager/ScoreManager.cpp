@@ -182,6 +182,20 @@ namespace Score {
         return m_scores[index].artist;
     }
 
+    const FilePath& Manager::getMusicPath(size_t index) {
+        if (index >= m_scores.size()) {
+            return unvalid;
+        }
+        return m_scores[index].musicPath;
+    }
+
+    const uint32 Manager::getDemoStartMs(size_t index) {
+        if (index >= m_scores.size()) {
+            return 0;
+        }
+        return m_scores[index].demoStartMs;
+    }
+
     bool Manager::debugPrint(size_t index) {
         if (index >= m_scores.size()) return false;
         Print << U"index    : " << index;

@@ -17,6 +17,8 @@ private:
 
     int32  m_indexSize;
     int32  m_selectedIndex;
+
+    Stopwatch m_stopwatch;
     
     double m_selectedTileSize;
     double m_tileSize;

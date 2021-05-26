@@ -9,7 +9,7 @@ namespace UI {
 
 Menu::Menu(const InitData& init)
     : IScene(init), m_tileOffsetXVelocity(0.0), m_animateState(0.0) {
-    
+
     m_selectedTileSize = UI::SelectedTileSize;
     m_tileSize = UI::NormalIndexSize;
     m_tileMargin = UI::MarginSize;
@@ -19,22 +19,91 @@ Menu::Menu(const InitData& init)
     m_selectedIndex = 0;
 
     updateTiles();
+
+    if (AudioAsset::IsRegistered(U"Menu.demo")) AudioAsset::Unregister(U"Menu.demo");
+    AudioAsset::Register(U"Menu.demo", m_scores.getMusicPath(m_selectedIndex), AssetParameter::LoadAsync());
+    AudioAsset(U"Menu.demo").setPosSec(m_scores.getDemoStartMs(m_selectedIndex) / 1000.0);
 }
 
 void Menu::update() {
 
+    /**/
+
+    if (AudioAsset::IsReady(U"Menu.demo") && !AudioAsset(U"Menu.demo").isPlaying()) {
+        if (AudioAsset(U"Menu.demo")) {
+            m_stopwatch.restart();
+            AudioAsset(U"Menu.demo").setVolume(0.0);
+            AudioAsset(U"Menu.demo").setPosSec(m_scores.getDemoStartMs(m_selectedIndex) / 1000.0);
+            AudioAsset(U"Menu.demo").play();
+        }
+    }
+
+    if (m_stopwatch.isRunning() && AudioAsset(U"Menu.demo")) {
+        constexpr int32 introMs = 500;
+        constexpr int32 length = 18000;
+        constexpr int32 span = 200;
+
+        int32 elapsedMs = m_stopwatch.ms();
+
+        if (elapsedMs < introMs) {
+            AudioAsset(U"Menu.demo").setVolume((double)elapsedMs / introMs);
+        }
+        else if (elapsedMs < length - introMs) {
+            AudioAsset(U"Menu.demo").setVolume(1.0);
+        }
+        else if (elapsedMs < length) {
+            AudioAsset(U"Menu.demo").setVolume((double)(length - elapsedMs) / introMs);
+        }
+        else if (elapsedMs > length + span) {
+            m_stopwatch.reset();
+            AudioAsset(U"Menu.demo").stop();
+        }
+    }
+
+    /**/
+
+    //
+    // ToDo: キー長押しの対応
+    // ToDo: Registerしてる最中にUnregisterすると待ちが発生する？ので直す
+    // ↑ 先に曲idごとに全部Registerして、矢印キーが押されたらstop -> Unregisterするキューに追加する
+    // -> もし、IsReady() == true になったら(もうなってたら)Unregister
+    //
+
+
     if (KeyEscape.down()) {
+        AudioAsset(U"Menu.demo").stop(0.5s);
+        
         changeScene(SceneState::Setup);
     }
 
     if (m_selectedIndex + 1 < m_indexSize && KeyRight.down()) {
         m_animateState = -1.0;
         m_selectedIndex++;
+
+        /**/
+        m_stopwatch.reset();
+        AudioAsset(U"Menu.demo").stop();
+
+        AudioAsset::Unregister(U"Menu.demo");
+        AudioAsset::Register(U"Menu.demo", m_scores.getMusicPath(m_selectedIndex), AssetParameter::LoadAsync());
+
+        /**/
+
     }
     
     if (m_selectedIndex > 0 && KeyLeft.down()) {
         m_animateState = 1.0;
         m_selectedIndex--;
+
+        /**/
+        m_stopwatch.reset();
+
+        AudioAsset(U"Menu.demo").stop();
+
+        AudioAsset::Unregister(U"Menu.demo");
+        AudioAsset::Register(U"Menu.demo", m_scores.getMusicPath(m_selectedIndex), AssetParameter::LoadAsync());
+
+        /**/
     }
 
     if (m_animateState != 0.00) {
@@ -71,8 +140,8 @@ void Menu::drawTiles() const {
     double x = m_selectedTileX + m_selectedTileSize / 2 + m_tileMargin;
 
     for (int32 index = m_selectedIndex + 1; index < m_indexSize; index++) {
-        // もし画面外ならbreak
-        if (Scene::Width() < x) break;
+        
+        if (Scene::Width() < x) break;    // 画面外
 
         RectF tile(Arg::bottomLeft = Vec2{ x, m_tileBaseY }, m_tileSize);
 
@@ -89,8 +158,8 @@ void Menu::drawTiles() const {
     x = m_selectedTileX - m_selectedTileSize / 2 - m_tileMargin;
 
     for (int32 index = m_selectedIndex - 1; index >= 0; index--) {
-        // もし画面外ならbreak
-        if (x < 0) break;
+        
+        if (x < 0) break;    // 画面外
 
         RectF tile(Arg::bottomRight = Vec2{ x, m_tileBaseY }, m_tileSize);
 
