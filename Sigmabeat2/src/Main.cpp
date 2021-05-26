@@ -1,11 +1,11 @@
 ﻿#include "Common.hpp"
-#include "Fullscreen/Fullscreen.hpp"
 #include "Config/Config.hpp"
 #include "Base/Singleton.hpp"
+#include "Fullscreen/Fullscreen.hpp"
+#include "ScoreManager/ScoreManager.hpp"
 #include "Scenes/Setup.hpp"
 #include "Scenes/Title.hpp"
 #include "Scenes/Menu.hpp"
-#include "ScoreManager/ScoreManager.hpp"
 
 void Init() {
     System::SetTerminationTriggers(UserAction::CloseButtonClicked);
