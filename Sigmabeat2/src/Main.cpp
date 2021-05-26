@@ -17,9 +17,7 @@ void Init() {
     Config::Load(data);
 
     Window::SetTitle(U"Sigmabeat");
-
     Window::Resize(data.windowSize);
-    Window::Centering();
     Window::SetStyle(data.windowSizable ? WindowStyle::Sizable : WindowStyle::Fixed);
     Scene::SetScaleMode(ScaleMode::ResizeFill);
     Scene::SetBackground(Palette::Whitesmoke);
@@ -48,10 +46,7 @@ void Main() {
         .add<Menu >(SceneState::Menu)
         .setFadeColor(ColorF(1.0));
 
-    //manager.init(SceneState::Menu);
     manager.init(SceneState::Setup);
-
-    // Singleton<Score::Manager>::get_instance().debugPrint(0);
     
     while (System::Update() && manager.update()) {
         
