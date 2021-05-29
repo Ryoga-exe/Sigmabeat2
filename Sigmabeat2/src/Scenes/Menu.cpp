@@ -4,7 +4,8 @@ namespace UI {
     constexpr double SelectedTileSize = 250;
     constexpr double NormalIndexSize = 200;
     constexpr double SizeBetween = SelectedTileSize - NormalIndexSize;
-    constexpr double MarginSize = NormalIndexSize / 4.0;
+    constexpr double MarginSize = NormalIndexSize / 3.0;
+    constexpr double SelectedTileMarginSize = 100;
 }
 
 Menu::Menu(const InitData& init)
@@ -128,16 +129,15 @@ void Menu::updateTiles() {
     auto [centerX, centerY] = Scene::CenterF();
     m_selectedTileSize = UI::SelectedTileSize - UI::SizeBetween * Abs(m_animateState);
     m_tileBaseY = centerY + m_tileSize / 2;
-    m_selectedTileX = centerX - (UI::SelectedTileSize / 2 + UI::NormalIndexSize / 2 + m_tileMargin) * m_animateState;
+    m_selectedTileX = centerX - (UI::SelectedTileSize / 2 + UI::NormalIndexSize / 2 + m_tileMargin + UI::SelectedTileMarginSize) * m_animateState;
 }
 
 void Menu::drawTiles() const {
 
     // drawSelectedIndex
-
     RectF(Arg::bottomCenter = Vec2{ m_selectedTileX, m_tileBaseY }, m_selectedTileSize)(m_scores.getTexture(m_selectedIndex)).draw();
 
-    double x = m_selectedTileX + m_selectedTileSize / 2 + m_tileMargin;
+    double x = m_selectedTileX + m_selectedTileSize / 2 + m_tileMargin + UI::SelectedTileMarginSize * (m_animateState >= 0.0 ? 1.0 : 1.0 + m_animateState);
 
     for (int32 index = m_selectedIndex + 1; index < m_indexSize; index++) {
         
@@ -147,7 +147,7 @@ void Menu::drawTiles() const {
 
         if (index == m_selectedIndex + 1) {
             tile.set(Arg::bottomLeft = Vec2{ x, m_tileBaseY }, m_tileSize + UI::SizeBetween * Max(0.0, m_animateState));
-            x += UI::SizeBetween * Max(0.0, m_animateState);
+            x += (UI::SizeBetween + UI::SelectedTileMarginSize) * Max(0.0, m_animateState);
         }
 
         tile(m_scores.getTexture(index)).draw();
@@ -155,7 +155,7 @@ void Menu::drawTiles() const {
         x += m_tileMargin + m_tileSize;
     }
 
-    x = m_selectedTileX - m_selectedTileSize / 2 - m_tileMargin;
+    x = m_selectedTileX - m_selectedTileSize / 2 - m_tileMargin - UI::SelectedTileMarginSize * (m_animateState <= 0.0 ? 1.0 : 1.0 - m_animateState);;
 
     for (int32 index = m_selectedIndex - 1; index >= 0; index--) {
         
@@ -165,7 +165,7 @@ void Menu::drawTiles() const {
 
         if (index == m_selectedIndex - 1) {
             tile.set(Arg::bottomRight = Vec2{ x, m_tileBaseY }, m_tileSize - UI::SizeBetween * Min(0.0, m_animateState));
-            x += UI::SizeBetween * Min(0.0, m_animateState);
+            x += (UI::SizeBetween + UI::SelectedTileMarginSize) * Min(0.0, m_animateState);
         }
 
         tile(m_scores.getTexture(index)).draw();
