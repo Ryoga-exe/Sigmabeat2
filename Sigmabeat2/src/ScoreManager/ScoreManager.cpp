@@ -141,7 +141,7 @@ namespace Score {
         }
         else if (tagname == U"#LEVEL") {
             auto arr = tagvalue.split(U',');
-            for (auto i : step(Min(arr.size(), (size_t)4))) {
+            for (auto i : step(Min(arr.size(), (size_t)LevelNum))) {
                 arr[i].trim();
                 score.level[i] = ParseOr<uint32>(arr[i], 0);
             }

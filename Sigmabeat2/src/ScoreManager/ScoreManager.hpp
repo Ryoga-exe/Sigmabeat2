@@ -4,6 +4,15 @@
 namespace Score {
 
     const String unvalid = U"unvalid";
+    constexpr uint32 LevelNum = 4;
+
+    constexpr Color LevelColor[LevelNum] = {
+        Color(102, 221, 17 ), // Easy
+        Color(255, 170, 1  ), // Normal
+        Color(238, 30 , 118), // Hard
+        Color(186, 51 , 239)  // Expert
+    };
+    constexpr Color UnvalidColor = Color(0);
 
     struct Data {
         String title;
@@ -21,7 +30,7 @@ namespace Score {
         int32 offsetMs;
         double bpm;
         Color backgroundColor[4];
-        uint32 level[4];
+        uint32 level[LevelNum];
 
         size_t noteStartSeek;
         bool isValid = false;

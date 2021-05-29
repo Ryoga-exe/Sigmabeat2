@@ -1,11 +1,11 @@
 ﻿#include "Menu.hpp"
 
 namespace UI {
-    constexpr double SelectedTileSize = 250;
+    constexpr double SelectedTileSize = 270;
     constexpr double NormalIndexSize = 200;
     constexpr double SizeBetween = SelectedTileSize - NormalIndexSize;
-    constexpr double MarginSize = NormalIndexSize / 3.0;
-    constexpr double SelectedTileMarginSize = 100;
+    constexpr double MarginSize = NormalIndexSize / 2.5;
+    constexpr double SelectedTileMarginSize = 50;
 }
 
 Menu::Menu(const InitData& init)
@@ -128,14 +128,19 @@ void Menu::draw() const {
 void Menu::updateTiles() {
     auto [centerX, centerY] = Scene::CenterF();
     m_selectedTileSize = UI::SelectedTileSize - UI::SizeBetween * Abs(m_animateState);
-    m_tileBaseY = centerY + m_tileSize / 2;
+    m_tileBaseY = centerY + m_tileSize / 3;
     m_selectedTileX = centerX - (UI::SelectedTileSize / 2 + UI::NormalIndexSize / 2 + m_tileMargin + UI::SelectedTileMarginSize) * m_animateState;
 }
 
 void Menu::drawTiles() const {
 
+    int32 lv = 3;
+
     // drawSelectedIndex
-    RectF(Arg::bottomCenter = Vec2{ m_selectedTileX, m_tileBaseY }, m_selectedTileSize)(m_scores.getTexture(m_selectedIndex)).draw();
+    RectF selectedTile(Arg::bottomCenter = Vec2{ m_selectedTileX, m_tileBaseY }, m_selectedTileSize);
+    selectedTile.stretched(30, 70).movedBy(0, 30).drawShadow({ 0.0,0.0 }, 20, 10.0, Palette::Gold).draw(Arg::top = Score::LevelColor[lv], Arg::bottom = ColorF(Score::LevelColor[lv]).gamma(0.5)).drawFrame(3.0);
+    selectedTile.stretched(7).drawShadow({ 0.0, 0.0 }, 9, 3.0, Palette::Whitesmoke);
+    selectedTile(m_scores.getTexture(m_selectedIndex)).draw();
 
     double x = m_selectedTileX + m_selectedTileSize / 2 + m_tileMargin + UI::SelectedTileMarginSize * (m_animateState >= 0.0 ? 1.0 : 1.0 + m_animateState);
 
@@ -150,6 +155,8 @@ void Menu::drawTiles() const {
             x += (UI::SizeBetween + UI::SelectedTileMarginSize) * Max(0.0, m_animateState);
         }
 
+        tile.stretched(30, 70).movedBy(0, 30).draw(Arg::top = Score::LevelColor[lv], Arg::bottom = ColorF(Score::LevelColor[lv]).gamma(0.5)).drawFrame(3.0);
+        tile.stretched(7).drawShadow({ 0.0, 0.0 }, 9, 3.0, Palette::Whitesmoke);
         tile(m_scores.getTexture(index)).draw();
 
         x += m_tileMargin + m_tileSize;
@@ -168,6 +175,8 @@ void Menu::drawTiles() const {
             x += (UI::SizeBetween + UI::SelectedTileMarginSize) * Min(0.0, m_animateState);
         }
 
+        tile.stretched(30, 70).movedBy(0, 30).draw(Arg::top = Score::LevelColor[lv], Arg::bottom = ColorF(Score::LevelColor[lv]).gamma(0.5)).drawFrame(3.0);
+        tile.stretched(7).drawShadow({0.0, 0.0}, 9, 3.0, Palette::Whitesmoke);
         tile(m_scores.getTexture(index)).draw();
 
         x -= m_tileMargin + m_tileSize;
