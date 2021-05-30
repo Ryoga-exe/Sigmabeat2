@@ -1,5 +1,4 @@
-﻿#include "../Common.hpp"
-#include "Fullscreen.hpp"
+﻿#include "Fullscreen.hpp"
 
 namespace Fullscreen {
     static bool isFullscreen, isMaximized, isSizable;

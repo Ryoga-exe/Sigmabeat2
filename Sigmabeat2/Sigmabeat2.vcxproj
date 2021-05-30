@@ -73,6 +73,7 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <MinimalRebuild>false</MinimalRebuild>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(ProjectDir)src</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -96,6 +97,7 @@
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(ProjectDir)src</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -244,6 +246,7 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="src\Scenes\Title.cpp" />
+    <ClCompile Include="src\Scenes\UI\Tile.cpp" />
     <ClCompile Include="src\ScoreManager\ScoreManager.cpp" />
     <ClCompile Include="src\Base\Singleton.cpp" />
   </ItemGroup>
@@ -257,6 +260,7 @@
     <ClInclude Include="src\Scenes\Menu.hpp" />
     <ClInclude Include="src\Scenes\Setup.hpp" />
     <ClInclude Include="src\Scenes\Title.hpp" />
+    <ClInclude Include="src\Scenes\UI\Tile.hpp" />
     <ClInclude Include="src\ScoreManager\ScoreManager.hpp" />
     <ClInclude Include="src\Base\Singleton.hpp" />
   </ItemGroup>

@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "../Common.hpp"
+#include "Common.hpp"
 
 class Title : public MyApp::Scene {
 public:

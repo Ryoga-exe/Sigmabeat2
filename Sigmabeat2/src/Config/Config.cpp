@@ -1,5 +1,4 @@
-﻿#include "../Common.hpp"
-#include "Config.hpp"
+﻿#include "Config.hpp"
 
 namespace Config {
     bool Load(Data& data) {

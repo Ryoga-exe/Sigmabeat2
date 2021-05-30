@@ -70,7 +70,6 @@ void Menu::update() {
     // -> もし、IsReady() == true になったら(もうなってたら)Unregister
     //
 
-
     if (KeyEscape.down()) {
         AudioAsset(U"Menu.demo").stop(0.5s);
         
@@ -89,7 +88,6 @@ void Menu::update() {
         AudioAsset::Register(U"Menu.demo", m_scores.getMusicPath(m_selectedIndex), AssetParameter::LoadAsync());
 
         /**/
-
     }
     
     if (m_selectedIndex > 0 && KeyLeft.down()) {
@@ -134,12 +132,22 @@ void Menu::updateTiles() {
 
 void Menu::drawTiles() const {
 
+
+    /*/////////
+
+    ToDo: Tileをレンダーテクスチャ(RenderTexture)を使って書く
+
+    https://siv3d.github.io/ja-jp/news/v041/#1
+
+    /////////*/
+
     int32 lv = 3;
 
     // drawSelectedIndex
     RectF selectedTile(Arg::bottomCenter = Vec2{ m_selectedTileX, m_tileBaseY }, m_selectedTileSize);
-    selectedTile.stretched(30, 70).movedBy(0, 30).drawShadow({ 0.0,0.0 }, 20, 10.0, Palette::Gold).draw(Arg::top = Score::LevelColor[lv], Arg::bottom = ColorF(Score::LevelColor[lv]).gamma(0.5)).drawFrame(3.0);
-    selectedTile.stretched(7).drawShadow({ 0.0, 0.0 }, 9, 3.0, Palette::Whitesmoke);
+    selectedTile.stretched(30, 70).movedBy(0, 30).drawShadow({ 0.0, 0.0 }, 20, 10.0, Palette::Gold).draw(Arg::top = Score::LevelColor[lv], Arg::bottom = ColorF(Score::LevelColor[lv]).gamma(0.5)).drawFrame(3.0);
+    selectedTile.stretched(10).draw(Palette::Dimgray);
+    selectedTile.stretched(7).drawShadow({ 0.0, 0.0 }, 10, 3.0, Palette::Whitesmoke);
     selectedTile(m_scores.getTexture(m_selectedIndex)).draw();
 
     double x = m_selectedTileX + m_selectedTileSize / 2 + m_tileMargin + UI::SelectedTileMarginSize * (m_animateState >= 0.0 ? 1.0 : 1.0 + m_animateState);
@@ -156,7 +164,8 @@ void Menu::drawTiles() const {
         }
 
         tile.stretched(30, 70).movedBy(0, 30).draw(Arg::top = Score::LevelColor[lv], Arg::bottom = ColorF(Score::LevelColor[lv]).gamma(0.5)).drawFrame(3.0);
-        tile.stretched(7).drawShadow({ 0.0, 0.0 }, 9, 3.0, Palette::Whitesmoke);
+        tile.stretched(10).draw(Palette::Dimgray);
+        tile.stretched(7).drawShadow({ 0.0, 0.0 }, 10, 3.0, Palette::Whitesmoke);
         tile(m_scores.getTexture(index)).draw();
 
         x += m_tileMargin + m_tileSize;
@@ -176,7 +185,8 @@ void Menu::drawTiles() const {
         }
 
         tile.stretched(30, 70).movedBy(0, 30).draw(Arg::top = Score::LevelColor[lv], Arg::bottom = ColorF(Score::LevelColor[lv]).gamma(0.5)).drawFrame(3.0);
-        tile.stretched(7).drawShadow({0.0, 0.0}, 9, 3.0, Palette::Whitesmoke);
+        tile.stretched(10).draw(Palette::Dimgray);
+        tile.stretched(7).drawShadow({ 0.0, 0.0 }, 10, 3.0, Palette::Whitesmoke);
         tile(m_scores.getTexture(index)).draw();
 
         x -= m_tileMargin + m_tileSize;

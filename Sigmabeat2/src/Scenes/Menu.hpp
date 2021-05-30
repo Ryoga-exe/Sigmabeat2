@@ -1,7 +1,7 @@
 ﻿#pragma once
-#include "../Common.hpp"
-#include "../ScoreManager/ScoreManager.hpp"
-#include "../Base/Singleton.hpp"
+#include "Common.hpp"
+#include "ScoreManager/ScoreManager.hpp"
+#include "Base/Singleton.hpp"
 
 class Menu : public MyApp::Scene {
 public:
