@@ -2,7 +2,7 @@
 #include "Config/Config.hpp"
 #include "Base/Singleton.hpp"
 #include "Fullscreen/Fullscreen.hpp"
-#include "ScoreManager/ScoreManager.hpp"
+#include "Score/Manager.hpp"
 #include "Scenes/Setup.hpp"
 #include "Scenes/Title.hpp"
 #include "Scenes/Menu.hpp"

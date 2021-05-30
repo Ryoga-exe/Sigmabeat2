@@ -35,30 +35,4 @@ namespace Score {
         size_t noteStartSeek;
         bool isValid = false;
     };
-
-    class Manager {
-    public:
-        Manager();
-        ~Manager();
-        
-        void init(const Array<FilePath>& scoreDirectory);
-        bool load();
-
-        size_t getScoreSize();
-        const Texture& getTexture(size_t index);
-        const String& getTitle   (size_t index);
-        const String& getArtist  (size_t index);
-        const FilePath& getMusicPath(size_t index);
-        const uint32 getDemoStartMs(size_t index);
-
-        bool debugPrint(size_t index);
-
-    private:
-        bool setScoreData(Data& score, const String& tagname, const String& tagvalue);
-        Texture m_defaultTexture;
-
-        bool m_hasInitialized;
-        bool m_hasLoaded;
-        Array<Data> m_scores;
-    };
 }

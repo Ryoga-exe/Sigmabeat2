@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "Common.hpp"
-#include "ScoreManager/ScoreManager.hpp"
+#include "Score/Manager.hpp"
 #include "Base/Singleton.hpp"
 
 class Menu : public MyApp::Scene {

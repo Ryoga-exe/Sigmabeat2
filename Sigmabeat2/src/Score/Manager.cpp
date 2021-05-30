@@ -1,4 +1,4 @@
-﻿#include "ScoreManager.hpp"
+﻿#include "Manager.hpp"
 
 namespace Score {
 
