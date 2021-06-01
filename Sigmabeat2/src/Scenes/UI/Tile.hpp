@@ -10,16 +10,17 @@ namespace UI {
         constexpr double MarginSize = NormalIndexSize / 2.5;
         constexpr double SelectedTileMarginSize = 50;
 
+        constexpr Size TileSize = { 350, 470 };
+
         class Tile {
         public:
             Tile();
             ~Tile();
 
-            void draw() const;
+            void draw(Color tileColor) const;
 
         private:
-            // static RenderTexture m_tileRT;
-
+            RenderTexture m_tileRT;
         };
     }
 }

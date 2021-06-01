@@ -4,7 +4,7 @@ namespace UI {
     constexpr double SelectedTileSize = 270;
     constexpr double NormalIndexSize = 200;
     constexpr double SizeBetween = SelectedTileSize - NormalIndexSize;
-    constexpr double MarginSize = NormalIndexSize / 2.5;
+    constexpr double MarginSize = NormalIndexSize / 1.5;
     constexpr double SelectedTileMarginSize = 50;
 }
 
@@ -145,7 +145,7 @@ void Menu::drawTiles() const {
 
     // drawSelectedIndex
     RectF selectedTile(Arg::bottomCenter = Vec2{ m_selectedTileX, m_tileBaseY }, m_selectedTileSize);
-    selectedTile.stretched(30, 70).movedBy(0, 30).drawShadow({ 0.0, 0.0 }, 20, 10.0, Palette::Gold).draw(Arg::top = Score::LevelColor[lv], Arg::bottom = ColorF(Score::LevelColor[lv]).gamma(0.5)).drawFrame(3.0);
+    selectedTile.stretched(50, 100).movedBy(0, 60).drawShadow({ 0.0, 0.0 }, 20, 10.0, Palette::Gold).draw(Arg::top = Score::LevelColor[lv], Arg::bottom = ColorF(Score::LevelColor[lv]).gamma(0.5)).drawFrame(3.0);
     selectedTile.stretched(10).draw(Palette::Dimgray);
     selectedTile.stretched(7).drawShadow({ 0.0, 0.0 }, 10, 3.0, Palette::Whitesmoke);
     selectedTile(m_scores.getTexture(m_selectedIndex)).draw();
@@ -163,7 +163,7 @@ void Menu::drawTiles() const {
             x += (UI::SizeBetween + UI::SelectedTileMarginSize) * Max(0.0, m_animateState);
         }
 
-        tile.stretched(30, 70).movedBy(0, 30).draw(Arg::top = Score::LevelColor[lv], Arg::bottom = ColorF(Score::LevelColor[lv]).gamma(0.5)).drawFrame(3.0);
+        tile.stretched(50, 100).movedBy(0, 60).draw(Arg::top = Score::LevelColor[lv], Arg::bottom = ColorF(Score::LevelColor[lv]).gamma(0.5)).drawFrame(3.0);
         tile.stretched(10).draw(Palette::Dimgray);
         tile.stretched(7).drawShadow({ 0.0, 0.0 }, 10, 3.0, Palette::Whitesmoke);
         tile(m_scores.getTexture(index)).draw();
@@ -184,7 +184,7 @@ void Menu::drawTiles() const {
             x += (UI::SizeBetween + UI::SelectedTileMarginSize) * Min(0.0, m_animateState);
         }
 
-        tile.stretched(30, 70).movedBy(0, 30).draw(Arg::top = Score::LevelColor[lv], Arg::bottom = ColorF(Score::LevelColor[lv]).gamma(0.5)).drawFrame(3.0);
+        tile.stretched(50, 100).movedBy(0, 60).draw(Arg::top = Score::LevelColor[lv], Arg::bottom = ColorF(Score::LevelColor[lv]).gamma(0.5)).drawFrame(3.0);
         tile.stretched(10).draw(Palette::Dimgray);
         tile.stretched(7).drawShadow({ 0.0, 0.0 }, 10, 3.0, Palette::Whitesmoke);
         tile(m_scores.getTexture(index)).draw();
