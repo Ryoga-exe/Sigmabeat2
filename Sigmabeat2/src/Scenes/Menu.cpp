@@ -117,7 +117,7 @@ void Menu::draw() const {
     drawTiles();
 
 
-    m_test_tile.draw(m_selectedIndex, Score::LevelColor[3], Max(0.0, m_tileOffsetStopwatch.sF() - 1.3 ));
+    m_test_tile.get(m_selectedIndex, Score::LevelColor[3], Max(0.0, m_tileOffsetStopwatch.sF() - 1.3 )).draw();
     
 
     // FontAsset(U"Menu")(U"MUSIC SELECT").draw(Arg::topCenter = Point{Scene::Center().x , 0}, Palette::Black);

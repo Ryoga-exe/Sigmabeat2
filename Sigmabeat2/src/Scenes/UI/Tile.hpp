@@ -23,7 +23,7 @@ namespace UI {
             Tile();
             ~Tile();
 
-            void draw(size_t index, Color tileColor, double offset = 0.0) const;
+            const MSRenderTexture& get(size_t index, Color tileColor, double offset = 0.0) const;
 
         private:
             MSRenderTexture m_tileRT;
