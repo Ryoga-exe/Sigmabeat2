@@ -14,20 +14,22 @@ namespace UI {
         constexpr Size TileSize = { 380, 500 };
         constexpr Size JacketSize = { 270, 270 };
         constexpr double JacketMarginTop = 40.0;
+        constexpr double TilePadding = 3.0;
+        constexpr double DescriptionHeight = 72;
+        constexpr double DescriptionOffsetMargin = 120;
 
         class Tile {
         public:
             Tile();
             ~Tile();
 
-            void draw(size_t index, Color tileColor) const;
+            void draw(size_t index, Color tileColor, double offset = 0.0) const;
 
         private:
             RenderTexture m_tileRT;
-            RectF m_jacketRect;
+            RectF m_jacketRect, m_descriptionRect;
 
             Score::Manager& m_scores;
-
         };
     }
 }

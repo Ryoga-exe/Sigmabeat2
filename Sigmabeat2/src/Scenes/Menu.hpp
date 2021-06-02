@@ -21,6 +21,8 @@ private:
 
     UI::Menu::Tile m_test_tile;
     Stopwatch m_stopwatch;
+
+    Stopwatch m_tileOffsetStopwatch;
     
     double m_selectedTileSize;
     double m_tileSize;

@@ -9,7 +9,7 @@ namespace UI {
 }
 
 Menu::Menu(const InitData& init)
-    : IScene(init), m_tileOffsetXVelocity(0.0), m_animateState(0.0) {
+    : IScene(init), m_tileOffsetXVelocity(0.0), m_animateState(0.0), m_tileOffsetStopwatch(true){
 
     m_selectedTileSize = UI::SelectedTileSize;
     m_tileSize = UI::NormalIndexSize;
@@ -80,6 +80,8 @@ void Menu::update() {
         m_animateState = -1.0;
         m_selectedIndex++;
 
+        m_tileOffsetStopwatch.restart();
+
         /**/
         m_stopwatch.reset();
         AudioAsset(U"Menu.demo").stop();
@@ -93,6 +95,8 @@ void Menu::update() {
     if (m_selectedIndex > 0 && KeyLeft.down()) {
         m_animateState = 1.0;
         m_selectedIndex--;
+
+        m_tileOffsetStopwatch.restart();
 
         /**/
         m_stopwatch.reset();
@@ -118,10 +122,11 @@ void Menu::draw() const {
     if (m_indexSize == 0) return;
 
     //UI::Menu::Tile tile;
-    m_test_tile.draw(m_selectedIndex, Score::LevelColor[3]);
-    
-    
     drawTiles();
+
+
+    m_test_tile.draw(m_selectedIndex, Score::LevelColor[3], Max(0.0, m_tileOffsetStopwatch.sF() - 1.3 ));
+    
 
     // FontAsset(U"Menu")(U"MUSIC SELECT").draw(Arg::topCenter = Point{Scene::Center().x , 0}, Palette::Black);
 
