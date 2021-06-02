@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "Common.hpp"
+#include "Score/Manager.hpp"
 
 namespace UI {
     namespace Menu {
@@ -19,11 +20,14 @@ namespace UI {
             Tile();
             ~Tile();
 
-            void draw(Color tileColor) const;
+            void draw(size_t index, Color tileColor) const;
 
         private:
             RenderTexture m_tileRT;
             RectF m_jacketRect;
+
+            Score::Manager& m_scores;
+
         };
     }
 }

@@ -157,7 +157,7 @@ namespace Score {
         return true;
     }
 
-    size_t Manager::getScoreSize() {
+    size_t Manager::getScoreNum() {
         return m_scores.size();
     }
 

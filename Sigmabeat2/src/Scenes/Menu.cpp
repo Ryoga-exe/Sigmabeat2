@@ -16,7 +16,7 @@ Menu::Menu(const InitData& init)
     m_tileMargin = UI::MarginSize;
     m_selectedTileX = Scene::CenterF().x;
 
-    m_indexSize = static_cast<int32>(m_scores.getScoreSize());
+    m_indexSize = static_cast<int32>(m_scores.getScoreNum());
     m_selectedIndex = 0;
 
     updateTiles();
@@ -118,7 +118,7 @@ void Menu::draw() const {
     if (m_indexSize == 0) return;
 
     //UI::Menu::Tile tile;
-    m_test_tile.draw(Score::LevelColor[3]);
+    m_test_tile.draw(m_selectedIndex, Score::LevelColor[3]);
     
     
     drawTiles();

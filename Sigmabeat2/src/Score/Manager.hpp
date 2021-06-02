@@ -11,7 +11,7 @@ namespace Score {
         void init(const Array<FilePath>& scoreDirectory);
         bool load();
 
-        size_t getScoreSize();
+        size_t getScoreNum();
         const Texture& getTexture(size_t index);
         const String& getTitle   (size_t index);
         const String& getArtist  (size_t index);
