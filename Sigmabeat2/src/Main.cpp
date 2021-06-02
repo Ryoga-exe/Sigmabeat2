@@ -31,7 +31,7 @@ void Init() {
     FontAsset::Register(U"Menu", 60, Typeface::Bold);
 
     FontAsset::Register(U"Tile.title", 30, Typeface::Medium);
-    FontAsset::Register(U"Tile.artist", 18, Typeface::Medium);
+    FontAsset::Register(U"Tile.detail", 15, Typeface::Medium);
 }
 
 void Finalize() {

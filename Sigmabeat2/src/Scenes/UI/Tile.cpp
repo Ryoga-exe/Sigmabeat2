@@ -20,14 +20,21 @@ namespace UI {
             m_jacketRect.stretched(7).drawShadow({ 0.0, 0.0 }, 10, 3.0, Palette::Whitesmoke);
             m_jacketRect.draw(Palette::Black);
 
-            RectF(0, 350, 380, 70).draw(Palette::White);
+            RectF(3, 350, 374, 72).drawShadow({ 0, 5 }, 16, 0).draw(Palette::White);
 
-            RectF(10, 390, 360, 2).draw(ColorF(0.25));
+            RectF(10, 392, 360, 2).draw(ColorF(0.25));
+
 
             String title = U"Sample Title";
-            FontAsset(U"Tile.title")(title).draw(Arg::bottomCenter(190, 390), ColorF(0.25));
-            FontAsset(U"Tile.artist")(title).draw(Arg::bottomCenter(190, 420), ColorF(0.25));
-            //FontAsset(U"Menu")(U"MUSIC SELECT").draw(Arg::topCenter = Point{ Scene::Center().x , 0 }, Palette::Black);
+            String artist = U"Sample Artist";
+            String designer = U"Sample";
+            FontAsset(U"Tile.title")(title).draw(Arg::bottomCenter(190, 392), ColorF(0.25));
+            FontAsset(U"Tile.detail")(artist).draw(Arg::bottomCenter(190, 417), ColorF(0.25));
+
+
+            double bpm = 250;
+            FontAsset(U"Tile.detail")(U"NOTES DESIGNER : " + designer).draw(Arg::bottomLeft(10, TileSize.y - 5), Palette::White);
+            FontAsset(U"Tile.detail")(U"BPM : " + Format(bpm)).draw(Arg::bottomRight(TileSize.x - 10, TileSize.y - 5), Palette::White);
 
         }
 
