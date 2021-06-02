@@ -26,7 +26,7 @@ namespace UI {
             void draw(size_t index, Color tileColor, double offset = 0.0) const;
 
         private:
-            RenderTexture m_tileRT;
+            MSRenderTexture m_tileRT;
             RectF m_jacketRect, m_descriptionRect;
 
             Score::Manager& m_scores;
