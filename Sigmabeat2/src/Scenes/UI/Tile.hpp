@@ -8,7 +8,7 @@ namespace UI {
         constexpr double SelectedTileSize = 270;
         constexpr double NormalIndexSize = 200;
         constexpr double SizeBetween = SelectedTileSize - NormalIndexSize;
-        constexpr double MarginSize = NormalIndexSize / 2.5;
+        constexpr double MarginSize = NormalIndexSize / 1.5;
         constexpr double SelectedTileMarginSize = 50;
 
         constexpr Size TileSize = { 380, 500 };
