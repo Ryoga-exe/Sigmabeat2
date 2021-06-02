@@ -117,7 +117,7 @@ void Menu::draw() const {
     drawTiles();
 
 
-    m_test_tile.get(m_selectedIndex, Score::LevelColor[3], Max(0.0, m_tileOffsetStopwatch.sF() - 1.3 )).draw();
+    // m_test_tile.get(m_selectedIndex, Score::LevelColor[3], Max(0.0, m_tileOffsetStopwatch.sF() - 1.3 )).draw();
     
 
     // FontAsset(U"Menu")(U"MUSIC SELECT").draw(Arg::topCenter = Point{Scene::Center().x , 0}, Palette::Black);
@@ -144,12 +144,13 @@ void Menu::drawTiles() const {
 
     int32 lv = 3;
 
+
+
     // drawSelectedIndex
-    RectF selectedTile(Arg::bottomCenter = Vec2{ m_selectedTileX, m_tileBaseY }, m_selectedTileSize);
-    selectedTile.stretched(50, 100).movedBy(0, 60).drawShadow({ 0.0, 0.0 }, 20, 10.0, Palette::Gold).draw(Arg::top = Score::LevelColor[lv], Arg::bottom = ColorF(Score::LevelColor[lv]).gamma(0.5)).drawFrame(3.0);
-    selectedTile.stretched(10).draw(Palette::Dimgray);
-    selectedTile.stretched(7).drawShadow({ 0.0, 0.0 }, 10, 3.0, Palette::Whitesmoke);
-    selectedTile(m_scores.getTexture(m_selectedIndex)).draw();
+
+    RectF selectedTile(Arg::bottomCenter = Vec2{ m_selectedTileX, m_tileBaseY + 200 }, UI::Menu::TileSize);
+    selectedTile.drawShadow({ 0.0, 0.0 }, 20, 10.0, Palette::Gold);
+    selectedTile(m_test_tile.get(m_selectedIndex, Score::LevelColor[lv], Max(0.0, m_tileOffsetStopwatch.sF() - 1.3))).draw();
 
     double x = m_selectedTileX + m_selectedTileSize / 2 + m_tileMargin + UI::Menu::SelectedTileMarginSize * (m_animateState >= 0.0 ? 1.0 : 1.0 + m_animateState);
 
