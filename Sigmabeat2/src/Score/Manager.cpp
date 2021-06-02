@@ -195,6 +195,12 @@ namespace Score {
         }
         return m_scores[index].demoStartMs;
     }
+    const double Manager::getBPM(size_t index) {
+        if (index >= m_scores.size()) {
+            return 0;
+        }
+        return m_scores[index].bpm;
+    }
 
     bool Manager::debugPrint(size_t index) {
         if (index >= m_scores.size()) return false;
