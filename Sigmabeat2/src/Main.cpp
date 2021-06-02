@@ -29,6 +29,9 @@ void Init() {
 
     FontAsset::Register(U"Title", 30, Typeface::Regular);
     FontAsset::Register(U"Menu", 60, Typeface::Bold);
+
+    FontAsset::Register(U"Tile.title", 30, Typeface::Medium);
+    FontAsset::Register(U"Tile.artist", 18, Typeface::Medium);
 }
 
 void Finalize() {
@@ -46,8 +49,9 @@ void Main() {
         .add<Menu >(SceneState::Menu)
         .setFadeColor(ColorF(1.0));
 
-    manager.init(SceneState::Setup);
-    
+    //manager.init(SceneState::Setup);
+    manager.init(SceneState::Menu);
+
     while (System::Update() && manager.update()) {
         
         if (KeyF11.down()) Fullscreen::Toggle();

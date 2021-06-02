@@ -2,6 +2,7 @@
 #include "Common.hpp"
 #include "Score/Manager.hpp"
 #include "Base/Singleton.hpp"
+#include "UI/Tile.hpp"
 
 class Menu : public MyApp::Scene {
 public:
@@ -18,6 +19,7 @@ private:
     int32  m_indexSize;
     int32  m_selectedIndex;
 
+    UI::Menu::Tile m_test_tile;
     Stopwatch m_stopwatch;
     
     double m_selectedTileSize;

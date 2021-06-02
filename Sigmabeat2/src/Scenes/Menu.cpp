@@ -117,6 +117,10 @@ void Menu::draw() const {
 
     if (m_indexSize == 0) return;
 
+    //UI::Menu::Tile tile;
+    m_test_tile.draw(Score::LevelColor[3]);
+    
+    
     drawTiles();
 
     // FontAsset(U"Menu")(U"MUSIC SELECT").draw(Arg::topCenter = Point{Scene::Center().x , 0}, Palette::Black);

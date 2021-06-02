@@ -10,7 +10,9 @@ namespace UI {
         constexpr double MarginSize = NormalIndexSize / 2.5;
         constexpr double SelectedTileMarginSize = 50;
 
-        constexpr Size TileSize = { 350, 470 };
+        constexpr Size TileSize = { 380, 500 };
+        constexpr Size JacketSize = { 270, 270 };
+        constexpr double JacketMarginTop = 40.0;
 
         class Tile {
         public:
@@ -21,6 +23,7 @@ namespace UI {
 
         private:
             RenderTexture m_tileRT;
+            RectF m_jacketRect;
         };
     }
 }
