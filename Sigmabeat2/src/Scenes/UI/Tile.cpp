@@ -31,9 +31,8 @@ namespace UI {
             FontAsset(U"Tile.title")(m_scores.getTitle(index)).draw(Arg::bottomCenter(190, 392), ColorF(0.25));
             FontAsset(U"Tile.detail")(m_scores.getArtist(index)).draw(Arg::bottomCenter(190, 417), ColorF(0.25));
 
-            double bpm = 250;
             FontAsset(U"Tile.detail")(U"NOTES DESIGNER : " + designer).draw(Arg::bottomLeft(10, TileSize.y - 5), Palette::White);
-            FontAsset(U"Tile.detail")(U"BPM : " + Format(bpm)).draw(Arg::bottomRight(TileSize.x - 10, TileSize.y - 5), Palette::White);
+            FontAsset(U"Tile.detail")(U"BPM : " + Format(m_scores.getBPM(index))).draw(Arg::bottomRight(TileSize.x - 10, TileSize.y - 5), Palette::White);
 
         }
 
