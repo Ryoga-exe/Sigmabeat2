@@ -14,6 +14,7 @@ namespace UI {
         constexpr double TilePadding = 3.0;
         constexpr double DescriptionHeight = 72;
         constexpr double DescriptionOffsetMargin = 120;
+        constexpr double DescriptionVel = 50.0;
         
         class Tile {
         public:

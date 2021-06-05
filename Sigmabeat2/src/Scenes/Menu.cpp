@@ -112,6 +112,13 @@ void Menu::draw() const {
 
     if (m_indexSize == 0) return;
 
+    RectF(Arg::bottomCenter = Vec2{ Scene::CenterF().x, m_tileBaseY }, Scene::Width(), UI::Menu::NormalTileSize.y).stretched(50).draw(ColorF(0, 0.5));
+    
+    Quad(Vec2(Scene::CenterF().x - UI::Menu::TileSize.x / 2.0 - UI::Menu::TileMargin - UI::Menu::SelectedTileMarginSize, m_tileBaseY - UI::Menu::NormalTileSize.y - 50)
+        ,Vec2(Scene::CenterF().x + UI::Menu::TileSize.x / 2.0 + UI::Menu::TileMargin + UI::Menu::SelectedTileMarginSize, m_tileBaseY - UI::Menu::NormalTileSize.y - 50)
+        ,Vec2(Scene::CenterF().x + UI::Menu::TileSize.x / 2.0, m_tileBaseY - UI::Menu::NormalTileSize.y - 200)
+        ,Vec2(Scene::CenterF().x - UI::Menu::TileSize.x / 2.0, m_tileBaseY - UI::Menu::NormalTileSize.y - 200)).draw(ColorF(0, 0.5));
+
     drawTiles();
 
 }

@@ -46,18 +46,18 @@ namespace UI {
                         FontAsset(U"Tile.title")(m_scores.getTitle(index)).draw(Arg::bottomCenter(descRect.x + descRect.w / 2.0, 42), ColorF(0.25));
                     }
                     else {
-                        offset = fmod(offset, (titleRect.w + DescriptionOffsetMargin) / 30.0);
-                        FontAsset(U"Tile.title")(m_scores.getTitle(index)).draw(Arg::bottomLeft(descRect.x - offset * 30, 42), ColorF(0.25));
-                        FontAsset(U"Tile.title")(m_scores.getTitle(index)).draw(Arg::bottomLeft(descRect.x + titleRect.w + DescriptionOffsetMargin - offset * 30, 42), ColorF(0.25));
+                        offset = fmod(offset, (titleRect.w + DescriptionOffsetMargin) / DescriptionVel);
+                        FontAsset(U"Tile.title")(m_scores.getTitle(index)).draw(Arg::bottomLeft(descRect.x - offset * DescriptionVel, 42), ColorF(0.25));
+                        FontAsset(U"Tile.title")(m_scores.getTitle(index)).draw(Arg::bottomLeft(descRect.x + titleRect.w + DescriptionOffsetMargin - offset * DescriptionVel, 42), ColorF(0.25));
                     }
 
                     if (artistRect.w <= descRect.w) {
                         FontAsset(U"Tile.detail")(m_scores.getArtist(index)).draw(Arg::bottomCenter(descRect.x + descRect.w / 2.0, 67), ColorF(0.25));
                     }
                     else {
-                        offset = fmod(offset, (artistRect.w + DescriptionOffsetMargin) / 30.0);
-                        FontAsset(U"Tile.detail")(m_scores.getArtist(index)).draw(Arg::bottomLeft(descRect.x - offset * 30, 67), ColorF(0.25));
-                        FontAsset(U"Tile.detail")(m_scores.getArtist(index)).draw(Arg::bottomLeft(descRect.x + artistRect.w + DescriptionOffsetMargin - offset * 30, 67), ColorF(0.25));
+                        offset = fmod(offset, (artistRect.w + DescriptionOffsetMargin) / DescriptionVel);
+                        FontAsset(U"Tile.detail")(m_scores.getArtist(index)).draw(Arg::bottomLeft(descRect.x - offset * DescriptionVel, 67), ColorF(0.25));
+                        FontAsset(U"Tile.detail")(m_scores.getArtist(index)).draw(Arg::bottomLeft(descRect.x + artistRect.w + DescriptionOffsetMargin - offset * DescriptionVel, 67), ColorF(0.25));
                     }
                 }
 
