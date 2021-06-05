@@ -18,18 +18,13 @@ private:
 
     int32  m_indexSize;
     int32  m_selectedIndex;
-
-    UI::Menu::Tile m_test_tile;
     Stopwatch m_stopwatch;
-
     Stopwatch m_tileOffsetStopwatch;
     
-    double m_selectedTileSize;
-    double m_tileSize;
-    double m_tileMargin;
+    UI::Menu::Tile m_tile;
+    SizeF  m_selectedTileSize;
     double m_selectedTileX;
     double m_tileBaseY;
-
     double m_animateState;
     double m_tileOffsetXVelocity;
     

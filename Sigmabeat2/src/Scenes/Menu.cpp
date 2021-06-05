@@ -3,9 +3,8 @@
 Menu::Menu(const InitData& init)
     : IScene(init), m_tileOffsetXVelocity(0.0), m_animateState(0.0), m_tileOffsetStopwatch(true){
 
-    m_selectedTileSize = UI::Menu::SelectedTileSize;
-    m_tileSize = UI::Menu::NormalIndexSize;
-    m_tileMargin = UI::Menu::MarginSize;
+    m_selectedTileSize = UI::Menu::TileSize;
+
     m_selectedTileX = Scene::CenterF().x;
 
     m_indexSize = static_cast<int32>(m_scores.getScoreNum());
@@ -113,83 +112,59 @@ void Menu::draw() const {
 
     if (m_indexSize == 0) return;
 
-    //UI::Menu::Tile tile;
     drawTiles();
-
-
-    // m_test_tile.get(m_selectedIndex, Score::LevelColor[3], Max(0.0, m_tileOffsetStopwatch.sF() - 1.3 )).draw();
-    
-
-    // FontAsset(U"Menu")(U"MUSIC SELECT").draw(Arg::topCenter = Point{Scene::Center().x , 0}, Palette::Black);
 
 }
 
 void Menu::updateTiles() {
     auto [centerX, centerY] = Scene::CenterF();
-    m_selectedTileSize = UI::Menu::SelectedTileSize - UI::Menu::SizeBetween * Abs(m_animateState);
-    m_tileBaseY = centerY + m_tileSize / 3;
-    m_selectedTileX = centerX - (UI::Menu::SelectedTileSize / 2 + UI::Menu::NormalIndexSize / 2 + m_tileMargin + UI::Menu::SelectedTileMarginSize) * m_animateState;
+    m_selectedTileSize = UI::Menu::TileSize - (UI::Menu::TileSize * 0.3) * Abs(m_animateState);
+    m_tileBaseY = centerY + UI::Menu::TileSize.y / 2;
+    m_selectedTileX = centerX - (UI::Menu::TileSize.x / 2.0 + UI::Menu::NormalTileSize.x / 2.0 + UI::Menu::TileMargin + UI::Menu::SelectedTileMarginSize) * m_animateState;
 }
 
 void Menu::drawTiles() const {
 
-
-    /*/////////
-
-    ToDo: Tileをレンダーテクスチャ(RenderTexture)を使って書く
-
-    https://siv3d.github.io/ja-jp/news/v041/#1
-
-    /////////*/
-
     int32 lv = 3;
 
-
-
     // drawSelectedIndex
-
-    RectF selectedTile(Arg::bottomCenter = Vec2{ m_selectedTileX, m_tileBaseY + 200 }, UI::Menu::TileSize);
+    RectF selectedTile(Arg::bottomCenter = Vec2{ m_selectedTileX, m_tileBaseY}, m_selectedTileSize);
     selectedTile.drawShadow({ 0.0, 0.0 }, 20, 10.0, Palette::Gold);
-    selectedTile(m_test_tile.get(m_selectedIndex, Score::LevelColor[lv], Max(0.0, m_tileOffsetStopwatch.sF() - 1.3))).draw();
+    selectedTile(m_tile.get(m_selectedIndex, Score::LevelColor[lv], Max(0.0, m_tileOffsetStopwatch.sF() - 1.3))).draw();
 
-    double x = m_selectedTileX + m_selectedTileSize / 2 + m_tileMargin + UI::Menu::SelectedTileMarginSize * (m_animateState >= 0.0 ? 1.0 : 1.0 + m_animateState);
+    double x = m_selectedTileX + m_selectedTileSize.x / 2.0 + UI::Menu::TileMargin + UI::Menu::SelectedTileMarginSize * (m_animateState >= 0.0 ? 1.0 : 1.0 + m_animateState);
 
     for (int32 index = m_selectedIndex + 1; index < m_indexSize; index++) {
         
         if (Scene::Width() < x) break;    // 画面外
 
-        RectF tile(Arg::bottomLeft = Vec2{ x, m_tileBaseY }, m_tileSize);
+        RectF tile(Arg::bottomLeft = Vec2{ x, m_tileBaseY }, UI::Menu::NormalTileSize);
 
         if (index == m_selectedIndex + 1) {
-            tile.set(Arg::bottomLeft = Vec2{ x, m_tileBaseY }, m_tileSize + UI::Menu::SizeBetween * Max(0.0, m_animateState));
-            x += (UI::Menu::SizeBetween + UI::Menu::SelectedTileMarginSize) * Max(0.0, m_animateState);
+            tile.set(Arg::bottomLeft = Vec2{ x, m_tileBaseY }, UI::Menu::NormalTileSize + (UI::Menu::TileSize * 0.3) * Max(0.0, m_animateState));
+            x += ((UI::Menu::TileSize.x * 0.3) + UI::Menu::SelectedTileMarginSize) * Max(0.0, m_animateState);
         }
 
-        tile.stretched(50, 100).movedBy(0, 60).draw(Arg::top = Score::LevelColor[lv], Arg::bottom = ColorF(Score::LevelColor[lv]).gamma(0.5)).drawFrame(3.0);
-        tile.stretched(7).drawShadow({ 0.0, 0.0 }, 10, 3.0, Palette::Whitesmoke);
-        tile(m_scores.getTexture(index)).draw();
+        tile(m_tile.get(index, Score::LevelColor[lv])).draw();
 
-        x += m_tileMargin + m_tileSize;
+        x += UI::Menu::TileMargin + UI::Menu::NormalTileSize.x;
     }
 
-    x = m_selectedTileX - m_selectedTileSize / 2 - m_tileMargin - UI::Menu::SelectedTileMarginSize * (m_animateState <= 0.0 ? 1.0 : 1.0 - m_animateState);;
+    x = m_selectedTileX - m_selectedTileSize.x / 2.0 - UI::Menu::TileMargin - UI::Menu::SelectedTileMarginSize * (m_animateState <= 0.0 ? 1.0 : 1.0 - m_animateState);
 
     for (int32 index = m_selectedIndex - 1; index >= 0; index--) {
         
         if (x < 0) break;    // 画面外
 
-        RectF tile(Arg::bottomRight = Vec2{ x, m_tileBaseY }, m_tileSize);
+        RectF tile(Arg::bottomRight = Vec2{ x, m_tileBaseY }, UI::Menu::NormalTileSize);
 
         if (index == m_selectedIndex - 1) {
-            tile.set(Arg::bottomRight = Vec2{ x, m_tileBaseY }, m_tileSize - UI::Menu::SizeBetween * Min(0.0, m_animateState));
-            x += (UI::Menu::SizeBetween + UI::Menu::SelectedTileMarginSize) * Min(0.0, m_animateState);
+            tile.set(Arg::bottomRight = Vec2{ x, m_tileBaseY }, UI::Menu::NormalTileSize - (UI::Menu::TileSize * 0.3) * Min(0.0, m_animateState));
+            x += ((UI::Menu::TileSize.x * 0.3) + UI::Menu::SelectedTileMarginSize) * Min(0.0, m_animateState);
         }
 
-        tile.stretched(50, 100).movedBy(0, 60).draw(Arg::top = Score::LevelColor[lv], Arg::bottom = ColorF(Score::LevelColor[lv]).gamma(0.5)).drawFrame(3.0);
-        tile.stretched(10).draw(Palette::Dimgray);
-        tile.stretched(7).drawShadow({ 0.0, 0.0 }, 10, 3.0, Palette::Whitesmoke);
-        tile(m_scores.getTexture(index)).draw();
+        tile(m_tile.get(index, Score::LevelColor[lv])).draw();
 
-        x -= m_tileMargin + m_tileSize;
+        x -= UI::Menu::TileMargin + UI::Menu::NormalTileSize.x;
     }
 }
