@@ -61,9 +61,7 @@ namespace UI {
                     }
                 }
 
-                String designer = U"Sample";
-
-                FontAsset(U"Tile.detail")(U"NOTES DESIGNER : " + designer).draw(Arg::bottomLeft(10, TileSize.y - 5), Palette::White);
+                FontAsset(U"Tile.detail")(U"NOTES DESIGNER : " + m_scores.getNoteDesigner(index)).draw(Arg::bottomLeft(10, TileSize.y - 5), Palette::White);
                 FontAsset(U"Tile.detail")(U"BPM : " + Format(m_scores.getBPM(index))).draw(Arg::bottomRight(TileSize.x - 10, TileSize.y - 5), Palette::White);
 
                 RectF(TileSize).drawFrame(TilePadding, 0.0);
