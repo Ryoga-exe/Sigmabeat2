@@ -36,9 +36,9 @@ void Title::draw() const {
             .drawAt(x, y + y / 1.5, Color(100, (uint32)(((Sin(m_delta / 45.0) + 1.0) / 2.0) * 255)));
     }
     {
-        String version = U"1.0.0";
+
         const Transformer2D tf2(Mat3x2::Scale(scaleRate / 1250.0));
 
-        FontAsset(U"Title")(U" Version ", version).draw(Arg::topLeft = Vec2{ 0, 0 }, Color(50));
+        FontAsset(U"Title")(U" Version ", SIGMABEAT_VERSION).draw(Arg::topLeft = Vec2{ 0, 0 }, Color(50));
     }
 }
