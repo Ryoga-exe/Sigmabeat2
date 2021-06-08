@@ -118,6 +118,9 @@ namespace Score {
         else if (tagname == U"#CATEGORY") {
             score.category = tagvalue;
         }
+        else if (tagname == U"#NOTEDESIGNER") {
+            score.noteDesigner = tagvalue;
+        }
         else if (tagname == U"#MUSIC") {
             score.musicPath = score.parentPath + tagvalue;
         }
@@ -182,6 +185,13 @@ namespace Score {
         return m_scores[index].artist;
     }
 
+    const String& Manager::getNoteDesigner(size_t index) {
+        if (index >= m_scores.size()) {
+            return unvalid;
+        }
+        return m_scores[index].noteDesigner;
+    }
+
     const FilePath& Manager::getMusicPath(size_t index) {
         if (index >= m_scores.size()) {
             return unvalid;
@@ -209,6 +219,7 @@ namespace Score {
         Print << U"title    : " << m_scores[index].title;
         Print << U"artist   : " << m_scores[index].artist;
         Print << U"category : " << m_scores[index].category;
+        Print << U"designer : " << m_scores[index].noteDesigner;
         Print << U"music    : " << m_scores[index].musicPath;
         Print << U"image    : " << m_scores[index].imagePath;
         Print << U"url      : " << m_scores[index].url;
