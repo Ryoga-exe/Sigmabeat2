@@ -18,6 +18,7 @@ namespace Score {
         String title;
         String artist;
         String category;
+        String noteDesigner = U"Anonymous";
         String url;
         FilePath path;
         FilePath parentPath;
