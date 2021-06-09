@@ -398,6 +398,9 @@
     <ClCompile Include="src\Score\Manager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Audition\Audition.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Common.hpp">
@@ -431,6 +434,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\NotificationLog\NotificationLog.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Audition\Audition.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

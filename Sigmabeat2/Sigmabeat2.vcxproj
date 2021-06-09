@@ -234,6 +234,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Audition\Audition.cpp" />
     <ClCompile Include="src\Config\Config.cpp" />
     <ClCompile Include="src\Fullscreen\Fullscreen.cpp" />
     <ClCompile Include="src\Main.cpp">
@@ -251,6 +252,7 @@
     <ClCompile Include="src\Score\Manager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Audition\Audition.hpp" />
     <ClInclude Include="src\Common.hpp">
       <SubType>
       </SubType>
