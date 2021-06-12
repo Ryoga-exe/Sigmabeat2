@@ -6,7 +6,8 @@
 enum class SceneState {
     Setup,
     Title,
-    Menu
+    Menu,
+    Game
 };
 
 struct GameData {

@@ -6,6 +6,7 @@
 #include "Scenes/Setup.hpp"
 #include "Scenes/Title.hpp"
 #include "Scenes/Menu.hpp"
+#include "Scenes/Game.hpp"
 
 void Init() {
     System::SetTerminationTriggers(UserAction::CloseButtonClicked);
@@ -47,6 +48,7 @@ void Main() {
         .add<Setup>(SceneState::Setup)
         .add<Title>(SceneState::Title)
         .add<Menu >(SceneState::Menu)
+        .add<Game >(SceneState::Game)
         .setFadeColor(ColorF(1.0));
 
     //manager.init(SceneState::Setup);
