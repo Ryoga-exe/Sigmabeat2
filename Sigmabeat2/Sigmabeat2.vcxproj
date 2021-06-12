@@ -241,6 +241,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="src\Scenes\Game.cpp" />
     <ClCompile Include="src\Scenes\Menu.cpp" />
     <ClCompile Include="src\Scenes\Setup.cpp">
       <SubType>
@@ -260,6 +261,7 @@
     <ClInclude Include="src\Config\Config.hpp" />
     <ClInclude Include="src\Fullscreen\Fullscreen.hpp" />
     <ClInclude Include="src\NotificationLog\NotificationLog.hpp" />
+    <ClInclude Include="src\Scenes\Game.hpp" />
     <ClInclude Include="src\Scenes\Menu.hpp" />
     <ClInclude Include="src\Scenes\Setup.hpp" />
     <ClInclude Include="src\Scenes\Title.hpp" />
