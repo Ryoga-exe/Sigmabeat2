@@ -139,7 +139,7 @@ void Menu::drawTiles() const {
     // drawSelectedIndex
     RectF selectedTile(Arg::bottomCenter = Vec2{ m_selectedTileX, m_tileBaseY}, m_selectedTileSize);
     selectedTile.drawShadow({ 0.0, 0.0 }, 25, 15.0, ColorF(Palette::Gold, 0.5 + Periodic::Sine0_1(2.0s) * 0.5));
-    selectedTile(m_tile.get(m_selectedIndex, Score::LevelColor[m_level], Max(0.0, m_tileOffsetStopwatch.sF() - 1.3))).draw();
+    selectedTile(m_tile.get(m_selectedIndex, Score::LevelColor[m_level], Max(0.0, m_tileOffsetStopwatch.sF() - 1.0))).draw();
 
     double x = m_selectedTileX + m_selectedTileSize.x / 2.0 + UI::Menu::TileMargin + UI::Menu::SelectedTileMarginSize * (m_animateState >= 0.0 ? 1.0 : 1.0 + m_animateState);
 
