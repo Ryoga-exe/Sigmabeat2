@@ -24,7 +24,7 @@ namespace UI {
             {
                 ScopedRenderTarget2D target(m_tileRT);
 
-                RectF(TileSize).draw(Arg::top = tileColor, Arg::bottom = ColorF(tileColor).gamma(0.5)).drawFrame(TilePadding, 0.0);
+                RectF(TileSize).draw(Arg::top = tileColor, Arg::bottom = ColorF(tileColor).gamma(0.4)).drawFrame(TilePadding, 0.0);
 
                 m_jacketRect.stretched(10).draw(Palette::Dimgray);
                 m_jacketRect.stretched(7).drawShadow({ 0, 0 }, 10, TilePadding, Palette::Whitesmoke);
