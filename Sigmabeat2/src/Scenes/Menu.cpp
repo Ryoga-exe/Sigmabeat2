@@ -33,7 +33,7 @@ void Menu::update() {
 
     if (m_stopwatch.isRunning() && AudioAsset(U"Menu.demo")) {
         constexpr int32 introMs = 500;
-        constexpr int32 length = 18000;
+        constexpr int32 length = 24800;
         constexpr int32 span = 200;
 
         int32 elapsedMs = m_stopwatch.ms();
