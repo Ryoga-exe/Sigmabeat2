@@ -1,9 +1,10 @@
 ﻿#include "Menu.hpp"
 
 Menu::Menu(const InitData& init)
-    : IScene(init), m_tileOffsetXVelocity(0.0), m_animateState(0.0), m_tileOffsetStopwatch(true){
+    : IScene(init), m_tileOffsetXVelocity(0.0), m_animateState(0.0), m_tileOffsetStopwatch(true) {
 
     m_selectedTileSize = UI::Menu::TileSize;
+    m_level = 3;
 
     m_selectedTileX = Scene::CenterF().x;
 
@@ -104,6 +105,9 @@ void Menu::update() {
         m_animateState = Math::SmoothDamp(m_animateState, 0.0, m_tileOffsetXVelocity, 0.1, Scene::DeltaTime());
     }
 
+    if (KeyUp.down())   m_level = (m_level + 1) % Score::LevelNum;
+    if (KeyDown.down()) m_level = (m_level + Score::LevelNum - 1) % Score::LevelNum;
+
     updateTiles();
 
 }
@@ -132,12 +136,10 @@ void Menu::updateTiles() {
 
 void Menu::drawTiles() const {
 
-    int32 lv = 3;
-
     // drawSelectedIndex
     RectF selectedTile(Arg::bottomCenter = Vec2{ m_selectedTileX, m_tileBaseY}, m_selectedTileSize);
     selectedTile.drawShadow({ 0.0, 0.0 }, 25, 15.0, ColorF(Palette::Gold, 0.5 + Periodic::Sine0_1(2.0s) * 0.5));
-    selectedTile(m_tile.get(m_selectedIndex, Score::LevelColor[lv], Max(0.0, m_tileOffsetStopwatch.sF() - 1.3))).draw();
+    selectedTile(m_tile.get(m_selectedIndex, Score::LevelColor[m_level], Max(0.0, m_tileOffsetStopwatch.sF() - 1.3))).draw();
 
     double x = m_selectedTileX + m_selectedTileSize.x / 2.0 + UI::Menu::TileMargin + UI::Menu::SelectedTileMarginSize * (m_animateState >= 0.0 ? 1.0 : 1.0 + m_animateState);
 
@@ -152,7 +154,7 @@ void Menu::drawTiles() const {
             x += ((UI::Menu::TileSize.x * 0.3) + UI::Menu::SelectedTileMarginSize) * Max(0.0, m_animateState);
         }
 
-        tile(m_tile.get(index, Score::LevelColor[lv])).draw();
+        tile(m_tile.get(index, Score::LevelColor[m_level])).draw();
 
         x += UI::Menu::TileMargin + UI::Menu::NormalTileSize.x;
     }
@@ -170,7 +172,7 @@ void Menu::drawTiles() const {
             x += ((UI::Menu::TileSize.x * 0.3) + UI::Menu::SelectedTileMarginSize) * Min(0.0, m_animateState);
         }
 
-        tile(m_tile.get(index, Score::LevelColor[lv])).draw();
+        tile(m_tile.get(index, Score::LevelColor[m_level])).draw();
 
         x -= UI::Menu::TileMargin + UI::Menu::NormalTileSize.x;
     }
