@@ -123,6 +123,8 @@ void Menu::draw() const {
         ,Vec2(Scene::CenterF().x + UI::Menu::TileSize.x / 2.0, m_tileBaseY - UI::Menu::NormalTileSize.y - 200 - 30)
         ,Vec2(Scene::CenterF().x - UI::Menu::TileSize.x / 2.0, m_tileBaseY - UI::Menu::NormalTileSize.y - 200 - 30)).draw(ColorF(0, 0.5));
 
+    FontAsset(U"Tile.detail")(U"{} / {}"_fmt(m_selectedIndex + 1, m_indexSize)).draw(Arg::bottomCenter = Vec2{ Scene::CenterF().x, m_tileBaseY + 45 }, ColorF(0.8));
+
     drawTiles();
 
 }
