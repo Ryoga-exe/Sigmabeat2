@@ -124,7 +124,11 @@ void Menu::draw() const {
         ,Vec2(Scene::CenterF().x - UI::Menu::TileSize.x / 2.0, m_tileBaseY - UI::Menu::NormalTileSize.y - 200 - 30)).draw(ColorF(0, 0.5));
 
     FontAsset(U"Tile.detail")(U"{} / {}"_fmt(m_selectedIndex + 1, m_indexSize)).draw(Arg::bottomCenter = Vec2{ Scene::CenterF().x, m_tileBaseY + 45 }, ColorF(0.8));
-
+    /*
+    FontAsset(U"Tile.detail")(U"  {}"_fmt(m_indexSize)).draw(Arg::bottomLeft = Vec2{ Scene::CenterF().x, m_tileBaseY + 45 }, ColorF(0.8));
+    FontAsset(U"Tile.detail")(U"/").draw(Arg::bottomCenter = Vec2{ Scene::CenterF().x, m_tileBaseY + 45 }, ColorF(0.8));
+    FontAsset(U"Tile.title")(U"{} "_fmt(m_selectedIndex + 1)).draw(Arg::bottomRight = Vec2{ Scene::CenterF().x, m_tileBaseY + 50 }, ColorF(1.0));
+    */
     drawTiles();
 
 }
