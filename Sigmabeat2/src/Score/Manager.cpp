@@ -103,7 +103,7 @@ namespace Score {
         }
         m_hasLoaded = true;
 
-        m_scores.sort_by([](const Data& a, const Data& b) {return a.priority > b.priority; });
+        m_scores.sort_by([](const Data& a, const Data& b) { return a.priority > b.priority; });
 
         return true;
     }
