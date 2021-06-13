@@ -5,7 +5,7 @@ Menu::Menu(const InitData& init)
 
     m_level = 3;
 
-    m_scaleRate = Scene::Height() / 950.0;
+    m_scaleRate = Scene::Height() / 900.0;
     m_indexSize = static_cast<int32>(m_scores.getScoreNum());
     m_selectedIndex = 0;
 
@@ -106,7 +106,7 @@ void Menu::update() {
     if (KeyUp.down())   m_level = (m_level + 1) % Score::LevelNum;
     if (KeyDown.down()) m_level = (m_level + Score::LevelNum - 1) % Score::LevelNum;
 
-    m_scaleRate = Scene::Height() / 950.0;
+    m_scaleRate = Scene::Height() / 900.0;
     updateTiles();
 
 }
@@ -125,11 +125,6 @@ void Menu::draw() const {
         ,Vec2(Scene::CenterF().x - m_tileSize.x / 2.0, m_tileBaseY - m_normalTileSize.y - 200 * m_scaleRate)).movedBy(0, -bgOffset).draw(ColorF(0, 0.5));
 
     FontAsset(U"Tile.detail")(U"{} / {}"_fmt(m_selectedIndex + 1, m_indexSize)).draw(Arg::bottomCenter = Vec2{ Scene::CenterF().x, m_tileBaseY + 45 * m_scaleRate }, ColorF(0.8));
-    /*
-    FontAsset(U"Tile.detail")(U"  {}"_fmt(m_indexSize)).draw(Arg::bottomLeft = Vec2{ Scene::CenterF().x, m_tileBaseY + 45 }, ColorF(0.8));
-    FontAsset(U"Tile.detail")(U"/").draw(Arg::bottomCenter = Vec2{ Scene::CenterF().x, m_tileBaseY + 45 }, ColorF(0.8));
-    FontAsset(U"Tile.title")(U"{} "_fmt(m_selectedIndex + 1)).draw(Arg::bottomRight = Vec2{ Scene::CenterF().x, m_tileBaseY + 50 }, ColorF(1.0));
-    */
     drawTiles();
 
 }
