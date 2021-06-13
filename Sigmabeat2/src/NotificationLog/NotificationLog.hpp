@@ -3,16 +3,13 @@
 
 namespace NotificationLog {
 
-    bool Add();
+    struct NotificationData {
+        String message;
+        Texture icon;
+        int32 timeMs;
+    };
+
+    bool Add(NotificationData data);
     bool Update();
-    bool Draw();
-
-    namespace detail {
-
-        class NotificationManager {
-
-        };
-
-    }
-
+    void Draw();
 }

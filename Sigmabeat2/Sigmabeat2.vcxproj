@@ -241,6 +241,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="src\NotificationLog\NotificationLog.cpp" />
     <ClCompile Include="src\Scenes\Game.cpp" />
     <ClCompile Include="src\Scenes\Menu.cpp" />
     <ClCompile Include="src\Scenes\Setup.cpp">
