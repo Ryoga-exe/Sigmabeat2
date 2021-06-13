@@ -6,7 +6,6 @@ namespace UI {
     namespace Menu {
 
         constexpr Size   TileSize = { 380, 500 };
-        constexpr SizeF  NormalTileSize = TileSize * 0.7;
         constexpr SizeF  JacketSize = { 270, 270 };
         constexpr double SelectedTileMarginSize = 50;
         constexpr double TileMargin = 20;
