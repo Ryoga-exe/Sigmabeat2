@@ -26,6 +26,7 @@ private:
     SizeF  m_tileSize;
     SizeF  m_selectedTileSize;
     SizeF  m_normalTileSize;
+    double m_tileState;
     double m_scaleRate;
     double m_selectedTileX;
     double m_tileBaseY;
