@@ -1,5 +1,6 @@
 ﻿#pragma once
-#include <Siv3D.hpp> // OpenSiv3D v0.4.3
+#define  SIV3D_CONCURRENT // use ConcurrentTask
+#include <Siv3D.hpp>      // OpenSiv3D v0.4.3
 
 #define SIGMABEAT_VERSION U"0.2.0 dev"
 
