@@ -19,8 +19,10 @@ namespace UI {
         public:
             Tile();
             ~Tile();
-
+            
             const MSRenderTexture& get(size_t index, Color tileColor, double offset = 0.0) const;
+
+            const MSRenderTexture& get(const String& type, double number, Color tileColor) const;
 
         private:
             MSRenderTexture m_tileRT;

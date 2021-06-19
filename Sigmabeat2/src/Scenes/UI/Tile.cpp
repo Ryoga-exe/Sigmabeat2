@@ -74,5 +74,25 @@ namespace UI {
             return m_tileRT;
         }
 
+        const MSRenderTexture& Tile::get(const String& type, double number, Color tileColor) const {
+
+            m_tileRT.clear(Palette::Whitesmoke);
+
+            {
+
+                ScopedRenderTarget2D target(m_tileRT);
+
+                RectF(TileSize).draw(Arg::top = tileColor, Arg::bottom = ColorF(tileColor).gamma(0.4)).drawFrame(TilePadding, 0.0);
+
+                RectF(TileSize).drawFrame(TilePadding, 0.0);
+
+            }
+
+            Graphics2D::Flush();
+            m_tileRT.resolve();
+
+            return m_tileRT;
+        }
+
     }
 }

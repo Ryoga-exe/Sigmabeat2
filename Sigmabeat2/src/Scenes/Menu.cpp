@@ -16,14 +16,12 @@ void Menu::update() {
 
     /// test
 
-    if (Key1.pressed()) m_tileState -= 0.05;
-    if (Key2.pressed()) m_tileState += 0.05;
-
+    Print << m_tileState;
     if (Key3.down()) m_stopwatch.restart();
+    m_tileState = EaseOutCubic(Min(m_stopwatch.sF() * 2, 1.0));
 
     ///
 
-    m_tileState = EaseOutCirc(Min(m_stopwatch.sF() / 0.5, 1.0));
 
 
     m_audition.update(m_index);
@@ -113,6 +111,7 @@ void Menu::drawTiles() const {
 
         x += (UI::Menu::TileMargin + m_normalTileSize.x) * (1.0 + m_tileState);
     }
+
 
     x = m_selectedTileX - (m_selectedTileSize.x / 2.0 + UI::Menu::TileMargin + UI::Menu::SelectedTileMarginSize * (m_animateState <= 0.0 ? 1.0 : 1.0 - m_animateState)) * (1.0 + m_tileState);
 
