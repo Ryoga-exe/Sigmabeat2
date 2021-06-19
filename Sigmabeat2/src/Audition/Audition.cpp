@@ -65,20 +65,20 @@ void Audition::autoPlayAndStop() {
     }
 
     if (m_stopwatch.isRunning() && m_audio) {
-        constexpr int32 introMs = 500;
+        constexpr int32 fadeInOutMs = 500;
         constexpr int32 length = 24800;
         constexpr int32 span = 200;
 
         int32 elapsedMs = m_stopwatch.ms();
 
-        if (elapsedMs < introMs) {
-            m_audio.setVolume((double)elapsedMs / introMs);
+        if (elapsedMs < fadeInOutMs) {
+            m_audio.setVolume((double)elapsedMs / fadeInOutMs);
         }
-        else if (elapsedMs < length - introMs) {
+        else if (elapsedMs < length - fadeInOutMs) {
             m_audio.setVolume(1.0);
         }
         else if (elapsedMs < length) {
-            m_audio.setVolume((double)(length - elapsedMs) / introMs);
+            m_audio.setVolume((double)(length - elapsedMs) / fadeInOutMs);
         }
         else if (elapsedMs > length + span) {
             m_stopwatch.reset();
