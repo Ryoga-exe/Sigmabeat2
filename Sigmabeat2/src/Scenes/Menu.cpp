@@ -1,7 +1,7 @@
 ﻿#include "Menu.hpp"
 
 Menu::Menu(const InitData& init)
-    : IScene(init), m_tileOffsetXVelocity(0.0), m_animateState(0.0), m_tileOffsetStopwatch(true), m_tileState(0.0) {
+    : IScene(init), m_tileOffsetXVelocity(0.0), m_animateState(0.0), m_tileOffsetStopwatch(true), m_tileState(0.0), m_audition(0) {
 
     m_level = 3;
 
@@ -10,10 +10,6 @@ Menu::Menu(const InitData& init)
     m_selectedIndex = 0;
 
     updateTiles();
-
-    if (AudioAsset::IsRegistered(U"Menu.demo")) AudioAsset::Unregister(U"Menu.demo");
-    AudioAsset::Register(U"Menu.demo", m_scores.getMusicPath(m_selectedIndex), AssetParameter::LoadAsync());
-    AudioAsset(U"Menu.demo").setPosSec(m_scores.getDemoStartMs(m_selectedIndex) / 1000.0);
 }
 
 void Menu::update() {
@@ -26,50 +22,11 @@ void Menu::update() {
     ///
 
 
-    /**/
-
-    if (AudioAsset::IsReady(U"Menu.demo") && !AudioAsset(U"Menu.demo").isPlaying()) {
-        if (AudioAsset(U"Menu.demo")) {
-            m_stopwatch.restart();
-            AudioAsset(U"Menu.demo").setVolume(0.0);
-            AudioAsset(U"Menu.demo").setPosSec(m_scores.getDemoStartMs(m_selectedIndex) / 1000.0);
-            AudioAsset(U"Menu.demo").play();
-        }
-    }
-
-    if (m_stopwatch.isRunning() && AudioAsset(U"Menu.demo")) {
-        constexpr int32 introMs = 500;
-        constexpr int32 length = 24800;
-        constexpr int32 span = 200;
-
-        int32 elapsedMs = m_stopwatch.ms();
-
-        if (elapsedMs < introMs) {
-            AudioAsset(U"Menu.demo").setVolume((double)elapsedMs / introMs);
-        }
-        else if (elapsedMs < length - introMs) {
-            AudioAsset(U"Menu.demo").setVolume(1.0);
-        }
-        else if (elapsedMs < length) {
-            AudioAsset(U"Menu.demo").setVolume((double)(length - elapsedMs) / introMs);
-        }
-        else if (elapsedMs > length + span) {
-            m_stopwatch.reset();
-            AudioAsset(U"Menu.demo").stop();
-        }
-    }
-
-    /**/
-
-    //
-    // ToDo: キー長押しの対応
-    // ToDo: Registerしてる最中にUnregisterすると待ちが発生する？ので直す
-    // ↑ 先に曲idごとに全部Registerして、矢印キーが押されたらstop -> Unregisterするキューに追加する
-    // -> もし、IsReady() == true になったら(もうなってたら)Unregister
-    //
+    m_audition.update(m_selectedIndex);
+    m_audition.autoPlayAndStop();
 
     if (KeyEscape.down()) {
-        AudioAsset(U"Menu.demo").stop(0.5s);
+        m_audition.stop(0.5s);
         
         changeScene(SceneState::Setup);
     }
@@ -79,15 +36,6 @@ void Menu::update() {
         m_selectedIndex++;
 
         m_tileOffsetStopwatch.restart();
-
-        /**/
-        m_stopwatch.reset();
-        AudioAsset(U"Menu.demo").stop();
-
-        AudioAsset::Unregister(U"Menu.demo");
-        AudioAsset::Register(U"Menu.demo", m_scores.getMusicPath(m_selectedIndex), AssetParameter::LoadAsync());
-
-        /**/
     }
     
     if (m_selectedIndex > 0 && KeyLeft.down()) {
@@ -95,16 +43,6 @@ void Menu::update() {
         m_selectedIndex--;
 
         m_tileOffsetStopwatch.restart();
-
-        /**/
-        m_stopwatch.reset();
-
-        AudioAsset(U"Menu.demo").stop();
-
-        AudioAsset::Unregister(U"Menu.demo");
-        AudioAsset::Register(U"Menu.demo", m_scores.getMusicPath(m_selectedIndex), AssetParameter::LoadAsync());
-
-        /**/
     }
 
     if (m_animateState != 0.00) {

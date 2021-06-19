@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "Common.hpp"
+#include "Audition/Audition.hpp"
 #include "Score/Manager.hpp"
 #include "Base/Singleton.hpp"
 #include "UI/Tile.hpp"
@@ -21,6 +22,7 @@ private:
     int32  m_level;
     Stopwatch m_stopwatch;
     Stopwatch m_tileOffsetStopwatch;
+    Audition m_audition;
     
     UI::Menu::Tile m_tile;
     SizeF  m_tileSize;
