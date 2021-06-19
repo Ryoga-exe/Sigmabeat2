@@ -19,7 +19,11 @@ void Menu::update() {
     if (Key1.pressed()) m_tileState -= 0.05;
     if (Key2.pressed()) m_tileState += 0.05;
 
+    if (Key3.down()) m_stopwatch.restart();
+
     ///
+
+    m_tileState = EaseOutCirc(Min(m_stopwatch.sF() / 0.5, 1.0));
 
 
     m_audition.update(m_selectedIndex);
