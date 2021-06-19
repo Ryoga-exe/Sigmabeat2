@@ -18,7 +18,7 @@ private:
     Score::Manager& m_scores = Singleton<Score::Manager>::get_instance();
 
     int32  m_indexSize;
-    int32  m_selectedIndex;
+    int32  m_index;
     int32  m_level;
     Stopwatch m_stopwatch;
     Stopwatch m_tileOffsetStopwatch;

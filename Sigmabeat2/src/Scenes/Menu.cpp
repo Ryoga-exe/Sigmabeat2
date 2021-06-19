@@ -7,7 +7,7 @@ Menu::Menu(const InitData& init)
 
     m_scaleRate = Scene::Height() / 900.0;
     m_indexSize = static_cast<int32>(m_scores.getScoreNum());
-    m_selectedIndex = 0;
+    m_index = 0;
 
     updateTiles();
 }
@@ -26,7 +26,7 @@ void Menu::update() {
     m_tileState = EaseOutCirc(Min(m_stopwatch.sF() / 0.5, 1.0));
 
 
-    m_audition.update(m_selectedIndex);
+    m_audition.update(m_index);
     m_audition.autoPlayAndStop();
 
     if (KeyEscape.down()) {
@@ -35,16 +35,16 @@ void Menu::update() {
         changeScene(SceneState::Setup);
     }
 
-    if (m_selectedIndex + 1 < m_indexSize && KeyRight.down()) {
+    if (m_index + 1 < m_indexSize && KeyRight.down()) {
         m_animateState = -1.0;
-        m_selectedIndex++;
+        m_index++;
 
         m_tileOffsetStopwatch.restart();
     }
     
-    if (m_selectedIndex > 0 && KeyLeft.down()) {
+    if (m_index > 0 && KeyLeft.down()) {
         m_animateState = 1.0;
-        m_selectedIndex--;
+        m_index--;
 
         m_tileOffsetStopwatch.restart();
     }
@@ -78,7 +78,7 @@ void Menu::draw() const {
         ,Vec2(Scene::CenterF().x + m_tileSize.x / 2.0, m_tileBaseY - m_normalTileSize.y - 200 * m_scaleRate)
         ,Vec2(Scene::CenterF().x - m_tileSize.x / 2.0, m_tileBaseY - m_normalTileSize.y - 200 * m_scaleRate)).movedBy(0, -bgOffset).draw(ColorF(0, 0.5));
 
-    FontAsset(U"Tile.detail")(U"{} / {}"_fmt(m_selectedIndex + 1, m_indexSize)).draw(Arg::bottomCenter = Vec2{ Scene::CenterF().x, m_tileBaseY + 45 * m_scaleRate }, ColorF(0.8));
+    FontAsset(U"Tile.detail")(U"{} / {}"_fmt(m_index + 1, m_indexSize)).draw(Arg::bottomCenter = Vec2{ Scene::CenterF().x, m_tileBaseY + 45 * m_scaleRate }, ColorF(0.8));
     drawTiles();
 
 }
@@ -98,13 +98,13 @@ void Menu::drawTiles() const {
 
     double x = m_selectedTileX + (m_selectedTileSize.x / 2.0 + UI::Menu::TileMargin + UI::Menu::SelectedTileMarginSize * (m_animateState >= 0.0 ? 1.0 : 1.0 + m_animateState)) * (1.0 + m_tileState);
 
-    for (int32 index = m_selectedIndex + 1; index < m_indexSize; index++) {
+    for (int32 index = m_index + 1; index < m_indexSize; index++) {
         
         if (Scene::Width() < x - m_normalTileSize.x * m_tileState) break;    // 画面外
 
         RectF tile(Arg::bottomLeft = Vec2{ x, m_tileBaseY }, m_normalTileSize);
 
-        if (index == m_selectedIndex + 1) {
+        if (index == m_index + 1) {
             tile.set(Arg::bottomLeft = Vec2{ x, m_tileBaseY }, m_normalTileSize + (m_tileSize * 0.3) * Max(0.0, m_animateState));
             x += ((m_tileSize.x * 0.3) + UI::Menu::SelectedTileMarginSize) * Max(0.0, m_animateState);
         }
@@ -116,13 +116,13 @@ void Menu::drawTiles() const {
 
     x = m_selectedTileX - (m_selectedTileSize.x / 2.0 + UI::Menu::TileMargin + UI::Menu::SelectedTileMarginSize * (m_animateState <= 0.0 ? 1.0 : 1.0 - m_animateState)) * (1.0 + m_tileState);
 
-    for (int32 index = m_selectedIndex - 1; index >= 0; index--) {
+    for (int32 index = m_index - 1; index >= 0; index--) {
         
         if (x + m_normalTileSize.x * m_tileState < 0) break;    // 画面外
 
         RectF tile(Arg::bottomRight = Vec2{ x, m_tileBaseY }, m_normalTileSize);
 
-        if (index == m_selectedIndex - 1) {
+        if (index == m_index - 1) {
             tile.set(Arg::bottomRight = Vec2{ x, m_tileBaseY }, m_normalTileSize - (m_tileSize * 0.3) * Min(0.0, m_animateState));
             x += ((m_tileSize.x * 0.3) + UI::Menu::SelectedTileMarginSize) * Min(0.0, m_animateState);
         }
@@ -135,6 +135,6 @@ void Menu::drawTiles() const {
     // drawSelectedIndex
     RectF selectedTile(Arg::bottomCenter = Vec2{ m_selectedTileX, m_tileBaseY }, m_selectedTileSize);
     selectedTile.drawShadow({ 0.0, 0.0 }, 25, 15.0, ColorF(Palette::Gold, 0.5 + Periodic::Sine0_1(2.0s) * 0.5));
-    selectedTile(m_tile.get(m_selectedIndex, Score::LevelColor[m_level], Max(0.0, m_tileOffsetStopwatch.sF() - 1.0))).draw();
+    selectedTile(m_tile.get(m_index, Score::LevelColor[m_level], Max(0.0, m_tileOffsetStopwatch.sF() - 1.0))).draw();
 
 }
