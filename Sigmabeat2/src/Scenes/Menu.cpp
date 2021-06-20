@@ -5,10 +5,10 @@ Menu::Menu(const InitData& init)
 
     m_level = 3;
 
-    m_scaleRate = Scene::Height() / 900.0;
     m_indexSize = static_cast<int32>(m_scores.getScoreNum());
     m_index = 0;
 
+    updateScaleRate();
     updateTiles();
 }
 
@@ -49,15 +49,12 @@ void Menu::update() {
         m_tileOffsetStopwatch.restart();
     }
 
-    if (m_animateState != 0.00) {
-        m_animateState = Math::SmoothDamp(m_animateState, 0.0, m_tileOffsetXVelocity, 0.1, Scene::DeltaTime());
-    }
+    m_animateState = Math::SmoothDamp(m_animateState, 0.0, m_tileOffsetXVelocity, 0.1, Scene::DeltaTime());
 
     if (KeyUp.down())   m_level = (m_level + 1) % Score::LevelNum;
     if (KeyDown.down()) m_level = (m_level + Score::LevelNum - 1) % Score::LevelNum;
 
-
-    m_scaleRate = Scene::Height() / 900.0;
+    updateScaleRate();
     updateTiles();
 
 }
@@ -71,6 +68,10 @@ void Menu::draw() const {
     drawTiles();
     drawSelectedTile();
 
+}
+
+void Menu::updateScaleRate() {
+    m_scaleRate = Scene::Height() / 900.0;
 }
 
 void Menu::updateTiles() {

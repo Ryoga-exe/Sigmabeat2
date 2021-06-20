@@ -12,6 +12,7 @@ public:
     void draw() const override;
 
 private:
+    void updateScaleRate();
     void updateTiles();
     void drawBackground() const;
     void drawTiles() const;
