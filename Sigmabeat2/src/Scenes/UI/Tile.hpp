@@ -7,7 +7,7 @@ namespace UI {
 
         constexpr Size   TileSize = { 380, 500 };
         constexpr SizeF  JacketSize = { 270, 270 };
-        constexpr double SelectedTileMarginSize = 50;
+        constexpr double SelectedTileMargin = 70;
         constexpr double TileMargin = 20;
         constexpr double JacketMarginTop = 40.0;
         constexpr double TilePadding = 3.0;

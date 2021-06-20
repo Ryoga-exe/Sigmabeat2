@@ -70,8 +70,8 @@ void Menu::draw() const {
 
     RectF(Arg::bottomCenter = Vec2{ Scene::CenterF().x, m_tileBaseY - bgOffset }, Scene::Width(), m_normalTileSize.y).stretched(80 * m_scaleRate).draw(ColorF(0, 0.5));
     
-    Quad(Vec2(Scene::CenterF().x - m_tileSize.x / 2.0 - UI::Menu::TileMargin - UI::Menu::SelectedTileMarginSize, m_tileBaseY - m_normalTileSize.y - 80 * m_scaleRate)
-        ,Vec2(Scene::CenterF().x + m_tileSize.x / 2.0 + UI::Menu::TileMargin + UI::Menu::SelectedTileMarginSize, m_tileBaseY - m_normalTileSize.y - 80 * m_scaleRate)
+    Quad(Vec2(Scene::CenterF().x - m_tileSize.x / 2.0 - m_tileMargin - m_selectedTileMargin, m_tileBaseY - m_normalTileSize.y - 80 * m_scaleRate)
+        ,Vec2(Scene::CenterF().x + m_tileSize.x / 2.0 + m_tileMargin + m_selectedTileMargin, m_tileBaseY - m_normalTileSize.y - 80 * m_scaleRate)
         ,Vec2(Scene::CenterF().x + m_tileSize.x / 2.0, m_tileBaseY - m_normalTileSize.y - 200 * m_scaleRate)
         ,Vec2(Scene::CenterF().x - m_tileSize.x / 2.0, m_tileBaseY - m_normalTileSize.y - 200 * m_scaleRate)).movedBy(0, -bgOffset).draw(ColorF(0, 0.5));
 
@@ -84,16 +84,18 @@ void Menu::updateTiles() {
     auto [centerX, centerY] = Scene::CenterF();
 
     m_tileSize = SizeF(UI::Menu::TileSize) * m_scaleRate;
+    m_tileMargin = UI::Menu::TileMargin * m_scaleRate;
+    m_selectedTileMargin = UI::Menu::SelectedTileMargin * m_scaleRate;
 
     m_selectedTileSize = m_tileSize - (m_tileSize * 0.3) * Abs(m_animateState);
     m_tileBaseY = centerY + m_tileSize.y / 2;
     m_normalTileSize = m_tileSize * 0.7;
-    m_selectedTileX = centerX - (m_tileSize.x / 2.0 + m_normalTileSize.x / 2.0 + UI::Menu::TileMargin + UI::Menu::SelectedTileMarginSize) * m_animateState;
+    m_selectedTileX = centerX - (m_tileSize.x / 2.0 + m_normalTileSize.x / 2.0 + m_tileMargin + m_selectedTileMargin) * m_animateState;
 }
 
 void Menu::drawTiles() const {
 
-    double x = m_selectedTileX + (m_selectedTileSize.x / 2.0 + UI::Menu::TileMargin + UI::Menu::SelectedTileMarginSize * (m_animateState >= 0.0 ? 1.0 : 1.0 + m_animateState)) * (1.0 + m_tileState);
+    double x = m_selectedTileX + (m_selectedTileSize.x / 2.0 + m_tileMargin + m_selectedTileMargin * (m_animateState >= 0.0 ? 1.0 : 1.0 + m_animateState)) * (1.0 + m_tileState);
 
     for (int32 index = m_index + 1; index < m_indexSize; index++) {
         
@@ -103,16 +105,16 @@ void Menu::drawTiles() const {
 
         if (index == m_index + 1) {
             tile.set(Arg::bottomLeft = Vec2{ x, m_tileBaseY }, m_normalTileSize + (m_tileSize * 0.3) * Max(0.0, m_animateState));
-            x += ((m_tileSize.x * 0.3) + UI::Menu::SelectedTileMarginSize) * Max(0.0, m_animateState);
+            x += ((m_tileSize.x * 0.3) + m_selectedTileMargin) * Max(0.0, m_animateState);
         }
 
         tile.scaled(1.0 + m_tileState)(m_tile.get(index, Score::LevelColor[m_level])).draw(ColorF(1.0, 1.0 - Abs(m_tileState)));
 
-        x += (UI::Menu::TileMargin + m_normalTileSize.x) * (1.0 + m_tileState);
+        x += (m_tileMargin + m_normalTileSize.x) * (1.0 + m_tileState);
     }
 
 
-    x = m_selectedTileX - (m_selectedTileSize.x / 2.0 + UI::Menu::TileMargin + UI::Menu::SelectedTileMarginSize * (m_animateState <= 0.0 ? 1.0 : 1.0 - m_animateState)) * (1.0 + m_tileState);
+    x = m_selectedTileX - (m_selectedTileSize.x / 2.0 + m_tileMargin + m_selectedTileMargin * (m_animateState <= 0.0 ? 1.0 : 1.0 - m_animateState)) * (1.0 + m_tileState);
 
     for (int32 index = m_index - 1; index >= 0; index--) {
         
@@ -122,12 +124,12 @@ void Menu::drawTiles() const {
 
         if (index == m_index - 1) {
             tile.set(Arg::bottomRight = Vec2{ x, m_tileBaseY }, m_normalTileSize - (m_tileSize * 0.3) * Min(0.0, m_animateState));
-            x += ((m_tileSize.x * 0.3) + UI::Menu::SelectedTileMarginSize) * Min(0.0, m_animateState);
+            x += ((m_tileSize.x * 0.3) + m_selectedTileMargin) * Min(0.0, m_animateState);
         }
 
         tile.scaled(1.0 + m_tileState)(m_tile.get(index, Score::LevelColor[m_level])).draw(ColorF(1.0, 1.0 - Abs(m_tileState)));
 
-        x -= (UI::Menu::TileMargin + m_normalTileSize.x) * (1.0 + m_tileState);
+        x -= (m_tileMargin + m_normalTileSize.x) * (1.0 + m_tileState);
     }
 
     // drawSelectedIndex
