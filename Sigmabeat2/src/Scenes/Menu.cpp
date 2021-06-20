@@ -66,17 +66,10 @@ void Menu::draw() const {
 
     if (m_indexSize == 0) return;
 
-    const double bgOffset = 30 * m_scaleRate;
+    drawBackground();
 
-    RectF(Arg::bottomCenter = Vec2{ Scene::CenterF().x, m_tileBaseY - bgOffset }, Scene::Width(), m_normalTileSize.y).stretched(80 * m_scaleRate).draw(ColorF(0, 0.5));
-    
-    Quad(Vec2(Scene::CenterF().x - m_tileSize.x / 2.0 - m_tileMargin - m_selectedTileMargin, m_tileBaseY - m_normalTileSize.y - 80 * m_scaleRate)
-        ,Vec2(Scene::CenterF().x + m_tileSize.x / 2.0 + m_tileMargin + m_selectedTileMargin, m_tileBaseY - m_normalTileSize.y - 80 * m_scaleRate)
-        ,Vec2(Scene::CenterF().x + m_tileSize.x / 2.0, m_tileBaseY - m_normalTileSize.y - 200 * m_scaleRate)
-        ,Vec2(Scene::CenterF().x - m_tileSize.x / 2.0, m_tileBaseY - m_normalTileSize.y - 200 * m_scaleRate)).movedBy(0, -bgOffset).draw(ColorF(0, 0.5));
-
-    FontAsset(U"Tile.detail")(U"{} / {}"_fmt(m_index + 1, m_indexSize)).draw(Arg::bottomCenter = Vec2{ Scene::CenterF().x, m_tileBaseY + 45 * m_scaleRate }, ColorF(0.8));
     drawTiles();
+    drawSelectedTile();
 
 }
 
@@ -91,6 +84,19 @@ void Menu::updateTiles() {
     m_tileBaseY = centerY + m_tileSize.y / 2;
     m_normalTileSize = m_tileSize * 0.7;
     m_selectedTileX = centerX - (m_tileSize.x / 2.0 + m_normalTileSize.x / 2.0 + m_tileMargin + m_selectedTileMargin) * m_animateState;
+}
+
+void Menu::drawBackground() const {
+    const double bgOffset = 30 * m_scaleRate;
+
+    RectF(Arg::bottomCenter = Vec2{ Scene::CenterF().x, m_tileBaseY - bgOffset }, Scene::Width(), m_normalTileSize.y).stretched(80 * m_scaleRate).draw(ColorF(0, 0.5));
+
+    Quad(Vec2(Scene::CenterF().x - m_tileSize.x / 2.0 - m_tileMargin - m_selectedTileMargin, m_tileBaseY - m_normalTileSize.y - 80 * m_scaleRate)
+        ,Vec2(Scene::CenterF().x + m_tileSize.x / 2.0 + m_tileMargin + m_selectedTileMargin, m_tileBaseY - m_normalTileSize.y - 80 * m_scaleRate)
+        ,Vec2(Scene::CenterF().x + m_tileSize.x / 2.0, m_tileBaseY - m_normalTileSize.y - 200 * m_scaleRate)
+        ,Vec2(Scene::CenterF().x - m_tileSize.x / 2.0, m_tileBaseY - m_normalTileSize.y - 200 * m_scaleRate)).movedBy(0, -bgOffset).draw(ColorF(0, 0.5));
+
+    FontAsset(U"Tile.detail")(U"{} / {}"_fmt(m_index + 1, m_indexSize)).draw(Arg::bottomCenter = Vec2{ Scene::CenterF().x, m_tileBaseY + 45 * m_scaleRate }, ColorF(0.8));
 }
 
 void Menu::drawTiles() const {
@@ -131,10 +137,10 @@ void Menu::drawTiles() const {
 
         x -= (m_tileMargin + m_normalTileSize.x) * (1.0 + m_tileState);
     }
+}
 
-    // drawSelectedIndex
+void Menu::drawSelectedTile() const {
     RectF selectedTile(Arg::bottomCenter = Vec2{ m_selectedTileX, m_tileBaseY }, m_selectedTileSize);
     selectedTile.drawShadow({ 0.0, 0.0 }, 25, 15.0, ColorF(Palette::Gold, 0.5 + Periodic::Sine0_1(2.0s) * 0.5));
     selectedTile(m_tile.get(m_index, Score::LevelColor[m_level], Max(0.0, m_tileOffsetStopwatch.sF() - 1.0))).draw();
-
 }

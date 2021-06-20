@@ -13,7 +13,9 @@ public:
 
 private:
     void updateTiles();
+    void drawBackground() const;
     void drawTiles() const;
+    void drawSelectedTile() const;
 
     Score::Manager& m_scores = Singleton<Score::Manager>::get_instance();
 
