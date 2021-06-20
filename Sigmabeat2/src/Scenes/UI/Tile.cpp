@@ -76,6 +76,12 @@ namespace UI {
 
         const MSRenderTexture& Tile::get(const String& type, double number, Color tileColor) const {
 
+            String message;
+
+            if (type == U"SPEED") message = U"スピード設定";
+            else if (type == U"TIMING") message = U"タイミング設定";
+
+
             m_tileRT.clear(Palette::Whitesmoke);
 
             {
@@ -84,6 +90,28 @@ namespace UI {
 
                 RectF(TileSize).draw(Arg::top = tileColor, Arg::bottom = ColorF(tileColor).gamma(0.4)).drawFrame(TilePadding, 0.0);
 
+                Line(20, 20, 20, 75).draw(3.0, ColorF(0.95));
+                FontAsset(U"Tile.title")(type).draw(Vec2{ 27, 10 }, ColorF(0.95));
+                FontAsset(U"Tile.title")(U"SETTING").draw(Vec2{ 27, 40 }, ColorF(0.95));
+
+                Rect descRect = m_descriptionRect.stretched(-10, 0);
+                FontAsset(U"Tile.setting")(message).draw(Arg::bottomCenter(descRect.x + descRect.w / 2.0, 200), ColorF(0.95));
+                Line(25, 202, TileSize.x - 25, 202).draw(3.0, ColorF(0.95));
+
+                RectF(TileSize).movedBy(0, 300).drawShadow({ 0, 0 }, 16, 2).draw(Arg::top = Palette::Darkgray, Arg::bottom = Palette::Black);
+
+                RectF(descRect.stretched(-40, 15)).drawShadow({ 0, 0 }, 16, 2).draw(ColorF(0.95));
+
+                if (type == U"SPEED") {
+                    FontAsset(U"Tile.setting")(U"{:.1f}"_fmt(number)).draw(Arg::bottomCenter(descRect.x + descRect.w / 2.0, 400), ColorF(0.25));
+                    TextureAsset(U"Setting").draw(Vec2{ 230, 20 }, ColorF(0, 0.3));
+                }
+                else if (type == U"TIMING") {
+                    FontAsset(U"Tile.setting")(U"{:+.2f}"_fmt(number)).draw(Arg::bottomCenter(descRect.x + descRect.w / 2.0, 400), ColorF(0.25));
+                    TextureAsset(U"Sliders-H").draw(Vec2{ 255, 20 }, ColorF(0, 0.3));
+                }
+
+                FontAsset(U"Tile.detail")(U"上下キーで変更").draw(Arg::topCenter(descRect.x + descRect.w / 2.0, 400), ColorF(0.25));
                 RectF(TileSize).drawFrame(TilePadding, 0.0);
 
             }

@@ -16,7 +16,7 @@ void Menu::update() {
 
     /// test
 
-    Print << m_tileState;
+    // Print << m_tileState;
     if (Key3.down()) m_stopwatch.restart();
     m_tileState = EaseOutCubic(Min(m_stopwatch.sF() * 2, 1.0));
 
