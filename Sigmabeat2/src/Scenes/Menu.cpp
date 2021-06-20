@@ -16,8 +16,10 @@ void Menu::update() {
 
     /// test
 
-    // Print << m_tileState;
-    if (Key3.down()) m_stopwatch.restart();
+    if (m_tileState == 0.00 && Abs(m_animateState) <= 0.05 && (KeyEnter | KeySpace).down()) {
+        m_stopwatch.restart();
+    }
+
     m_tileState = EaseOutCubic(Min(m_stopwatch.sF() * 2, 1.0));
 
     ///
@@ -54,9 +56,6 @@ void Menu::update() {
     if (KeyUp.down())   m_level = (m_level + 1) % Score::LevelNum;
     if (KeyDown.down()) m_level = (m_level + Score::LevelNum - 1) % Score::LevelNum;
 
-    if (Abs(m_animateState) <= 0.05 && (KeyEnter | KeySpace).down()) {
-        Print << U"aaaaa";
-    }
 
     m_scaleRate = Scene::Height() / 900.0;
     updateTiles();
