@@ -66,7 +66,7 @@ void Audition::autoPlayAndStop() {
 
     if (m_stopwatch.isRunning() && m_audio) {
         constexpr int32 fadeInOutMs = 500;
-        constexpr int32 length = 24800;
+        constexpr int32 length = 29800;
         constexpr int32 span = 200;
 
         int32 elapsedMs = m_stopwatch.ms();
