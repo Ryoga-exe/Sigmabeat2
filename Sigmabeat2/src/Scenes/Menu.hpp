@@ -16,6 +16,7 @@ private:
     void updateTiles();
     void drawBackground() const;
     void drawTiles() const;
+    void drawSettingTiles() const;
     void drawSelectedTile() const;
 
     Score::Manager& m_scores = Singleton<Score::Manager>::get_instance();
@@ -28,6 +29,7 @@ private:
     Audition m_audition;
     
     UI::Menu::Tile m_tile;
+    int32  m_menuState;
     SizeF  m_tileSize;
     SizeF  m_selectedTileSize;
     SizeF  m_normalTileSize;
@@ -39,5 +41,10 @@ private:
     double m_tileBaseY;
     double m_animateState;
     double m_tileOffsetXVelocity;
-    
+
+    const Array<String> SettingTiles = { U"TIMING", U"MUSIC", U"SPEED" };
+
+    bool   m_settingState; // int32
+    int32  m_settingIndex;
+
 };

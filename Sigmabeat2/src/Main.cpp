@@ -59,7 +59,7 @@ void Main() {
     manager.init(SceneState::Menu);
 
     while (System::Update() && manager.update()) {
-        
+
         if (KeyF11.down()) Fullscreen::Toggle();
 
     }

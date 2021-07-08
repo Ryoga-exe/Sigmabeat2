@@ -103,7 +103,7 @@ namespace UI {
                 RectF(descRect.stretched(-40, 15)).drawShadow({ 0, 0 }, 16, 2).draw(ColorF(0.95));
 
                 if (type == U"SPEED") {
-                    FontAsset(U"Tile.setting")(U"{:.1f}"_fmt(number)).draw(Arg::bottomCenter(descRect.x + descRect.w / 2.0, 400), ColorF(0.25));
+                    FontAsset(U"Tile.setting")(U"x{:.1f}"_fmt(number)).draw(Arg::bottomCenter(descRect.x + descRect.w / 2.0, 400), ColorF(0.25));
                     TextureAsset(U"Setting").draw(Vec2{ 230, 20 }, ColorF(0, 0.3));
                 }
                 else if (type == U"TIMING") {
