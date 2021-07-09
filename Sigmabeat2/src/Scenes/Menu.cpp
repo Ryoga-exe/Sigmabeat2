@@ -205,7 +205,7 @@ void Menu::drawSettingTiles() const {
             tile.scaled((m_tileState))(m_tile.get(m_index, Score::LevelColor[m_level])).draw(ColorF(1.0, Abs(m_tileState)));
         }
         else {
-            tile.scaled((m_tileState))(m_tile.get(SettingTiles[index], 5.5, Palette::Slategray)).draw(ColorF(1.0, Abs(m_tileState)));
+            tile.scaled((m_tileState))(m_tile.get(SettingTiles[index], getDatafromString(SettingTiles[index]), Palette::Slategray)).draw(ColorF(1.0, Abs(m_tileState)));
         }
 
         x += (m_tileMargin + m_normalTileSize.x) * (m_tileState);
@@ -229,7 +229,7 @@ void Menu::drawSettingTiles() const {
             tile.scaled((m_tileState))(m_tile.get(m_index, Score::LevelColor[m_level])).draw(ColorF(1.0, Abs(m_tileState)));
         }
         else {
-            tile.scaled((m_tileState))(m_tile.get(SettingTiles[index], 5.5, Palette::Slategray)).draw(ColorF(1.0, Abs(m_tileState)));
+            tile.scaled((m_tileState))(m_tile.get(SettingTiles[index], getDatafromString(SettingTiles[index]), Palette::Slategray)).draw(ColorF(1.0, Abs(m_tileState)));
         }
 
         x -= (m_tileMargin + m_normalTileSize.x) * (m_tileState);
@@ -243,6 +243,18 @@ void Menu::drawSelectedTile() const {
         selectedTile(m_tile.get(m_index, Score::LevelColor[m_level], Max(0.0, m_tileOffsetStopwatch.sF() - 1.0))).draw();
     }
     else {
-        selectedTile(m_tile.get(SettingTiles[m_settingIndex], 5.5, Palette::Slategray)).draw();
+        selectedTile(m_tile.get(SettingTiles[m_settingIndex], getDatafromString(SettingTiles[m_settingIndex]), Palette::Slategray)).draw();
+    }
+}
+
+double Menu::getDatafromString(String val) const {
+    if (val == U"TIMING") {
+        return getData().timing;
+    }
+    else if (val == U"SPEED") {
+        return getData().speed;
+    }
+    else {
+        return 0.0;
     }
 }
