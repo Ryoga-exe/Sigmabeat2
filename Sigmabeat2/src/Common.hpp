@@ -14,10 +14,10 @@ enum class SceneState {
 struct GameData {
     int32 selectIndex = 0;
     int32 selectLevel = 0;
-
-    HashTable<String, double> setting = {
-        { U"SPEED",  2.0 },
-        { U"TIMING", 0.0 },
+    
+    HashTable<String, std::pair<double, double>> setting = {
+        { U"SPEED",  { 2.0, 0.1  } },
+        { U"TIMING", { 0.0, 0.01 } },
     };
 };
 

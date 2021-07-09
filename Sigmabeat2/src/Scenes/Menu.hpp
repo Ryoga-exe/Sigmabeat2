@@ -44,11 +44,6 @@ private:
 
     const Array<String> SettingTiles = { U"TIMING", U"MUSIC", U"SPEED" };
 
-    HashTable<String, double> ValueDiff = {
-        { U"SPEED",  0.1 },
-        { U"TIMING", 0.01 },
-    };
-
     bool   m_settingState; // int32
     int32  m_settingIndex;
 
