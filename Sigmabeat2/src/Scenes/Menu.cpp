@@ -96,6 +96,10 @@ void Menu::update() {
         if (KeyUp.down())   m_level = (m_level + 1) % Score::LevelNum;
         if (KeyDown.down()) m_level = (m_level + Score::LevelNum - 1) % Score::LevelNum;
     }
+    else {
+        if (KeyUp.down())   getData().setting[SettingTiles[m_settingIndex]] += ValueDiff[SettingTiles[m_settingIndex]];
+        if (KeyDown.down()) getData().setting[SettingTiles[m_settingIndex]] -= ValueDiff[SettingTiles[m_settingIndex]];
+    }
 
     updateScaleRate();
     updateTiles();
