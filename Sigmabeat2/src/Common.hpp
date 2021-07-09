@@ -14,6 +14,9 @@ enum class SceneState {
 struct GameData {
     int32 selectIndex = 0;
     int32 selectLevel = 0;
+
+    double speed = 2.0;
+    double timing = 0.0;
 };
 
 using MyApp = SceneManager<SceneState, GameData>;

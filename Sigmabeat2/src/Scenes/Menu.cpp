@@ -57,6 +57,7 @@ void Menu::update() {
     else {
         if (m_tileState == 1.0) {
             if (Abs(m_animateState) <= 0.05 && KeyEscape.down()) {
+                m_settingIndex = 1;
                 m_stopwatch.restart();
             }
 
@@ -91,8 +92,10 @@ void Menu::update() {
 
     m_animateState = Math::SmoothDamp(m_animateState, 0.0, m_tileOffsetXVelocity, 0.1, Scene::DeltaTime());
 
-    if (KeyUp.down())   m_level = (m_level + 1) % Score::LevelNum;
-    if (KeyDown.down()) m_level = (m_level + Score::LevelNum - 1) % Score::LevelNum;
+    if (SettingTiles[m_settingIndex] == U"MUSIC") {
+        if (KeyUp.down())   m_level = (m_level + 1) % Score::LevelNum;
+        if (KeyDown.down()) m_level = (m_level + Score::LevelNum - 1) % Score::LevelNum;
+    }
 
     updateScaleRate();
     updateTiles();
