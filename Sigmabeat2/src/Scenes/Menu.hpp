@@ -19,8 +19,6 @@ private:
     void drawSettingTiles() const;
     void drawSelectedTile() const;
 
-    double getDatafromString(String val) const;
-
     Score::Manager& m_scores = Singleton<Score::Manager>::get_instance();
 
     int32  m_indexSize;
