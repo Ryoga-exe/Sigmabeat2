@@ -28,7 +28,7 @@ private:
     Stopwatch m_tileOffsetStopwatch;
     Audition m_audition;
     
-    UI::Menu::Tile m_tile;
+    UI::Tile m_tile;
     int32  m_menuState;
     SizeF  m_tileSize;
     SizeF  m_selectedTileSize;

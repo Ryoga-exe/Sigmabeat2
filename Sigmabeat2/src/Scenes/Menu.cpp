@@ -125,9 +125,9 @@ void Menu::updateScaleRate() {
 void Menu::updateTiles() {
     auto [centerX, centerY] = Scene::CenterF();
 
-    m_tileSize = SizeF(UI::Menu::TileSize) * m_scaleRate;
-    m_tileMargin = UI::Menu::TileMargin * m_scaleRate;
-    m_selectedTileMargin = UI::Menu::SelectedTileMargin * m_scaleRate;
+    m_tileSize = SizeF(UI::TileSize) * m_scaleRate;
+    m_tileMargin = UI::TileMargin * m_scaleRate;
+    m_selectedTileMargin = UI::SelectedTileMargin * m_scaleRate;
 
     m_selectedTileSize = m_tileSize - (m_tileSize * 0.3) * Abs(m_animateState);
     m_tileBaseY = centerY + m_tileSize.y / 2;
