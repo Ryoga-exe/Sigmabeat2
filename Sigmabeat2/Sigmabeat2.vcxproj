@@ -249,9 +249,9 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="src\Scenes\Title.cpp" />
-    <ClCompile Include="src\Scenes\UI\Tile.cpp" />
     <ClCompile Include="src\Base\Singleton.cpp" />
     <ClCompile Include="src\Score\Manager.cpp" />
+    <ClCompile Include="src\UI\Tile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Audition\Audition.hpp" />
@@ -266,10 +266,10 @@
     <ClInclude Include="src\Scenes\Menu.hpp" />
     <ClInclude Include="src\Scenes\Setup.hpp" />
     <ClInclude Include="src\Scenes\Title.hpp" />
-    <ClInclude Include="src\Scenes\UI\Tile.hpp" />
     <ClInclude Include="src\Base\Singleton.hpp" />
     <ClInclude Include="src\Score\Data.hpp" />
     <ClInclude Include="src\Score\Manager.hpp" />
+    <ClInclude Include="src\UI\Tile.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
