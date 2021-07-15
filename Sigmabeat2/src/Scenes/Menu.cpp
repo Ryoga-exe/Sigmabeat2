@@ -56,9 +56,14 @@ void Menu::update() {
     }
     else {
         if (m_tileState == 1.0) {
-            if (Abs(m_animateState) <= 0.05 && KeyEscape.down()) {
-                m_settingIndex = 1;
-                m_stopwatch.restart();
+            if (Abs(m_animateState) <= 0.05 ) {
+                if (KeyEscape.down()) {
+                    m_settingIndex = 1;
+                    m_stopwatch.restart();
+                }
+                if ((KeyEnter | KeySpace).down()) {
+
+                }
             }
 
 
