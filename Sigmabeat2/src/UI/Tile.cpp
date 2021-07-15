@@ -1,5 +1,4 @@
-﻿#pragma once
-#include "Tile.hpp"
+﻿#include "Tile.hpp"
 #include "Base/Singleton.hpp"
 
 namespace UI {
