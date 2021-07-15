@@ -3,10 +3,10 @@
 
 namespace PlayerData {
 
-	struct Data {
-		String name;
-		int32  level;
-		int32  rating;
-	};
+    struct Data {
+        String name;
+        int32  level;
+        int32  rating;
+    };
 
 }
