@@ -14,8 +14,8 @@ void Init() {
     Platform::Windows::TextInput::DisableIME();
 #endif
 
-    Config::Data data;
-    Config::Load(data);
+    Config::Load();
+    Config::Data& data = Config::Get();
 
     Window::SetTitle(U"Sigmabeat");
     Window::Resize(data.windowSize);

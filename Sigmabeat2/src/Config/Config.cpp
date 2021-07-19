@@ -1,19 +1,44 @@
 ﻿#include "Config.hpp"
+#include "Base/Singleton.hpp"
 
 namespace Config {
-    bool Load(Data& data) {
-        const TOMLReader toml(U"config.toml");
+    namespace detail {
+        class ConfigManager {
+        public:
+            ConfigManager() {}
 
-        if (!toml) return false;
+            bool load() {
+                const TOMLReader toml(U"config.toml");
 
-        data.windowSize = { toml[U"Window.width"].get<int32>(), toml[U"Window.height"].get<int32>() };
-        data.windowSizable = toml[U"Window.sizable"].get<bool>();
-        data.isArcadeMode = toml[U"System.arcade"].get<bool>();
+                if (!toml) return false;
 
-        for (const auto& object : toml[U"Score.directory"].arrayView()) {
-            data.scoreDirectory << object.get<FilePath>();
-        }
+                m_data.windowSize = { toml[U"Window.width"].get<int32>(), toml[U"Window.height"].get<int32>() };
+                m_data.windowSizable = toml[U"Window.sizable"].get<bool>();
+                m_data.isArcadeMode = toml[U"System.arcade"].get<bool>();
 
-        return true;
+                for (const auto& object : toml[U"Score.directory"].arrayView()) {
+                    m_data.scoreDirectory << object.get<FilePath>();
+                }
+
+                return true;
+            }
+
+            Data& get() {
+                return m_data;
+            }
+
+        private:
+            Data m_data;
+
+        };
+    }
+
+
+    bool Load() {
+        return Singleton<detail::ConfigManager>::get_instance().load();
+    }
+
+    Data& Get() {
+        return Singleton<detail::ConfigManager>::get_instance().get();
     }
 }

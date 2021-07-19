@@ -9,5 +9,6 @@ namespace Config {
         Array<FilePath> scoreDirectory;
     };
 
-    bool Load(Data& data);
+    bool Load();
+    Data& Get();
 }
