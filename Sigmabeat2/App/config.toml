@@ -4,7 +4,7 @@ height = 720
 sizable = true
 
 [System]
-arcade = false;
+arcade = false
 
 [Score]
 directory = ["Scores/", "ReleaseScores/"]
