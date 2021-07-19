@@ -3,5 +3,8 @@ width = 1280
 height = 720
 sizable = true
 
+[System]
+arcade = false;
+
 [Score]
 directory = ["Scores/", "ReleaseScores/"]
