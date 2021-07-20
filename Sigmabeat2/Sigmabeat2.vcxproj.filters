@@ -410,6 +410,9 @@
     <ClCompile Include="src\PlayerData\PlayerData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Asset\Asset.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Common.hpp">
@@ -452,6 +455,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\PlayerData\PlayerData.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Asset\Asset.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

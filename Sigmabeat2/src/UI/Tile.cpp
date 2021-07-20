@@ -101,11 +101,11 @@ namespace UI {
 
             if (type == U"SPEED") {
                 FontAsset(U"Tile.setting")(U"x{:.1f}"_fmt(number)).draw(Arg::bottomCenter(descRect.x + descRect.w / 2.0, 400), ColorF(0.25));
-                TextureAsset(U"Setting").draw(Vec2{ 230, 20 }, ColorF(0, 0.3));
+                TextureAsset(U"Icon.cogs").draw(Vec2{ 230, 20 }, ColorF(0, 0.3));
             }
             else if (type == U"TIMING") {
                 FontAsset(U"Tile.setting")(U"{:+.2f}"_fmt(number)).draw(Arg::bottomCenter(descRect.x + descRect.w / 2.0, 400), ColorF(0.25));
-                TextureAsset(U"Sliders-H").draw(Vec2{ 255, 20 }, ColorF(0, 0.3));
+                TextureAsset(U"Icon.sliders-h").draw(Vec2{ 255, 20 }, ColorF(0, 0.3));
             }
 
             FontAsset(U"Tile.detail")(U"上下キーで変更").draw(Arg::topCenter(descRect.x + descRect.w / 2.0, 400), ColorF(0.25));

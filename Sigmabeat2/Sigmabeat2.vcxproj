@@ -234,6 +234,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Asset\Asset.cpp" />
     <ClCompile Include="src\Audition\Audition.cpp" />
     <ClCompile Include="src\Config\Config.cpp" />
     <ClCompile Include="src\Fullscreen\Fullscreen.cpp" />
@@ -255,6 +256,7 @@
     <ClCompile Include="src\UI\Tile.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Asset\Asset.hpp" />
     <ClInclude Include="src\Audition\Audition.hpp" />
     <ClInclude Include="src\Common.hpp">
       <SubType>
