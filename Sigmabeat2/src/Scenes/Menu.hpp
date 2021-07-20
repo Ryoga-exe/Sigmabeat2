@@ -18,6 +18,7 @@ private:
     void drawTiles() const;
     void drawSettingTiles() const;
     void drawSelectedTile() const;
+    void drawUserPlate() const;
 
     Score::Manager& m_scores = Singleton<Score::Manager>::get_instance();
 
