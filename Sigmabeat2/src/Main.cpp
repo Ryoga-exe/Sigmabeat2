@@ -3,6 +3,7 @@
 #include "Base/Singleton.hpp"
 #include "Fullscreen/Fullscreen.hpp"
 #include "Score/Manager.hpp"
+#include "Asset/Asset.hpp"
 #include "Scenes/Setup.hpp"
 #include "Scenes/Title.hpp"
 #include "Scenes/Menu.hpp"
@@ -24,19 +25,11 @@ void Init() {
     Scene::SetBackground(Palette::Whitesmoke);
 
     Fullscreen::Init(data.windowSizable);
+    Asset::Init();
 
     Singleton<Score::Manager>::get_instance().init(data.scoreDirectory);
     Singleton<Score::Manager>::get_instance().load();
 
-    FontAsset::Register(U"Title", 30, Typeface::Regular);
-    FontAsset::Register(U"Menu", 60, Typeface::Bold);
-
-    FontAsset::Register(U"Tile.title", 30, Typeface::Medium);
-    FontAsset::Register(U"Tile.setting", 40, Typeface::Medium);
-    FontAsset::Register(U"Tile.detail", 15, Typeface::Medium);
-
-    TextureAsset::Register(U"Setting", Icon(0xf085, 100));
-    TextureAsset::Register(U"Sliders-H", Icon(0xf1de, 100));
 }
 
 void Finalize() {
