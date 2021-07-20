@@ -116,6 +116,7 @@ void Menu::draw() const {
     if (m_indexSize == 0) return;
 
     drawBackground();
+    drawUserPlate();
 
     drawSettingTiles();
     drawTiles();
@@ -254,4 +255,10 @@ void Menu::drawSelectedTile() const {
     else {
         selectedTile(m_tile.get(SettingTiles[m_settingIndex], getData().setting[SettingTiles[m_settingIndex]].first, Palette::Slategray)).draw();
     }
+}
+
+void Menu::drawUserPlate() const {
+
+
+
 }
