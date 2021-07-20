@@ -1,6 +1,7 @@
 ﻿#pragma once
 #define  SIV3D_CONCURRENT // use ConcurrentTask
 #include <Siv3D.hpp>      // OpenSiv3D v0.4.3
+#include "PlayerData/PlayerData.hpp"
 
 #define SIGMABEAT_VERSION U"0.2.0 dev"
 
@@ -12,6 +13,9 @@ enum class SceneState {
 };
 
 struct GameData {
+
+    PlayerData::Data playerdata;
+
     int32 selectIndex = 0;
     int32 selectLevel = 0;
     
