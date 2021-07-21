@@ -5,6 +5,8 @@ Title::Title(const InitData& init)
 
     AudioAsset(U"Opening").setLoop(true);
     AudioAsset(U"Opening").play();
+
+    Scene::SetBackground(Palette::Whitesmoke);
 }
 
 Title::~Title() {
