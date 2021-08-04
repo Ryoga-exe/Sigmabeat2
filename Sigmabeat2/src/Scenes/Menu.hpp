@@ -45,7 +45,7 @@ private:
 
     const Array<String> SettingTiles = { U"TIMING", U"MUSIC", U"SPEED" };
 
-    bool   m_settingState; // int32
-    int32  m_settingIndex;
+    int32 m_settingState; // int32
+    int32 m_settingIndex;
 
 };
