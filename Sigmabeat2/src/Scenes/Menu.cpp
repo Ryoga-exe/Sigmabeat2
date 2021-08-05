@@ -66,6 +66,9 @@ void Menu::update() {
                 if ((KeyEnter | KeySpace).down() && SettingTiles[m_settingIndex] == U"MUSIC") {
                     m_settingState = 2;
                     m_stopwatch.restart();
+
+                    m_audition.stop(3.0s);
+
                 }
             }
 
@@ -102,12 +105,13 @@ void Menu::update() {
         }
     }
 
-    m_audition.update(m_index);
-    m_audition.autoPlayAndStop();
-
     m_animateState = Math::SmoothDamp(m_animateState, 0.0, m_tileOffsetXVelocity, 0.1, Scene::DeltaTime());
 
     if (m_settingState != 2) {
+
+        m_audition.update(m_index);
+        m_audition.autoPlayAndStop();
+
         if (SettingTiles[m_settingIndex] == U"MUSIC") {
             if (KeyUp.down())   m_level = (m_level + 1) % Score::LevelNum;
             if (KeyDown.down()) m_level = (m_level + Score::LevelNum - 1) % Score::LevelNum;
