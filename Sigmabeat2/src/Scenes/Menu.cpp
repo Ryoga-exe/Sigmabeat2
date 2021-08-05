@@ -20,10 +20,6 @@ Menu::Menu(const InitData& init)
 
 void Menu::update() {
 
-    ClearPrint();
-    Print << m_tileState;
-    Print << m_settingState;
-
     if (m_settingState == 0) {
         if (KeyEscape.down()) {
             m_audition.stop(0.5s);
@@ -100,8 +96,9 @@ void Menu::update() {
     else {
         m_tileState = 1.0 + EaseOutQuart(Min(m_stopwatch.sF() * 2.3, 1.0));
 
-        if (m_tileState == 2.0) {
+        if (m_tileState == 2.0 && m_stopwatch.elapsed() >= 2.5s) {
             m_stopwatch.pause();
+            changeScene(SceneState::Game);
         }
     }
 
