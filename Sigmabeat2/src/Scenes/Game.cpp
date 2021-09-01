@@ -3,6 +3,7 @@
 Game::Game(const InitData& init)
     : IScene(init) {
 
+    Scene::SetBackground(Palette::Whitesmoke);
 }
 
 void Game::update() {
