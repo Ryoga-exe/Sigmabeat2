@@ -97,6 +97,12 @@
     <Filter Include="Resource Files\example\zip">
       <UniqueIdentifier>{81d8d80c-f0ce-492f-8fee-c5502c31bc0e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Scenes">
+      <UniqueIdentifier>{207c420f-7ee6-4712-8a81-17c8ac83cffb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Scenes">
+      <UniqueIdentifier>{4f374e05-c7f2-4ba4-b7e7-1747a5a7b6b1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Image Include="App\icon.ico">
@@ -377,15 +383,6 @@
     <ClCompile Include="src\Fullscreen\Fullscreen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Scenes\Setup.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Scenes\Title.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Scenes\Menu.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Base\Singleton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -396,9 +393,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Audition\Audition.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Scenes\Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\NotificationLog\NotificationLog.cpp">
@@ -413,21 +407,24 @@
     <ClCompile Include="src\Asset\Asset.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Scenes\Setup.cpp">
+      <Filter>Source Files\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Scenes\Game.cpp">
+      <Filter>Source Files\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Scenes\Title.cpp">
+      <Filter>Source Files\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Scenes\Menu.cpp">
+      <Filter>Source Files\Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Common.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Fullscreen\Fullscreen.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Scenes\Setup.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Scenes\Title.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Scenes\Menu.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Base\Singleton.hpp">
@@ -448,9 +445,6 @@
     <ClInclude Include="src\Audition\Audition.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Scenes\Game.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\UI\Tile.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -459,6 +453,18 @@
     </ClInclude>
     <ClInclude Include="src\Asset\Asset.hpp">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Scenes\Setup.hpp">
+      <Filter>Header Files\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Scenes\Game.hpp">
+      <Filter>Header Files\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Scenes\Menu.hpp">
+      <Filter>Header Files\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Scenes\Title.hpp">
+      <Filter>Header Files\Scenes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
