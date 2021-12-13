@@ -24,8 +24,7 @@ void Init() {
 
     Scene::SetBackground(Palette::Whitesmoke);
 
-    //Fullscreen::Init(data.windowSizable);
-    Window::Centering();
+    Fullscreen::Init(data.windowSizable);
     Asset::Init();
 
     Singleton<Score::Manager>::get_instance().init(data.scoreDirectory);
@@ -54,7 +53,7 @@ void Main() {
 
     while (System::Update() && manager.update()) {
 
-        // if (KeyF11.down()) Fullscreen::Toggle();
+        if (KeyF11.down()) Fullscreen::Toggle();
 
     }
 
