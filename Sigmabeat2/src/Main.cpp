@@ -53,7 +53,9 @@ void Main() {
 
     while (System::Update() && manager.update()) {
 
-        if (KeyF11.down()) Fullscreen::Toggle();
+        if (KeyF11.down()) {
+            Fullscreen::Toggle();
+        }
 
     }
 
