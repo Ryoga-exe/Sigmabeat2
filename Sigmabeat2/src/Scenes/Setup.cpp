@@ -2,7 +2,7 @@
 
 Setup::Setup(const InitData& init)
     : IScene(init), m_stopwatch(StartImmediately::Yes), m_authorLogo(U"dat/img/ryoga-exe.png"){
-    AudioAsset::Register(U"Opening", U"dat/wav/opening.wav");
+    AudioAsset::LoadAsync(U"Opening");
 
     Scene::SetBackground(Palette::Whitesmoke);
 }

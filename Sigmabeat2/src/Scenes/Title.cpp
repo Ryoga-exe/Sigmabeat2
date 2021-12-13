@@ -11,7 +11,7 @@ Title::Title(const InitData& init)
 
 Title::~Title() {
     AudioAsset(U"Opening").stop();
-    AudioAsset::Unregister(U"Opening");
+    AudioAsset::Release(U"Opening");
 }
 
 void Title::update() {
