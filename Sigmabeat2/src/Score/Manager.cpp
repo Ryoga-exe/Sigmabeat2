@@ -13,7 +13,7 @@ namespace Score {
 
     void Manager::init(const Array<FilePath>& scoreDirectory) {
         for (const auto dir : scoreDirectory) {
-            for (const auto& path : FileSystem::DirectoryContents(dir, true)) {
+            for (const auto& path : FileSystem::DirectoryContents(dir, Recursive::Yes)) {
                 if (FileSystem::IsFile(path) && FileSystem::Extension(path) == U"sgm") {
                     Data file;
                     file.path = path;
@@ -35,7 +35,7 @@ namespace Score {
 
             if (reader) {
                 
-                String content = reader.readAll().expand_tabs();
+                String content = reader.readAll().expandTabs();
                 
                 for (size_t i = 0; i < content.size(); i++) {
 

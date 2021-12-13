@@ -21,10 +21,11 @@ void Init() {
     Window::SetTitle(U"Sigmabeat");
     Window::Resize(data.windowSize);
     Window::SetStyle(data.windowSizable ? WindowStyle::Sizable : WindowStyle::Fixed);
-    Scene::SetScaleMode(ScaleMode::ResizeFill);
+
     Scene::SetBackground(Palette::Whitesmoke);
 
-    Fullscreen::Init(data.windowSizable);
+    //Fullscreen::Init(data.windowSizable);
+    Window::Centering();
     Asset::Init();
 
     Singleton<Score::Manager>::get_instance().init(data.scoreDirectory);
@@ -53,7 +54,7 @@ void Main() {
 
     while (System::Update() && manager.update()) {
 
-        if (KeyF11.down()) Fullscreen::Toggle();
+        // if (KeyF11.down()) Fullscreen::Toggle();
 
     }
 

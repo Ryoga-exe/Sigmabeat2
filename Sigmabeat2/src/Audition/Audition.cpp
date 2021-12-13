@@ -13,7 +13,7 @@ namespace {
 Audition::Audition(const uint32 index)
     : m_index(index), m_done(false), m_changed(false) {
 
-    m_task = CreateConcurrentTask(CreateWave, index);
+    m_task = Async(CreateWave, index);
 
 }
 
@@ -34,7 +34,7 @@ bool Audition::update(const uint32 index) {
         }
     }
 
-    if (!m_done && m_task.is_done()) {
+    if (!m_done && m_task.isReady()) {
         if (!m_changed) {
             if (m_audio) {
                 m_audio.stop();
@@ -47,7 +47,7 @@ bool Audition::update(const uint32 index) {
 
     if (m_changed) {
         if (m_done) {
-            m_task = CreateConcurrentTask(CreateWave, m_index);
+            m_task = Async(CreateWave, m_index);
             m_changed = m_done = false;
         }
     }
@@ -59,7 +59,7 @@ void Audition::autoPlayAndStop() {
         if (m_audio) {
             m_stopwatch.restart();
             m_audio.setVolume(0.0);
-            m_audio.setPosSec(Singleton<Score::Manager>::get_instance().getDemoStartMs(m_index) / 1000.0);
+            m_audio.seekTime(Singleton<Score::Manager>::get_instance().getDemoStartMs(m_index) / 1000.0);
             m_audio.play();
         }
     }

@@ -9,7 +9,7 @@ namespace Asset {
         FontAsset::Register(U"Tile.setting", 40, Typeface::Medium);
         FontAsset::Register(U"Tile.detail", 15, Typeface::Medium);
 
-        TextureAsset::Register(U"Icon.cogs", Icon(0xf085, 100));
-        TextureAsset::Register(U"Icon.sliders-h", Icon(0xf1de, 100));
+        TextureAsset::Register(U"Icon.cogs", 0xf085_icon, 100);
+        TextureAsset::Register(U"Icon.sliders-h", 0xf1de_icon, 100);
     }
 }

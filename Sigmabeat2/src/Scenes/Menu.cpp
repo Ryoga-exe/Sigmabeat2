@@ -2,7 +2,7 @@
 
 Menu::Menu(const InitData& init)
     : IScene(init), m_tileOffsetXVelocity(0.0), m_animateState(0.0)
-    , m_tileOffsetStopwatch(true), m_tileState(0.0), m_audition(0), m_menuState(0) {
+    , m_tileOffsetStopwatch(StartImmediately::Yes), m_tileState(0.0), m_audition(0), m_menuState(0) {
 
     Scene::SetBackground(Color(220, 236, 250));
 
@@ -105,7 +105,7 @@ void Menu::update() {
         }
     }
 
-    m_animateState = Math::SmoothDamp(m_animateState, 0.0, m_tileOffsetXVelocity, 0.1, Scene::DeltaTime());
+    m_animateState = Math::SmoothDamp(m_animateState, 0.0, m_tileOffsetXVelocity, 0.1);
 
     if (m_settingState != 2) {
 

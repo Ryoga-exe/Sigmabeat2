@@ -32,11 +32,11 @@ namespace UI {
             Line(10, 392, TileSize.x - 10, 392).draw(2.5, ColorF(0.25));
 
 
-            Rect titleRect = FontAsset(U"Tile.title")(m_scores.getTitle(index)).region();
-            Rect artistRect = FontAsset(U"Tile.detail")(m_scores.getArtist(index)).region();
+            RectF titleRect = FontAsset(U"Tile.title")(m_scores.getTitle(index)).region();
+            RectF artistRect = FontAsset(U"Tile.detail")(m_scores.getArtist(index)).region();
 
             {
-                Rect descRect = m_descriptionRect.stretched(-10, 0);
+                Rect descRect = m_descriptionRect.stretched(-10, 0).asRect();
                 const ScopedViewport2D descriptionViewport(descRect);
 
                 if (titleRect.w <= descRect.w) {
@@ -91,7 +91,7 @@ namespace UI {
             FontAsset(U"Tile.title")(type).draw(Vec2{ 27, 10 }, ColorF(0.95));
             FontAsset(U"Tile.title")(U"SETTING").draw(Vec2{ 27, 40 }, ColorF(0.95));
 
-            Rect descRect = m_descriptionRect.stretched(-10, 0);
+            Rect descRect = m_descriptionRect.stretched(-10, 0).asRect();
             FontAsset(U"Tile.setting")(message).draw(Arg::bottomCenter(descRect.x + descRect.w / 2.0, 200), ColorF(0.95));
             Line(25, 202, TileSize.x - 25, 202).draw(3.0, ColorF(0.95));
 
