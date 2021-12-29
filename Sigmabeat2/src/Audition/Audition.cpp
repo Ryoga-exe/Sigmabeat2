@@ -3,9 +3,9 @@
 #include "Base/Singleton.hpp"
 
 namespace {
-    
-    Wave CreateWave(const uint32 index) {
-        return Wave(Singleton<Score::Manager>::get_instance().getMusicPath(index));
+
+    Audio CreateAudio(const uint32 index) {
+        return Audio(Audio::Stream, Singleton<Score::Manager>::get_instance().getMusicPath(index));
     }
     
 }
@@ -13,7 +13,7 @@ namespace {
 Audition::Audition(const uint32 index)
     : m_index(index), m_done(false), m_changed(false) {
 
-    m_task = Async(CreateWave, index);
+    m_task = Async(CreateAudio, index);
 
 }
 
@@ -40,14 +40,14 @@ bool Audition::update(const uint32 index) {
                 m_audio.stop();
                 m_audio.release();
             }
-            m_audio = Audio(m_task.get());
+            m_audio = m_task.get();
         }
         m_done = true;
     }
 
     if (m_changed) {
         if (m_done) {
-            m_task = Async(CreateWave, m_index);
+            m_task = Async(CreateAudio, m_index);
             m_changed = m_done = false;
         }
     }

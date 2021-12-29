@@ -5,6 +5,8 @@ Setup::Setup(const InitData& init)
     AudioAsset::LoadAsync(U"Opening");
 
     Scene::SetBackground(Palette::Whitesmoke);
+    Scene::SetLetterbox(Palette::Whitesmoke);
+
 }
 
 void Setup::update() {

@@ -16,6 +16,6 @@ private:
     uint32 m_index;
     Stopwatch m_stopwatch;
 
-    AsyncTask<Wave> m_task;
+    AsyncTask<Audio> m_task;
     bool m_done, m_changed;
 };

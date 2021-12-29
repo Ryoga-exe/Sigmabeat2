@@ -21,8 +21,10 @@ void Init() {
     Window::SetTitle(U"Sigmabeat");
     Window::Resize(data.windowSize);
     Window::SetStyle(data.windowSizable ? WindowStyle::Sizable : WindowStyle::Fixed);
+    Scene::SetResizeMode(ResizeMode::Virtual);
 
     Scene::SetBackground(Palette::Whitesmoke);
+    Scene::SetLetterbox(Palette::Whitesmoke);
 
     Fullscreen::Init(data.windowSizable);
     Asset::Init();

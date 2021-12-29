@@ -5,6 +5,7 @@ Menu::Menu(const InitData& init)
     , m_tileOffsetStopwatch(StartImmediately::Yes), m_tileState(0.0), m_audition(0), m_menuState(0) {
 
     Scene::SetBackground(Color(220, 236, 250));
+    Scene::SetLetterbox(Color(220, 236, 250));
 
     m_settingState = 0;
 
