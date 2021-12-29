@@ -18,6 +18,7 @@ void Init() {
     Config::Load();
     Config::Data& data = Config::Get();
 
+    Graphics::SetVSyncEnabled(false);
     Window::SetTitle(U"Sigmabeat");
     Window::Resize(data.windowSize);
     Window::SetStyle(data.windowSizable ? WindowStyle::Sizable : WindowStyle::Fixed);
