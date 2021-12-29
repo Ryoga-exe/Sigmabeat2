@@ -6,19 +6,21 @@ namespace Fullscreen {
         class FullscreenManager {
         public:
             FullscreenManager()
-                : m_isFullscreen(false), m_isMaximized(false), m_isSizable(false) {}
+                : m_isFullscreen(false), m_isMaximized(false), m_isSizable(false),
+                  m_displaySize(), m_windowPos(), m_windowSize() {}
 
             void Init(bool sizable, bool fullscreen) {
-                Monitor mainMonitor = System::EnumerateActiveMonitors()[System::GetCurrentMonitorIndex()];
-                Rect monitorSize = mainMonitor.displayRect;
-                m_displaySize = { monitorSize.w, monitorSize.h };
-                m_windowSize = Window::ClientSize();
+                const Array<MonitorInfo> monitors = System::EnumerateMonitors();
+                const Rect monitorSize = monitors[System::GetCurrentMonitorIndex()].displayRect;
+                m_displaySize = monitorSize.size;
+                m_windowSize = Window::GetState().virtualSize;
                 m_windowPos = Window::GetState().bounds.pos;
                 m_isMaximized = false;
                 m_isSizable = sizable;
 
-                if (fullscreen) Set(true);
-
+                if (fullscreen) {
+                    Set(true);
+                }
             }
 
             bool Set(bool fullscreen) {
@@ -28,8 +30,10 @@ namespace Fullscreen {
                         m_isMaximized = true;
                         Window::Restore();
                     }
-                    else m_isMaximized = false;
-                    m_windowSize = Window::ClientSize();
+                    else {
+                        m_isMaximized = false;
+                    }
+                    m_windowSize = Window::GetState().virtualSize;
                     m_windowPos = Window::GetState().bounds.pos;
                     Window::SetStyle(WindowStyle::Frameless);
                     Window::Resize(m_displaySize);
@@ -39,7 +43,9 @@ namespace Fullscreen {
                     Window::SetStyle(m_isSizable ? WindowStyle::Sizable : WindowStyle::Fixed);
                     Window::Resize(m_windowSize);
                     Window::SetPos(static_cast<int32>(m_windowPos.x), static_cast<int32>(m_windowPos.y));
-                    if (m_isMaximized) Window::Maximize();
+                    if (m_isMaximized) {
+                        Window::Maximize();
+                    }
                 }
                 return fullscreen;
             }

@@ -21,8 +21,10 @@ void Init() {
     Window::SetTitle(U"Sigmabeat");
     Window::Resize(data.windowSize);
     Window::SetStyle(data.windowSizable ? WindowStyle::Sizable : WindowStyle::Fixed);
-    Scene::SetScaleMode(ScaleMode::ResizeFill);
+    Scene::SetResizeMode(ResizeMode::Virtual);
+
     Scene::SetBackground(Palette::Whitesmoke);
+    Scene::SetLetterbox(Palette::Whitesmoke);
 
     Fullscreen::Init(data.windowSizable);
     Asset::Init();
@@ -48,12 +50,14 @@ void Main() {
         .add<Game >(SceneState::Game)
         .setFadeColor(ColorF(1.0));
 
-    //manager.init(SceneState::Setup);
-    manager.init(SceneState::Menu);
+    manager.init(SceneState::Setup);
+    //manager.init(SceneState::Menu);
 
     while (System::Update() && manager.update()) {
 
-        if (KeyF11.down()) Fullscreen::Toggle();
+        if (KeyF11.down()) {
+            Fullscreen::Toggle();
+        }
 
     }
 

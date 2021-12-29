@@ -7,11 +7,13 @@ Title::Title(const InitData& init)
     AudioAsset(U"Opening").play();
 
     Scene::SetBackground(Palette::Whitesmoke);
+    Scene::SetLetterbox(Palette::Whitesmoke);
+
 }
 
 Title::~Title() {
     AudioAsset(U"Opening").stop();
-    AudioAsset::Unregister(U"Opening");
+    AudioAsset::Release(U"Opening");
 }
 
 void Title::update() {

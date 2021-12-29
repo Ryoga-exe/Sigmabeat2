@@ -4,6 +4,8 @@ Game::Game(const InitData& init)
     : IScene(init) {
 
     Scene::SetBackground(Palette::Whitesmoke);
+    Scene::SetLetterbox(Palette::Whitesmoke);
+
 }
 
 void Game::update() {
