@@ -114,12 +114,20 @@ void Menu::update() {
         m_audition.autoPlayAndStop();
 
         if (SettingTiles[m_settingIndex] == U"MUSIC") {
-            if (KeyUp.down())   m_level = (m_level + 1) % Score::LevelNum;
-            if (KeyDown.down()) m_level = (m_level + Score::LevelNum - 1) % Score::LevelNum;
+            if (KeyUp.down()) {
+                m_level = (m_level + 1) % Score::LevelNum;
+            }
+            if (KeyDown.down()) {
+                m_level = (m_level + Score::LevelNum - 1) % Score::LevelNum;
+            }
         }
         else {
-            if (KeyUp.down())   getData().setting[SettingTiles[m_settingIndex]].first += getData().setting[SettingTiles[m_settingIndex]].second;
-            if (KeyDown.down()) getData().setting[SettingTiles[m_settingIndex]].first -= getData().setting[SettingTiles[m_settingIndex]].second;
+            if (KeyUp.down()) {
+                getData().setting[SettingTiles[m_settingIndex]].first += getData().setting[SettingTiles[m_settingIndex]].second;
+            }
+            if (KeyDown.down()) {
+                getData().setting[SettingTiles[m_settingIndex]].first -= getData().setting[SettingTiles[m_settingIndex]].second;
+            }
         }
     }
 
