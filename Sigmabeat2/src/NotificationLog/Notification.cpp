@@ -35,9 +35,7 @@ namespace Notification {
             }
 
             void draw() {
-                for (NotificationData& data : m_data) {
-
-                }
+                
             }
 
         private:
