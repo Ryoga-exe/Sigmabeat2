@@ -162,7 +162,7 @@
     <ClCompile Include="src\Fullscreen\Fullscreen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\NotificationLog\NotificationLog.cpp">
+    <ClCompile Include="src\NotificationLog\Notification.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\PlayerData\PlayerData.cpp">
@@ -836,7 +836,7 @@
     <ClInclude Include="src\Fullscreen\Fullscreen.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\NotificationLog\NotificationLog.hpp">
+    <ClInclude Include="src\NotificationLog\Notification.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\PlayerData\PlayerData.hpp">

@@ -1,12 +1,12 @@
-﻿#include "NotificationLog.hpp"
+﻿#include "Notification.hpp"
 #include "Base/Singleton.hpp"
 
-namespace NotificationLog {
+namespace Notification {
     namespace detail {
         class NotificationManager {
         public:
             NotificationManager() {
-
+                
             }
 
             ~NotificationManager() {

@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "Common.hpp"
 
-namespace NotificationLog {
+namespace Notification {
 
     struct NotificationData {
         String message;
