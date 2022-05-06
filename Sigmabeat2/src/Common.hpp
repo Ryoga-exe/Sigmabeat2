@@ -11,6 +11,14 @@ enum class SceneState {
     Game
 };
 
+struct GameSettingItem {
+    // true_value = value / scale
+    int32 value;
+    int32 scale;
+    int32 minValue;
+    int32 maxValue;
+};
+
 struct GameData {
 
     PlayerData::Data playerdata;
@@ -18,9 +26,9 @@ struct GameData {
     int32 selectIndex = 0;
     int32 selectLevel = 0;
     
-    HashTable<String, std::pair<double, double>> setting = {
-        { U"SPEED",  { 2.0, 0.1  } },
-        { U"TIMING", { 0.0, 0.01 } },
+    HashTable<String, GameSettingItem> setting = {
+        { U"SPEED",  { 20, 10, 10, 100 } },
+        { U"TIMING", { 0, 100, -100, 100 } },
     };
 };
 

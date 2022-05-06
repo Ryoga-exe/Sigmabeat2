@@ -71,7 +71,7 @@ namespace UI {
         return m_tileRT;
     }
 
-    const MSRenderTexture& Tile::get(const String& type, double number, Color tileColor) const {
+    const MSRenderTexture& Tile::get(const String& type, GameSettingItem item, Color tileColor) const {
 
         String message;
 
@@ -99,12 +99,13 @@ namespace UI {
 
             RectF(descRect.stretched(-40, 15)).drawShadow({ 0, 0 }, 16, 2).draw(ColorF(0.95));
 
+            double value = item.value / (double)item.scale;
             if (type == U"SPEED") {
-                FontAsset(U"Tile.setting")(U"x{:.1f}"_fmt(number)).draw(Arg::bottomCenter(descRect.x + descRect.w / 2.0, 400), ColorF(0.25));
+                FontAsset(U"Tile.setting")(U"x{:.1f}"_fmt(value)).draw(Arg::bottomCenter(descRect.x + descRect.w / 2.0, 400), ColorF(0.25));
                 TextureAsset(U"Icon.cogs").draw(Vec2{ 230, 20 }, ColorF(0, 0.3));
             }
             else if (type == U"TIMING") {
-                FontAsset(U"Tile.setting")(U"{:+.2f}"_fmt(number)).draw(Arg::bottomCenter(descRect.x + descRect.w / 2.0, 400), ColorF(0.25));
+                FontAsset(U"Tile.setting")(item.value == 0.00 ? U"±0.00" : U"{:+.2f}"_fmt(value)).draw(Arg::bottomCenter(descRect.x + descRect.w / 2.0, 400), ColorF(0.25));
                 TextureAsset(U"Icon.sliders-h").draw(Vec2{ 255, 20 }, ColorF(0, 0.3));
             }
 
