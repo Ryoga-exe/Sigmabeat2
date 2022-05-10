@@ -7,6 +7,8 @@ public:
     void update() override;
     void draw() const override;
 
+    void drawLane() const;
+
 private:
     struct Homography {
         Float4 m1;
