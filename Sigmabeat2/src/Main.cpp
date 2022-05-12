@@ -51,7 +51,7 @@ void Main() {
         .add<Game >(SceneState::Game)
         .setFadeColor(ColorF(1.0));
 
-    manager.init(SceneState::Setup);
+    manager.init(SceneState::Game);
 
     while (System::Update() && manager.update()) {
 

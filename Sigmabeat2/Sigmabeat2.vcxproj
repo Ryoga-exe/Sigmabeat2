@@ -341,6 +341,7 @@
     <ClInclude Include="src\Scenes\Title.hpp" />
     <ClInclude Include="src\Score\Data.hpp" />
     <ClInclude Include="src\Score\Manager.hpp" />
+    <ClInclude Include="src\Score\Note\Note.hpp" />
     <ClInclude Include="src\UI\Tile.hpp" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
