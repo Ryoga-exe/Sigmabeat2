@@ -9,10 +9,10 @@ Menu::Menu(const InitData& init)
 
     m_settingState = 0;
 
-    m_level = 3;
+    m_level = getData().selectLevel;;
 
-    m_indexSize = static_cast<int32>(m_scores.getScoreNum());
-    m_index = 0;
+    m_indexSize = static_cast<int32>(m_scores.size());
+    m_index = getData().selectIndex;
     m_settingIndex = 1;
 
     updateScaleRate();

@@ -1,4 +1,5 @@
 ﻿#include "Manager.hpp"
+#include "Utils/Parser.hpp"
 
 namespace Score {
 
@@ -35,28 +36,9 @@ namespace Score {
 
             if (reader) {
                 
-                String content = reader.readAll().expandTabs();
+                String content = Utils::RemoveComments(reader.readAll().expandTabs());
                 
                 for (size_t i = 0; i < content.size(); i++) {
-
-                    if (content[i] == U'/') {
-
-                        if (i == content.size() - 2) break;
-
-                        if (content[i + 1] == U'/') {
-                            size_t endPos = content.indexOf(U"\n", i + 2);
-                            if (endPos == String::npos) break;
-                            else i = endPos;
-                            continue;
-                        }
-
-                        if (content[i + 1] == U'*') {
-                            size_t endPos = content.indexOf(U"*/", i + 2);
-                            if (endPos == String::npos) break;
-                            else i = endPos;
-                            continue;
-                        }
-                    }
 
                     if (content[i] == U'{') {
                         score.noteStartSeek = i;
@@ -160,8 +142,15 @@ namespace Score {
         return true;
     }
 
-    size_t Manager::getScoreNum() {
+    size_t Manager::size() {
         return m_scores.size();
+    }
+
+    const Data& Manager::get(size_t index) {
+        if (index >= m_scores.size()) {
+            throw Error{ U"Out of ranges" };
+        }
+        return m_scores[index];
     }
 
     const Texture& Manager::getTexture(size_t index) {

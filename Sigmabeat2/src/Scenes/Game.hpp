@@ -1,5 +1,7 @@
 ﻿#pragma once
 #include "Common.hpp"
+#include "Base/Singleton.hpp"
+#include "Score/Manager.hpp"
 #include "Score/Note/Note.hpp"
 
 namespace UI {
@@ -23,13 +25,16 @@ private:
     void drawField() const;
     void drawNote(Note note) const;
     void drawJudmentLine() const;
-    double calculateNoteY() const;
+    bool loadNotes();
+    double calculateNoteY(int32 timing, double speed) const;
 
     struct Homography {
         Float4 m1;
         Float4 m2;
         Float4 m3;
     };
+
+    Score::Manager& m_scores = Singleton<Score::Manager>::get_instance();
 
     const Size FieldSize = { 500, 1000 };
     const VertexShader VS;
@@ -41,9 +46,17 @@ private:
     MSRenderTexture m_fieldRT;
 
     Stopwatch m_stopwatch;
-    Array<Note> m_notes;
+
+    Array<Note> m_notesMap;
+    Array<SpeedNote> m_speedMap;
+    Array<int32> m_barMap;
+
     double m_judgementYPos;
     double m_laneWidth;
     double m_speed;
     int32 m_combo;
+    int32 m_endTime;
+    int32 m_speedMapIndex;
+
+    bool m_hasStarted;
 };

@@ -142,6 +142,12 @@
     <Filter Include="Source Files\Scenes">
       <UniqueIdentifier>{11615cfa-f64b-4a00-8f7f-b61725b84bae}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Utils">
+      <UniqueIdentifier>{55207803-9952-4895-bc9e-fab5f9962277}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utils">
+      <UniqueIdentifier>{a029fab7-122e-4f56-b30b-0ca5827457df}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -188,6 +194,9 @@
     </ClCompile>
     <ClCompile Include="src\Notification\Notification.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Utils\Parser.cpp">
+      <Filter>Source Files\Utils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -868,6 +877,9 @@
     </ClInclude>
     <ClInclude Include="src\Score\Note\Note.hpp">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Utils\Parser.hpp">
+      <Filter>Header Files\Utils</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
