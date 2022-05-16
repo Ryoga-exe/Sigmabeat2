@@ -226,7 +226,6 @@ bool Game::loadNotes() {
                 else if (c == '>') {
                     if (macro[0] == 's') {
                         String value = macro.substr(1);
-                        Print << value;
                         double speed = ParseOr<double>(value, 1.00);
                         if (speed == 0) {
                             speed = 0.000001;
@@ -235,6 +234,10 @@ bool Game::loadNotes() {
                         note.speed = speed;
                         note.timing = static_cast<int32>(passedTime + barLength * counter / splitCounter);
                         m_speedMap.push_back(note);
+                    }
+                    if (macro[0] == 'b') {
+                        auto values = (macro.substr(1)).split(U' ');
+                        
                     }
                     macro.clear();
                     isMacro = false;
