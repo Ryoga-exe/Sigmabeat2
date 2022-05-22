@@ -36,9 +36,28 @@ namespace Score {
 
             if (reader) {
                 
-                String content = Utils::RemoveComments(reader.readAll().expandTabs());
+                String content = reader.readAll().expandTabs();
                 
                 for (size_t i = 0; i < content.size(); i++) {
+
+                    if (content[i] == U'/') {
+
+                        if (i == content.size() - 2) break;
+
+                        if (content[i + 1] == U'/') {
+                            size_t endPos = content.indexOf(U"\n", i + 2);
+                            if (endPos == String::npos) break;
+                            else i = endPos;
+                            continue;
+                        }
+
+                        if (content[i + 1] == U'*') {
+                            size_t endPos = content.indexOf(U"*/", i + 2);
+                            if (endPos == String::npos) break;
+                            else i = endPos;
+                            continue;
+                        }
+                    }
 
                     if (content[i] == U'{') {
                         score.noteStartSeek = i;

@@ -17,6 +17,7 @@ namespace UI {
 class Game : public MyApp::Scene {
 public:
     Game(const InitData& init);
+    ~Game();
     void update() override;
     void draw() const override;
 
@@ -46,9 +47,12 @@ private:
     MSRenderTexture m_fieldRT;
 
     Stopwatch m_stopwatch;
+    double m_posMilliSec;
+    int32 m_stopWatchElapsedMS;
 
     Array<Note> m_notesMap;
     Array<SpeedNote> m_speedMap;
+    Array<JudgeYNote> m_judgeYMap;
     Array<int32> m_barMap;
 
     double m_judgementYPos;
@@ -57,6 +61,7 @@ private:
     int32 m_combo;
     int32 m_endTime;
     int32 m_speedMapIndex;
+    int32 m_index;
 
     bool m_hasStarted;
 };

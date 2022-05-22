@@ -8,6 +8,7 @@
 class Menu : public MyApp::Scene {
 public:
     Menu(const InitData& init);
+    ~Menu();
     void update() override;
     void draw() const override;
 

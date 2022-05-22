@@ -27,7 +27,7 @@ struct GameData {
     int32 selectLevel = 0;
     
     HashTable<String, GameSettingItem> setting = {
-        { U"SPEED",  { 20, 10, 10, 100 } },
+        { U"SPEED",  { 30, 10, 10, 100 } },
         { U"TIMING", { 0, 100, -100, 100 } },
     };
 };

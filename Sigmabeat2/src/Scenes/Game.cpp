@@ -15,36 +15,68 @@ Game::Game(const InitData& init)
     m_combo = 0;
     m_judgementYPos = DefaultJudmentYPos;
     m_laneWidth = (FieldSize.x - 2 * EdgeWidth) / LaneNum;
+    m_posMilliSec = 0.00;
+    m_stopWatchElapsedMS = -4000;
 
     if (not (VS && PS)) {
         throw Error{ U"Failed to load shader files" };
     }
 
     m_speedMap.push_back(SpeedNote{ .timing = 0, .speed = 1.00 });
+    m_judgeYMap.push_back(JudgeYNote{ .timing = 0, .posY = DefaultJudmentYPos, .durationMS = 0 });
     m_speedMapIndex = 0;
+    m_index = getData().selectIndex;
+
+    AudioAsset::Register(U"GameMusic", m_scores.getMusicPath(m_index));
+    AudioAsset::LoadAsync(U"GameMusic");
 
     loadNotes();
 
+    m_stopwatch.reset();
+}
+
+Game::~Game() {
+    AudioAsset::Unregister(U"GameMusic");
 }
 
 void Game::update() {
 
-    if (!m_hasStarted) {
+    m_posMilliSec = AudioAsset(U"GameMusic").posSec() * 1000.0;
+    m_stopWatchElapsedMS = m_stopwatch.ms() - 4000;
+
+    if (!m_hasStarted && AudioAsset::IsReady(U"GameMusic")) {
         m_stopwatch.start();
+
         m_hasStarted = true;
     }
 
+    if (m_hasStarted && !AudioAsset(U"GameMusic").isPlaying() && m_stopWatchElapsedMS >= 0) {
+        AudioAsset(U"GameMusic").play();
+    }
+
+    // Speed
     if (m_hasStarted && !m_speedMap.empty()) {
-        if ((m_speedMapIndex + 1 < m_speedMap.size()) && m_speedMap[m_speedMapIndex + 1].timing < m_stopwatch.ms()) {
+        if ((m_speedMapIndex + 1 < m_speedMap.size()) && m_speedMap[m_speedMapIndex + 1].timing < m_stopWatchElapsedMS) {
             m_speedMapIndex++;
         }
     }
 
-    ClearPrint();
-    Print << m_stopwatch.elapsed();
+    // Judge Bar
+    if (m_hasStarted && !m_judgeYMap.empty()) {
+        for (size_t i = 1; i < m_judgeYMap.size(); i++) {
+            if (m_judgeYMap[i].timing < m_stopWatchElapsedMS) {
+                const double t = (double)(m_stopWatchElapsedMS - m_judgeYMap[i].timing) / m_judgeYMap[i].durationMS;
+                const double e = EaseOutExpo(t);
+                m_judgementYPos = m_judgeYMap[i - 1].posY + (m_judgeYMap[i].posY - m_judgeYMap[i - 1].posY) * e;
+            }
+        }
+    }
 
-    for (auto e : m_speedMap) {
-        Print << e.speed;
+    ClearPrint();
+    Print << m_stopWatchElapsedMS;
+
+    for (const auto e : m_judgeYMap) {
+        Print << e.posY;
         //Print << calculateNoteY(e.timing, 1.0);
     }
 }
@@ -73,17 +105,16 @@ void Game::drawField() const {
 
         drawJudmentLine();
 
-        // debug
-        // drawNote(Note{ .lane = 0 });
-
+        for (auto e : m_barMap) {
+            RectF{ Arg::leftCenter(EdgeWidth, calculateNoteY(e, getData().setting[U"SPEED"].value / getData().setting[U"SPEED"].scale)), m_laneWidth * LaneNum, 2.0 }.draw(UI::LaneLineColor);
+        }
         for (auto e : m_notesMap) {
             drawNote(e);
-            // RectF{ Arg::leftCenter(EdgeWidth, calculateNoteY(e.timing, 1.0)), m_laneWidth, 15 }.draw(Palette::White);
         }
 
 
-        Rect{ Arg::topRight(FieldSize.x, 0), EdgeWidth, FieldSize.y }.draw(UI::EdgeColor);
         Rect{ Arg::topLeft(0, 0), EdgeWidth, FieldSize.y }.draw(UI::EdgeColor);
+        Rect{ Arg::topRight(FieldSize.x, 0), EdgeWidth, FieldSize.y }.draw(UI::EdgeColor);
 
         Rect{ FieldSize }.draw(Arg::top = ColorF(UI::BlurColor, 0), Arg::bottom = ColorF(UI::BlurColor, 0.8));
 
@@ -143,31 +174,30 @@ void Game::drawNote(Note note) const {
     */
 
     if (note.type == 0) {
-        double posY = calculateNoteY(note.timing, 1.00);
+        double posY = calculateNoteY(note.timing, getData().setting[U"SPEED"].value / getData().setting[U"SPEED"].scale);
         RectF{ Arg::leftCenter(EdgeWidth + m_laneWidth * note.lane, posY), m_laneWidth, 15 }.draw(Palette::White);
     }
 }
 
 bool Game::loadNotes() {
-    auto index = getData().selectIndex;
     auto s_level = getData().selectLevel;
-    auto noteStartSeek = m_scores.get(index).noteStartSeek;
-    auto bpm = m_scores.getBPM(index);
+    auto noteStartSeek = m_scores.get(m_index).noteStartSeek;
+    auto bpm = m_scores.getBPM(m_index);
     int32 level = 0;
     for (uint8 i = 0; i < s_level; i++) {
-        if (m_scores.get(index).level[i] > 0) {
+        if (m_scores.get(m_index).level[i] > 0) {
             level++;
         }
     }
     m_notesMap.clear();
 
-    TextReader reader(m_scores.get(index).path);
+    TextReader reader(m_scores.get(m_index).path);
     if (!reader) {
         return false;
     }
 
-    // コメントを除去してから移動
-    String content = Utils::RemoveComments(reader.readAll().expandTabs()).substr(noteStartSeek);
+    // 移動してからコメントを除去
+    String content = Utils::RemoveComments(reader.readAll().expandTabs().substr(noteStartSeek));
 
     // 指定されたレベルへ移動
     {
@@ -187,7 +217,8 @@ bool Game::loadNotes() {
     }
 
     double barLength = 60000 * 4 / bpm;
-    double passedTime = m_scores.get(index).offsetMs; // + DELAY;
+    double passedTime = m_scores.get(m_index).offsetMs; // + DELAY;
+    bool enableBar = true;
     m_barMap.push_back(static_cast<int32>(passedTime));
     for (size_t i = 0; i < content.size(); i++) {
         if (content[i] == U'}') {
@@ -213,8 +244,6 @@ bool Game::loadNotes() {
             buffer = content.substr(i, endPos - i);
             int32 splitCounter = static_cast<int32>(buffer.count(',')) + 1;
             
-            Print << buffer;
-
             int32 counter = 0;
             bool isMacro = false;
             String macro;
@@ -224,8 +253,8 @@ bool Game::loadNotes() {
                     continue;
                 }
                 else if (c == '>') {
-                    if (macro[0] == 's') {
-                        String value = macro.substr(1);
+                    if (macro[0] == 's') {  // speed
+                        String value = macro.substr(1).trimmed();
                         double speed = ParseOr<double>(value, 1.00);
                         if (speed == 0) {
                             speed = 0.000001;
@@ -235,9 +264,33 @@ bool Game::loadNotes() {
                         note.timing = static_cast<int32>(passedTime + barLength * counter / splitCounter);
                         m_speedMap.push_back(note);
                     }
-                    if (macro[0] == 'b') {
+                    if (macro[0] == 'j') {  // judgementYpos
+                        auto values = (macro.substr(1).trimmed()).split(U' ');
+                        if (values.size() == 2) {
+                            double posY = Math::Clamp(ParseOr<double>(values[0], DefaultJudmentYPos), 0.0, 1000.0);
+                            int32 durationMS = ParseOr<int32>(values[1], 1000);
+                            JudgeYNote note;
+                            note.timing = static_cast<int32>(passedTime + barLength * counter / splitCounter);
+                            note.durationMS = durationMS;
+                            note.posY = posY;
+                            m_judgeYMap.push_back(note);
+                        }
+                    }
+                    if (macro[0] == 'l') {  // add bar
+                        m_barMap.push_back(static_cast<int32>(passedTime + barLength * counter / splitCounter));
+                    }
+                    if (macro[0] == 'e') {  // switch bar
+                        enableBar ^= 1;
+                    }
+                    if (macro[0] == 'b') {  // bpm
                         auto values = (macro.substr(1)).split(U' ');
-                        
+                        bpm = ParseOr<double>(values[0], bpm);
+
+                        barLength = 60000 * 4 / bpm;
+                    }
+                    if (macro[0] == 'c') {  // background color
+                        auto values = (macro.substr(1)).split(U' ');
+
                     }
                     macro.clear();
                     isMacro = false;
@@ -270,7 +323,9 @@ bool Game::loadNotes() {
             }
         }
         passedTime += barLength;
-        m_barMap.push_back(static_cast<int32>(passedTime));
+        if (enableBar) {
+            m_barMap.push_back(static_cast<int32>(passedTime));
+        }
     }
 
     m_endTime = static_cast<int32>(passedTime);
@@ -278,10 +333,11 @@ bool Game::loadNotes() {
 }
 
 double Game::calculateNoteY(int32 timing, double speed) const {
-    double noteY = m_judgementYPos + ((timing - m_stopwatch.ms()) * m_speedMap[m_speedMapIndex].speed * speed);
+    speed *= 0.25;
+    double noteY = m_judgementYPos + ((timing - m_stopWatchElapsedMS) * m_speedMap[m_speedMapIndex].speed * speed);
     double speedChangeY = 0;
     double prevSpeedY = m_judgementYPos;
-    double prevTiming = m_stopwatch.ms();
+    double prevTiming = m_stopWatchElapsedMS;
     for (size_t i = m_speedMapIndex + 1; i < m_speedMap.size(); i++) {
         speedChangeY = prevSpeedY + ((m_speedMap[i].timing - prevTiming) * m_speedMap[i - 1].speed * speed);
 
@@ -297,7 +353,7 @@ double Game::calculateNoteY(int32 timing, double speed) const {
     }
     if (noteY < m_judgementYPos) {
         prevSpeedY = m_judgementYPos;
-        prevTiming = m_stopwatch.ms();
+        prevTiming = m_stopWatchElapsedMS;
         for (size_t i = m_speedMapIndex; i > 0; i--) {
             speedChangeY = prevSpeedY - ((prevTiming - m_speedMap[i].timing) * m_speedMap[i].speed * speed);
 

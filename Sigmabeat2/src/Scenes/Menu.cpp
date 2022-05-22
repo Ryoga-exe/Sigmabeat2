@@ -17,9 +17,17 @@ Menu::Menu(const InitData& init)
 
     updateScaleRate();
     updateTiles();
+    
+}
+
+Menu::~Menu() {
+    
 }
 
 void Menu::update() {
+
+    ClearPrint();
+    m_scores.debugPrint(m_index);
 
     getData().selectIndex = m_index;
     getData().selectLevel = m_level;
