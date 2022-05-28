@@ -168,19 +168,17 @@ void Game::drawJudmentLine() const {
 }
 
 void Game::drawNote(Note note) const {
-
-    
-
-    /*
-    RectF{ Arg::leftCenter(EdgeWidth + m_laneWidth, 1100 - cursorY), m_laneWidth, 15 }.draw(Palette::White);
-    RectF{ Arg::leftCenter(EdgeWidth + m_laneWidth, 1300 - cursorY), m_laneWidth, 15 }.draw(Palette::White);
-
-    RectF{ Arg::center(EdgeWidth + m_laneWidth + m_laneWidth / 2.0, (1100 + 1300) / 2 - cursorY), m_laneWidth * 0.90, (1300 - 1100) }.draw(ColorF(Palette::White, 0.75));
-    */
-
     if (note.type == 0) {
         double posY = calculateNoteY(note.timing, getData().setting[U"SPEED"].value / getData().setting[U"SPEED"].scale);
         RectF{ Arg::leftCenter(EdgeWidth + m_laneWidth * note.lane, posY), m_laneWidth, 15 }.draw(Palette::White);
+    }
+    if (note.type == 1) {
+        double startPosY = calculateNoteY(note.timing, getData().setting[U"SPEED"].value / getData().setting[U"SPEED"].scale);
+        double startPosEndY = calculateNoteY(note.sub, getData().setting[U"SPEED"].value / getData().setting[U"SPEED"].scale);
+
+        RectF{ Arg::leftCenter(EdgeWidth + m_laneWidth * note.lane, startPosY), m_laneWidth, 15 }.draw(Palette::White);
+        RectF{ Arg::leftCenter(EdgeWidth + m_laneWidth * note.lane, startPosEndY), m_laneWidth, 15 }.draw(Palette::White);
+        RectF{ Arg::center(EdgeWidth + m_laneWidth * note.lane + m_laneWidth / 2.0, (startPosEndY + startPosY) / 2), m_laneWidth * 0.90, (startPosEndY - startPosY) }.draw(ColorF(Palette::White, 0.75));
     }
 }
 
@@ -211,7 +209,7 @@ bool Game::loadNotes() {
         for (size_t i = 0; i < content.size(); i++) {
             if (content[i] == U'{') {
                 counter++;
-                pos = i;
+                pos = i + 1;
                 if (counter == level) break;
             }
         }
@@ -223,6 +221,7 @@ bool Game::loadNotes() {
 
     double barLength = 60000 * 4 / bpm;
     double passedTime = m_scores.get(m_index).offsetMs; // + DELAY;
+    double funcDelayMS = 0.0;
     bool enableBar = true;
     m_barMap.push_back(static_cast<int32>(passedTime));
     for (size_t i = 0; i < content.size(); i++) {
@@ -235,7 +234,52 @@ bool Game::loadNotes() {
         }
 
         if (content[i] == U'#') {
+            String tagname;
+            size_t pos = content.indexOf(U" ", i);
+            size_t newlinePos = content.indexOf(U"\n", i);
+            if (pos == String::npos) break;
+            if (pos > newlinePos) {
+                i = newlinePos;
+                continue;
+            }
+            tagname = content.substr(i, pos - i);
+            tagname.uppercase();
 
+            String tagvalue = content.substr(pos, newlinePos - pos);
+            tagvalue.trim();
+
+            if (tagname == U"#FUNCDELAY") {
+                auto values = tagvalue.split(U'/');
+                if (values.size() >= 2) {
+                    int32 p = ParseOr<int32>(values[0], 0);
+                    int32 q = ParseOr<int32>(values[0], 1);
+                    if (q == 0) {
+                        funcDelayMS = 0.00;
+                    }
+                    else {
+                        funcDelayMS = (barLength * (p / q));
+                    }
+                }
+                else {
+                    funcDelayMS = 0.00;
+                }
+            }
+            if (tagname == U"#FUNCDELAYMS") {
+                funcDelayMS = ParseOr<double>(tagvalue, 0.00);
+            }
+            if (tagname == U"#BPM" || tagname == U"#BPMCHANGE") {
+                auto values = (tagvalue).split(U' ');
+                bpm = ParseOr<double>(values[0], bpm);
+                barLength = 60000 * 4 / bpm;
+            }
+            if (tagname == U"#SPEED") {
+                applyMacro('s', tagvalue, static_cast<int32>(passedTime + funcDelayMS));
+            }
+            if (tagname == U"#JUDGEBAR") {
+                applyMacro('j', tagvalue, static_cast<int32>(passedTime + funcDelayMS));
+            }
+            i = newlinePos;
+            continue;
         }
         else {
             size_t endPos = content.indexOf(U'\n', i);
@@ -258,32 +302,8 @@ bool Game::loadNotes() {
                     continue;
                 }
                 else if (c == '>') {
-                    if (macro[0] == 's') {  // speed
-                        String value = macro.substr(1).trimmed();
-                        double speed = ParseOr<double>(value, 1.00);
-                        if (speed == 0) {
-                            speed = 0.000001;
-                        }
-                        SpeedNote note;
-                        note.speed = speed;
-                        note.timing = static_cast<int32>(passedTime + barLength * counter / splitCounter);
-                        m_speedMap.push_back(note);
-                    }
-                    if (macro[0] == 'j') {  // judgementYpos
-                        auto values = (macro.substr(1).trimmed()).split(U' ');
-                        if (values.size() == 2) {
-                            double posY = Math::Clamp(ParseOr<double>(values[0], DefaultJudmentYPos), 0.0, 1000.0);
-                            int32 durationMS = ParseOr<int32>(values[1], 1000);
-                            JudgeYNote note;
-                            note.timing = static_cast<int32>(passedTime + barLength * counter / splitCounter);
-                            note.durationMS = durationMS;
-                            note.posY = posY;
-                            m_judgeYMap.push_back(note);
-                        }
-                    }
-                    if (macro[0] == 'l') {  // add bar
-                        m_barMap.push_back(static_cast<int32>(passedTime + barLength * counter / splitCounter));
-                    }
+                    applyMacro(macro[0], macro.substr(1).trimmed(), static_cast<int32>(passedTime + barLength * counter / splitCounter));
+
                     if (macro[0] == 'e') {  // switch bar
                         enableBar ^= 1;
                     }
@@ -292,10 +312,6 @@ bool Game::loadNotes() {
                         bpm = ParseOr<double>(values[0], bpm);
 
                         barLength = 60000 * 4 / bpm;
-                    }
-                    if (macro[0] == 'c') {  // background color
-                        auto values = (macro.substr(1)).split(U' ');
-
                     }
                     macro.clear();
                     isMacro = false;
@@ -314,9 +330,17 @@ bool Game::loadNotes() {
                     }
                     Note note;
                     note.timing = static_cast<int32>(passedTime + barLength * counter / splitCounter);
-                    if (c >= '0' && c <= '5') {
+                    if ('0' <= c && c <= '5') {
                         note.type = 0;
                         note.lane = (uint8)(c - '0');
+                    }
+                    if ('a' <= c && c <= 'f') {
+                        note.type = 1;
+                        note.lane = (uint8)(c - 'a');
+                    }
+                    if ('g' <= c && c <= 'l') {
+                        note.type = 2;
+                        note.lane = (uint8)(c - 'g');
                     }
                     m_notesMap.push_back(note);
                 }
@@ -333,7 +357,72 @@ bool Game::loadNotes() {
         }
     }
 
+    Array<std::stack<int32>> longNotes(LaneNum);
+    for (int32 i = static_cast<int32>(m_notesMap.size()) - 1; i >= 0; i--) {
+        if (m_notesMap[i].type == 2) {
+            longNotes[m_notesMap[i].lane].push(m_notesMap[i].timing);
+        }
+        if (m_notesMap[i].type == 1 && !longNotes[m_notesMap[i].lane].empty()) {
+            m_notesMap[i].sub = longNotes[m_notesMap[i].lane].top();
+            longNotes[m_notesMap[i].lane].pop();
+        }
+    }
+
     m_endTime = static_cast<int32>(passedTime);
+    return true;
+}
+
+bool Game::applyMacro(String::value_type macro, String value, int32 timing, String::value_type spliter) {
+    switch (macro) {
+    case 's':  // speed
+        {
+            double speed = ParseOr<double>(value, 1.00);
+            if (speed == 0) {
+                speed = 0.000001;
+            }
+            SpeedNote note;
+            note.speed = speed;
+            note.timing = timing;
+            m_speedMap.push_back(note);
+        }
+        break;
+    case 'j':  // judgementYpos
+        {
+            auto values = (value).split(spliter);
+            if (values.size() == 2) {
+                double posY = Math::Clamp(ParseOr<double>(values[0], DefaultJudmentYPos), 0.0, 1000.0);
+                int32 durationMS = ParseOr<int32>(values[1], 1000);
+                JudgeYNote note;
+                note.timing = timing;
+                note.durationMS = durationMS;
+                note.posY = posY;
+                m_judgeYMap.push_back(note);
+            }
+        }
+        break;
+    case 'l':  // add bar
+        {
+            m_barMap.push_back(timing);
+        }
+        break;
+    case 'e':  // switch bar
+        {
+            
+        }
+        break;
+    case 'b':  // bpm
+        {
+            
+        }
+        break;
+    case 'c':  // background color
+        {
+            auto values = (value.substr(1)).split(spliter);
+        }
+        break;
+    default:
+        return false;
+    }
     return true;
 }
 
