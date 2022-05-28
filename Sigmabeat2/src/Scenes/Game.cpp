@@ -72,10 +72,15 @@ void Game::update() {
         }
     }
 
+    if (KeyEscape.pressed()) {
+        changeScene(SceneState::Menu, 1.0s);
+        AudioAsset(U"GameMusic").stop(0.7s);
+    }
+
     ClearPrint();
     Print << m_stopWatchElapsedMS;
-
-    for (const auto e : m_judgeYMap) {
+     
+    for (const auto &e : m_judgeYMap) {
         Print << e.posY;
         //Print << calculateNoteY(e.timing, 1.0);
     }
