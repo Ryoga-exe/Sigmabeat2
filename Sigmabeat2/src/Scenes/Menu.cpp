@@ -36,7 +36,7 @@ void Menu::update() {
         if (KeyEscape.down()) {
             m_audition.stop(0.5s);
 
-            changeScene(SceneState::Setup);
+            changeScene(SceneState::Setup, 1.0s);
         }
 
         if (m_tileState == 0.0) {
