@@ -14,9 +14,13 @@ namespace UI {
 
     }
 
-    const MSRenderTexture& Tile::get(size_t index, Color tileColor, double offset) const {
+    const MSRenderTexture& Tile::get(size_t index, size_t level, double offset) const {
 
         m_tileRT.clear(Palette::Whitesmoke);
+        Color tileColor = Score::LevelColor[level];
+        if (m_scores.get(index).level[level] == 0) {
+            tileColor = Score::UnvalidLevelColor;
+        }
 
         {
             ScopedRenderTarget2D target(m_tileRT);
@@ -56,6 +60,16 @@ namespace UI {
                     FontAsset(U"Tile.detail")(m_scores.getArtist(index)).draw(Arg::bottomLeft(descRect.x - offset * DescriptionVel, 67), ColorF(0.25));
                     FontAsset(U"Tile.detail")(m_scores.getArtist(index)).draw(Arg::bottomLeft(descRect.x + artistRect.w + DescriptionOffsetMargin - offset * DescriptionVel, 67), ColorF(0.25));
                 }
+            }
+
+            RectF{ 15, 290, 65, 65 }.drawShadow({ 0, 2 }, 13, 2).draw(ColorF(0, 0, 0, 0.3)).draw(Palette::Whitesmoke);
+            RectF{ 18, 310, 59, 42 }.draw(Color(15, 51, 66));
+            FontAsset(U"Tile.detail")(U"LEVEL").draw(Arg::bottomCenter(48.0, 310), Color(15, 51, 66));
+            if (m_scores.get(index).level[level] == 0) {
+                FontAsset(U"Tile.title")(U"-").draw(Arg::center(47.5, 331), Palette::White);
+            }
+            else {
+                FontAsset(U"Tile.title")(m_scores.get(index).level[level]).draw(Arg::center(47.5, 331), Palette::White);
             }
 
             FontAsset(U"Tile.detail")(U"NOTES DESIGNER : {}"_fmt(m_scores.getNoteDesigner(index))).draw(Arg::bottomLeft(10, TileSize.y - 5), Palette::White);

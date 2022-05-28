@@ -18,7 +18,7 @@ namespace UI {
         Tile();
         ~Tile();
             
-        const MSRenderTexture& get(size_t index, Color tileColor, double offset = 0.0) const;
+        const MSRenderTexture& get(size_t index, size_t level, double offset = 0.0) const;
 
         const MSRenderTexture& get(const String& type, GameSettingItem item, Color tileColor) const;
 

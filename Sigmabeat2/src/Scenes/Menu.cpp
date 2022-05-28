@@ -76,11 +76,12 @@ void Menu::update() {
                     m_stopwatch.restart();
                 }
                 if ((KeyEnter | KeySpace).down() && SettingTiles[m_settingIndex] == U"MUSIC") {
-                    m_settingState = 2;
-                    m_stopwatch.restart();
+                    if (m_scores.get(m_index).level[m_level] > 0) {
+                        m_settingState = 2;
+                        m_stopwatch.restart();
 
-                    m_audition.stop(3.0s);
-
+                        m_audition.stop(3.0s);
+                    }
                 }
             }
 
@@ -208,7 +209,7 @@ void Menu::drawTiles() const {
             x += ((m_tileSize.x * 0.3) + m_selectedTileMargin) * Max(0.0, m_animateState);
         }
 
-        tile.scaled(1.0 + m_tileState)(m_tile.get(index, Score::LevelColor[m_level])).draw(ColorF(1.0, 1.0 - Abs(m_tileState)));
+        tile.scaled(1.0 + m_tileState)(m_tile.get(index, m_level)).draw(ColorF(1.0, 1.0 - Abs(m_tileState)));
 
         x += (m_tileMargin + m_normalTileSize.x) * (1.0 + m_tileState);
     }
@@ -227,7 +228,7 @@ void Menu::drawTiles() const {
             x += ((m_tileSize.x * 0.3) + m_selectedTileMargin) * Min(0.0, m_animateState);
         }
 
-        tile.scaled(1.0 + m_tileState)(m_tile.get(index, Score::LevelColor[m_level])).draw(ColorF(1.0, 1.0 - Abs(m_tileState)));
+        tile.scaled(1.0 + m_tileState)(m_tile.get(index, m_level)).draw(ColorF(1.0, 1.0 - Abs(m_tileState)));
 
         x -= (m_tileMargin + m_normalTileSize.x) * (1.0 + m_tileState);
     }
@@ -249,7 +250,7 @@ void Menu::drawSettingTiles() const {
         }
 
         if (SettingTiles[index] == U"MUSIC") {
-            tile.scaled((m_tileState))(m_tile.get(m_index, Score::LevelColor[m_level])).draw(ColorF(1.0, 1.0 - Abs(m_tileState - 1.0)));
+            tile.scaled((m_tileState))(m_tile.get(m_index, m_level)).draw(ColorF(1.0, 1.0 - Abs(m_tileState - 1.0)));
         }
         else {
             tile.scaled((m_tileState))(m_tile.get(SettingTiles[index], getData().setting[SettingTiles[index]], Palette::Slategray)).draw(ColorF(1.0, 1.0 - Abs(m_tileState - 1.0)));
@@ -273,7 +274,7 @@ void Menu::drawSettingTiles() const {
         }
 
         if (SettingTiles[index] == U"MUSIC") {
-            tile.scaled((m_tileState))(m_tile.get(m_index, Score::LevelColor[m_level])).draw(ColorF(1.0, 1.0 - Abs(m_tileState - 1.0)));
+            tile.scaled((m_tileState))(m_tile.get(m_index, m_level)).draw(ColorF(1.0, 1.0 - Abs(m_tileState - 1.0)));
         }
         else {
             tile.scaled((m_tileState))(m_tile.get(SettingTiles[index], getData().setting[SettingTiles[index]], Palette::Slategray)).draw(ColorF(1.0, 1.0 - Abs(m_tileState - 1.0)));
@@ -287,7 +288,7 @@ void Menu::drawSelectedTile() const {
     RectF selectedTile(Arg::bottomCenter = Vec2{ m_selectedTileX, m_tileBaseY }, m_selectedTileSize);
     selectedTile.drawShadow({ 0.0, 0.0 }, 25, 15.0, ColorF(Palette::Gold, 0.5 + Periodic::Sine0_1(2.0s) * 0.5));
     if (m_settingState != 1 || SettingTiles[m_settingIndex] == U"MUSIC") {
-        selectedTile(m_tile.get(m_index, Score::LevelColor[m_level], Max(0.0, m_tileOffsetStopwatch.sF() - 1.0))).draw();
+        selectedTile(m_tile.get(m_index, m_level, Max(0.0, m_tileOffsetStopwatch.sF() - 1.0))).draw();
     }
     else {
         selectedTile(m_tile.get(SettingTiles[m_settingIndex], getData().setting[SettingTiles[m_settingIndex]], Palette::Slategray)).draw();
@@ -295,7 +296,5 @@ void Menu::drawSelectedTile() const {
 }
 
 void Menu::drawUserPlate() const {
-
-    
 
 }
