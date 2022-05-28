@@ -39,7 +39,6 @@ namespace Score {
                 String content = reader.readAll().expandTabs();
                 
                 for (size_t i = 0; i < content.size(); i++) {
-
                     if (content[i] == U'/') {
 
                         if (i == content.size() - 2) break;
@@ -65,7 +64,7 @@ namespace Score {
                         break;
                     }
                     
-                    if (content[i] == U' ') continue;
+                    if (content[i] == U' ' || content[i] == U'\n') continue;
 
                     if (content[i] != U'#') {
                         size_t endPos = content.indexOf(U"\n", i + 1);
@@ -235,6 +234,7 @@ namespace Score {
         Print << U"offset   : " << m_scores[index].offsetMs;
         Print << U"bpm      : " << m_scores[index].bpm;
         Print << U"priority : " << m_scores[index].priority;
+        Print << U"note     : " << m_scores[index].noteStartSeek;
         for (auto i : step(4)) {
             Print << U"color    : " << m_scores[index].backgroundColor[i];
         }
