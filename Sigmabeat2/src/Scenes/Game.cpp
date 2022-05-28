@@ -252,12 +252,13 @@ bool Game::loadNotes() {
                 auto values = tagvalue.split(U'/');
                 if (values.size() >= 2) {
                     int32 p = ParseOr<int32>(values[0], 0);
-                    int32 q = ParseOr<int32>(values[0], 1);
+                    int32 q = ParseOr<int32>(values[1], 1);
                     if (q == 0) {
                         funcDelayMS = 0.00;
                     }
                     else {
-                        funcDelayMS = (barLength * (p / q));
+                        funcDelayMS = (barLength * (double)p / (double)q);
+                        Print << funcDelayMS;
                     }
                 }
                 else {
