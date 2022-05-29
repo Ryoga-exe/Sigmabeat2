@@ -9,6 +9,10 @@ namespace Asset {
         FontAsset::Register(U"Tile.setting", 40, Typeface::Medium);
         FontAsset::Register(U"Tile.detail", 15, Typeface::Medium);
 
+        FontAsset::Register(U"Game.combo", 100, Typeface::Bold);
+
+
+
         TextureAsset::Register(U"Icon.cogs", 0xf085_icon, 100);
         TextureAsset::Register(U"Icon.sliders-h", 0xf1de_icon, 100);
 
