@@ -10,7 +10,7 @@ namespace UI {
     constexpr Color LaneLineColor(Palette::Darkgray);
     constexpr Color BlurColor(Palette::Black);
     constexpr Color JudmentLineColor(252, 255, 252);
-    constexpr Color JudmentLineBlurColor(Palette::Red);
+    constexpr Color JudmentLineBlurColor(Palette::Aliceblue);
 
 }
 
@@ -55,6 +55,10 @@ private:
     Array<SpeedNote> m_speedMap;
     Array<JudgeYNote> m_judgeYMap;
     Array<int32> m_barMap;
+
+    const Texture m_tapNoteTexture;
+    const Texture m_holdNoteTexture;
+    const Texture m_pressNoteTexture;
 
     double m_judgementYPos;
     double m_laneWidth;

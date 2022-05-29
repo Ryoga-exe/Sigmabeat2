@@ -5,6 +5,9 @@ Game::Game(const InitData& init)
     : IScene(init)
     , m_hasStarted(false)
     , m_fieldRT(FieldSize)
+    , m_tapNoteTexture(U"dat/img/tapNote.png")
+    , m_holdNoteTexture(U"dat/img/holdNote.png")
+    , m_pressNoteTexture(U"dat/img/pressNote.png")
     , VS(HLSL{ U"example/shader/hlsl/homography.hlsl", U"VS" } | GLSL{ U"example/shader/glsl/homography.vert", {{ U"VSConstants2D", 0 }, { U"VSHomography", 1} } })
     , PS(HLSL{ U"example/shader/hlsl/homography.hlsl", U"PS" } | GLSL{ U"example/shader/glsl/homography.frag", {{ U"PSConstants2D", 0 }, { U"PSHomography", 1} } }) {
 
@@ -170,15 +173,22 @@ void Game::drawJudmentLine() const {
 void Game::drawNote(Note note) const {
     if (note.type == 0) {
         double posY = calculateNoteY(note.timing, getData().setting[U"SPEED"].value / getData().setting[U"SPEED"].scale);
-        RectF{ Arg::leftCenter(EdgeWidth + m_laneWidth * note.lane, posY), m_laneWidth, 15 }.draw(Palette::White);
+        RectF{ Arg::leftCenter(EdgeWidth + m_laneWidth * note.lane, posY), m_laneWidth, 15 }(m_tapNoteTexture).draw();
     }
     if (note.type == 1) {
         double startPosY = calculateNoteY(note.timing, getData().setting[U"SPEED"].value / getData().setting[U"SPEED"].scale);
         double startPosEndY = calculateNoteY(note.sub, getData().setting[U"SPEED"].value / getData().setting[U"SPEED"].scale);
 
-        RectF{ Arg::leftCenter(EdgeWidth + m_laneWidth * note.lane, startPosY), m_laneWidth, 15 }.draw(Palette::White);
-        RectF{ Arg::leftCenter(EdgeWidth + m_laneWidth * note.lane, startPosEndY), m_laneWidth, 15 }.draw(Palette::White);
-        RectF{ Arg::center(EdgeWidth + m_laneWidth * note.lane + m_laneWidth / 2.0, (startPosEndY + startPosY) / 2), m_laneWidth * 0.90, (startPosEndY - startPosY) }.draw(ColorF(Palette::White, 0.75));
+        RectF{ Arg::bottomCenter(EdgeWidth + m_laneWidth * note.lane + m_laneWidth / 2.0, (startPosEndY + startPosY) / 2), m_laneWidth * 0.90, (startPosEndY - startPosY) / 2.0 }
+            .draw(Arg::top = Color(242, 124, 208, 190), Arg::bottom = Color(19, 189, 225, 190));
+        RectF{ Arg::topCenter(EdgeWidth + m_laneWidth * note.lane + m_laneWidth / 2.0, (startPosEndY + startPosY) / 2), m_laneWidth * 0.90, (startPosEndY - startPosY) / 2.0 }
+            .draw(Arg::top = Color(19, 189, 225, 190), Arg::bottom = Color(116, 111, 217, 190));
+        RectF{ Arg::leftCenter(EdgeWidth + m_laneWidth * note.lane, startPosY), m_laneWidth, 15 }(m_holdNoteTexture).draw();
+        RectF{ Arg::leftCenter(EdgeWidth + m_laneWidth * note.lane, startPosEndY), m_laneWidth, 15 }(m_holdNoteTexture).draw();
+    }
+    if (note.type == 3) {
+        double posY = calculateNoteY(note.timing, getData().setting[U"SPEED"].value / getData().setting[U"SPEED"].scale);
+        RectF{ Arg::leftCenter(EdgeWidth + m_laneWidth * note.lane, posY), m_laneWidth, 15 }(m_pressNoteTexture).draw();
     }
 }
 
@@ -326,7 +336,7 @@ bool Game::loadNotes() {
                     continue;
                 }
                 else {
-                    if (!((c >= '0' && c <= '5') || (c >= 'a' && c <= 'l'))) {
+                    if (!((c >= '0' && c <= '5') || (c >= 'a' && c <= 'r'))) {
                         continue;
                     }
                     Note note;
@@ -342,6 +352,10 @@ bool Game::loadNotes() {
                     if ('g' <= c && c <= 'l') {
                         note.type = 2;
                         note.lane = (uint8)(c - 'g');
+                    }
+                    if ('m' <= c && c <= 'r') {
+                        note.type = 3;
+                        note.lane = (uint8)(c - 'm');
                     }
                     m_notesMap.push_back(note);
                 }
