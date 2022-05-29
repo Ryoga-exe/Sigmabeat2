@@ -19,7 +19,7 @@ Title::~Title() {
 void Title::update() {
     m_delta += Scene::DeltaTime() * 100;
 
-    if ((KeySpace | KeyEnter).down()) {
+    if (m_delta >= 100 && !Keyboard::GetAllInputs().empty()) {
         AudioAsset(U"Opening").stop(0.5s);
         changeScene(SceneState::Menu, 1.0s);
     }
@@ -36,7 +36,7 @@ void Title::draw() const {
     {
         const Transformer2D tf2(Mat3x2::Scale(scaleRate / 1000.0, { x, y + y / 1.5 }));
 
-        FontAsset(U"Title")(U" - PRESS START KEY TO START - ")
+        FontAsset(U"Title")(U" - PRESS ANY KEY TO START - ")
             .drawAt(x, y + y / 1.5, Color(100, (Color::value_type)(((Sin(m_delta / 45.0) + 1.0) / 2.0) * 255)));
     }
     {
