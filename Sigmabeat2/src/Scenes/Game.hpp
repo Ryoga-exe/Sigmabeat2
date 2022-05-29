@@ -14,6 +14,25 @@ namespace UI {
 
 }
 
+struct JudgeEffect : IEffect {
+    Vec2 m_start;
+    String m_judge;
+    Font m_font;
+    Color m_color;
+
+    JudgeEffect(const Vec2& start, String judge, const Font& font, const Color& color = Palette::Whitesmoke)
+        : m_start{ start }, m_judge{ judge }, m_font{ font }, m_color{ color } {}
+
+    bool update(double t) override {
+        const double e = EaseOutExpo(t * 2.0);
+
+        m_font(m_judge).drawAt(m_start.movedBy(0, -40 * e).movedBy(4, 4), ColorF(0.0, 0.5 * (1.0 - t * 2.0)));
+        m_font(m_judge).drawAt(m_start.movedBy(0, -40 * e), ColorF(m_color, 1.0 - Max(0.0, 4.0 * t - 1.0)));
+
+        return (t < 0.5);
+    }
+};
+
 class Game : public MyApp::Scene {
 public:
     Game(const InitData& init);
@@ -35,6 +54,7 @@ private:
     bool drawNote(Note note) const;
     void drawPressEffect() const;
     void drawJudmentLine() const;
+    void judgement();
     bool loadNotes();
     bool applyMacro(String::value_type macro, String value, int32 timing, String::value_type spliter = U' ');
     double calculateNoteY(int32 timing, double speed) const;
@@ -73,6 +93,7 @@ private:
         KeyK,
         KeyL,
     };
+    const int32 JudgeFarMS[4] = { 35, 65, 100, 150 };
     Array<double> m_pressEffectOpacity;
 
     const Texture m_tapNoteTexture;
@@ -88,4 +109,6 @@ private:
     int32 m_index;
 
     bool m_hasStarted;
+
+    Effect m_effect;
 };

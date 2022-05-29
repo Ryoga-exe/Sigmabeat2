@@ -37,6 +37,9 @@ Game::Game(const InitData& init)
     loadNotes();
 
     m_stopwatch.reset();
+
+    //-------------
+    ClearPrint();
 }
 
 Game::~Game() {
@@ -91,13 +94,10 @@ void Game::update() {
         AudioAsset(U"GameMusic").stop(0.7s);
     }
 
-    ClearPrint();
-    Print << m_stopWatchElapsedMS;
-     
-    for (const auto &e : m_judgeYMap) {
-        Print << e.posY;
-        //Print << calculateNoteY(e.timing, 1.0);
-    }
+    judgement();
+
+    // Print << m_stopWatchElapsedMS;
+    
 }
 
 void Game::draw() const {
@@ -121,8 +121,8 @@ void Game::drawField() const {
             RectF{ Arg::topCenter(EdgeWidth + m_laneWidth * i, 0.0), 2.0, (double)FieldSize.y }.draw(UI::LaneLineColor);
         }
 
-        FontAsset(U"Menu")(U"COMBO").drawAt(FieldSize.x / 2.0, convertPosY(390), Palette::White);
-        FontAsset(U"Game.combo")(U"0").drawAt(FieldSize.x / 2.0, convertPosY(320), Palette::White);
+        FontAsset(U"Menu")(U"COMBO").drawAt(FieldSize.x / 2.0, convertPosY(380), Palette::White);
+        FontAsset(U"Game.combo")(m_combo).drawAt(FieldSize.x / 2.0, convertPosY(300), Palette::White);
 
         drawPressEffect();
 
@@ -131,6 +131,8 @@ void Game::drawField() const {
         drawBars();
 
         drawNotes();
+
+        m_effect.update();
 
         Rect{ Arg::topLeft(0, 0), EdgeWidth, FieldSize.y }.draw(UI::EdgeColor);
         Rect{ Arg::topRight(FieldSize.x, 0), EdgeWidth+2, FieldSize.y }.draw(UI::EdgeColor);
@@ -189,7 +191,7 @@ void Game::drawJudmentLine() const {
 }
 
 void Game::drawBars() const {
-    for (auto e : m_barMap) {
+    for (const auto& e : m_barMap) {
         double posY = calculateNoteY(e, getData().setting[U"SPEED"].value / getData().setting[U"SPEED"].scale);
         RectF{ Arg::leftCenter(EdgeWidth, convertPosY(posY)), m_laneWidth * LaneNum, 2.0 }.draw(UI::LaneLineColor);
         if (posY > DrawLimitY) {
@@ -199,7 +201,7 @@ void Game::drawBars() const {
 }
 
 void Game::drawNotes() const {
-    for (auto e : m_notesMap) {
+    for (const auto& e : m_notesMap) {
         if (!drawNote(e)) {
             break;
         }
@@ -208,7 +210,7 @@ void Game::drawNotes() const {
 
 bool Game::drawNote(Note note) const {
     double posY = calculateNoteY(note.timing, getData().setting[U"SPEED"].value / getData().setting[U"SPEED"].scale);
-    if (note.type == 0) {
+    if (note.type == 0 || note.type == 10) {
         RectF{ Arg::leftCenter(EdgeWidth + m_laneWidth * note.lane, convertPosY(posY)), m_laneWidth, 15 }(m_tapNoteTexture).draw();
     }
     if (note.type == 1) {
@@ -514,4 +516,56 @@ double Game::calculateNoteY(int32 timing, double speed) const {
         }
     }
     return noteY;
+}
+
+void Game::judgement() {
+    Array<bool> hasJudged(LaneNum, false);
+    for (auto& e : m_notesMap) {
+        if (e.type == 10) {
+            double posY = calculateNoteY(e.timing, getData().setting[U"SPEED"].value / getData().setting[U"SPEED"].scale);
+            if (posY < -30.0) {
+                e.type = 255;
+            }
+        }
+        Vec2 effectPos{ EdgeWidth + m_laneWidth * e.lane + m_laneWidth / 2.0, convertPosY(DefaultJudmentYPos + 80) };
+        if (e.type == 0) {
+            int32 noteFar = e.timing - m_stopWatchElapsedMS;
+            if (noteFar < -JudgeFarMS[3]) {
+                m_effect.add<JudgeEffect>(effectPos, U"MISS", FontAsset(U"Tile.detail"), Palette::Gray);
+                m_combo = 0;
+                e.type = 10;
+            }
+            if (m_keys[e.lane].down() && !hasJudged[e.lane]) {
+
+                if (Abs(noteFar) <= JudgeFarMS[3]) {
+                    e.type = 255;
+                    hasJudged[e.lane] = true;
+                    if (Abs(noteFar) <= JudgeFarMS[2]) {
+                        m_combo++;
+                        if (Abs(noteFar) <= JudgeFarMS[1]) {
+                            if (Abs(noteFar) <= JudgeFarMS[0]) {
+                                m_effect.add<JudgeEffect>(effectPos, U"PERFECT", FontAsset(U"Tile.detail"), Color(184, 245, 227));
+
+                            }
+                            else {
+                                m_effect.add<JudgeEffect>(effectPos, U"GREAT", FontAsset(U"Tile.detail"));
+                            }
+                        }
+                        else {
+                            if (noteFar < 0) {
+                                m_effect.add<JudgeEffect>(effectPos, U"LATE", FontAsset(U"Tile.detail"), Color(72, 84, 199));
+                            }
+                            else {
+                                m_effect.add<JudgeEffect>(effectPos, U"FAST", FontAsset(U"Tile.detail"), Color(219, 81, 81));
+                            }
+                        }
+                    }
+                    else {
+                        m_effect.add<JudgeEffect>(effectPos, U"MISS", FontAsset(U"Tile.detail"), Palette::Gray);
+                        m_combo = 0;
+                    }
+                }
+            }
+        }
+    }
 }
