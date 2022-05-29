@@ -8,6 +8,7 @@ Game::Game(const InitData& init)
     , m_tapNoteTexture(U"dat/img/tapNote.png")
     , m_holdNoteTexture(U"dat/img/holdNote.png")
     , m_pressNoteTexture(U"dat/img/pressNote.png")
+    , m_pressEffectOpacity(LaneNum, 0.00)
     , VS(HLSL{ U"example/shader/hlsl/homography.hlsl", U"VS" } | GLSL{ U"example/shader/glsl/homography.vert", {{ U"VSConstants2D", 0 }, { U"VSHomography", 1} } })
     , PS(HLSL{ U"example/shader/hlsl/homography.hlsl", U"PS" } | GLSL{ U"example/shader/glsl/homography.frag", {{ U"PSConstants2D", 0 }, { U"PSHomography", 1} } }) {
 
@@ -75,6 +76,16 @@ void Game::update() {
         }
     }
 
+    for (uint8 i = 0; i < LaneNum; i++) {
+        if (m_keys[i].pressed()) {
+            m_pressEffectOpacity[i] = 0.75;
+        }
+        else {
+            m_pressEffectOpacity[i] -= 0.05;
+            m_pressEffectOpacity[i] = Max(m_pressEffectOpacity[i], 0.00);
+        }
+    }
+
     if (KeyEscape.pressed()) {
         changeScene(SceneState::Menu, 1.0s);
         AudioAsset(U"GameMusic").stop(0.7s);
@@ -110,19 +121,16 @@ void Game::drawField() const {
             RectF{ Arg::topCenter(EdgeWidth + m_laneWidth * i, 0.0), 2.0, (double)FieldSize.y }.draw(UI::LaneLineColor);
         }
 
+        drawPressEffect();
 
         drawJudmentLine();
 
-        for (auto e : m_barMap) {
-            RectF{ Arg::leftCenter(EdgeWidth, calculateNoteY(e, getData().setting[U"SPEED"].value / getData().setting[U"SPEED"].scale)), m_laneWidth * LaneNum, 2.0 }.draw(UI::LaneLineColor);
-        }
-        for (auto e : m_notesMap) {
-            drawNote(e);
-        }
+        drawBars();
 
+        drawNotes();
 
         Rect{ Arg::topLeft(0, 0), EdgeWidth, FieldSize.y }.draw(UI::EdgeColor);
-        Rect{ Arg::topRight(FieldSize.x, 0), EdgeWidth, FieldSize.y }.draw(UI::EdgeColor);
+        Rect{ Arg::topRight(FieldSize.x, 0), EdgeWidth+2, FieldSize.y }.draw(UI::EdgeColor);
 
         Rect{ FieldSize }.draw(Arg::top = ColorF(UI::BlurColor, 0), Arg::bottom = ColorF(UI::BlurColor, 0.8));
 
@@ -159,6 +167,13 @@ void Game::drawField() const {
 
 }
 
+void Game::drawPressEffect() const {
+    for (uint8 i = 0; i < LaneNum; i++) {
+        RectF{ Arg::topLeft(EdgeWidth + m_laneWidth * i, 0), m_laneWidth, 180 }
+            .draw(Arg::top = ColorF(Palette::Aliceblue, m_pressEffectOpacity[i]), Arg::bottom = ColorF(Palette::Aliceblue, 0.00));
+    }
+}
+
 void Game::drawJudmentLine() const {
     
     RectF{ Arg::leftCenter(0, m_judgementYPos), static_cast<double>(FieldSize.x), 7 }.drawShadow({ 0.0, 0.0 }, 12.0, 0.0, ColorF(UI::JudmentLineBlurColor));
@@ -170,14 +185,32 @@ void Game::drawJudmentLine() const {
 
 }
 
-void Game::drawNote(Note note) const {
+void Game::drawBars() const {
+    for (auto e : m_barMap) {
+        double posY = calculateNoteY(e, getData().setting[U"SPEED"].value / getData().setting[U"SPEED"].scale);
+        RectF{ Arg::leftCenter(EdgeWidth, posY), m_laneWidth * LaneNum, 2.0 }.draw(UI::LaneLineColor);
+        if (posY > DrawLimitY) {
+            break;
+        }
+    }
+}
+
+void Game::drawNotes() const {
+    for (auto e : m_notesMap) {
+        if (!drawNote(e)) {
+            break;
+        }
+    }
+}
+
+bool Game::drawNote(Note note) const {
+    double posY = calculateNoteY(note.timing, getData().setting[U"SPEED"].value / getData().setting[U"SPEED"].scale);
     if (note.type == 0) {
-        double posY = calculateNoteY(note.timing, getData().setting[U"SPEED"].value / getData().setting[U"SPEED"].scale);
         RectF{ Arg::leftCenter(EdgeWidth + m_laneWidth * note.lane, posY), m_laneWidth, 15 }(m_tapNoteTexture).draw();
     }
     if (note.type == 1) {
-        double startPosY = calculateNoteY(note.timing, getData().setting[U"SPEED"].value / getData().setting[U"SPEED"].scale);
-        double startPosEndY = calculateNoteY(note.sub, getData().setting[U"SPEED"].value / getData().setting[U"SPEED"].scale);
+        double startPosY = posY;
+        double startPosEndY = Min(calculateNoteY(note.sub, getData().setting[U"SPEED"].value / getData().setting[U"SPEED"].scale), (double)DrawLimitY);
 
         RectF{ Arg::bottomCenter(EdgeWidth + m_laneWidth * note.lane + m_laneWidth / 2.0, (startPosEndY + startPosY) / 2), m_laneWidth * 0.90, (startPosEndY - startPosY) / 2.0 }
             .draw(Arg::top = Color(242, 124, 208, 190), Arg::bottom = Color(19, 189, 225, 190));
@@ -187,9 +220,10 @@ void Game::drawNote(Note note) const {
         RectF{ Arg::leftCenter(EdgeWidth + m_laneWidth * note.lane, startPosEndY), m_laneWidth, 15 }(m_holdNoteTexture).draw();
     }
     if (note.type == 3) {
-        double posY = calculateNoteY(note.timing, getData().setting[U"SPEED"].value / getData().setting[U"SPEED"].scale);
         RectF{ Arg::leftCenter(EdgeWidth + m_laneWidth * note.lane, posY), m_laneWidth, 15 }(m_pressNoteTexture).draw();
     }
+
+    return posY <= DrawLimitY;
 }
 
 bool Game::loadNotes() {

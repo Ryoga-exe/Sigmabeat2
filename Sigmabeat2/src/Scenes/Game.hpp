@@ -24,7 +24,10 @@ public:
 
 private:
     void drawField() const;
-    void drawNote(Note note) const;
+    void drawBars() const;
+    void drawNotes() const;
+    bool drawNote(Note note) const;
+    void drawPressEffect() const;
     void drawJudmentLine() const;
     bool loadNotes();
     bool applyMacro(String::value_type macro, String value, int32 timing, String::value_type spliter = U' ');
@@ -39,6 +42,7 @@ private:
     Score::Manager& m_scores = Singleton<Score::Manager>::get_instance();
 
     const Size FieldSize = { 500, 1000 };
+    const int32 DrawLimitY = FieldSize.y * 2;
     const VertexShader VS;
     const PixelShader PS;
     const double DefaultJudmentYPos = 60.00;
@@ -55,6 +59,15 @@ private:
     Array<SpeedNote> m_speedMap;
     Array<JudgeYNote> m_judgeYMap;
     Array<int32> m_barMap;
+    Array<Input> m_keys = {
+        KeyS,
+        KeyD,
+        KeyF,
+        KeyJ,
+        KeyK,
+        KeyL,
+    };
+    Array<double> m_pressEffectOpacity;
 
     const Texture m_tapNoteTexture;
     const Texture m_holdNoteTexture;
