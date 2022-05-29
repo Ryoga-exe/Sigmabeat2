@@ -23,6 +23,12 @@ public:
 
 
 private:
+    inline constexpr int32 convertPosY(int32 y) const {
+        return FieldSize.y - y;
+    }
+    inline constexpr double convertPosY(double y) const {
+        return static_cast<double>(FieldSize.y) - y;
+    }
     void drawField() const;
     void drawBars() const;
     void drawNotes() const;

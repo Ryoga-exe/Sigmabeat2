@@ -111,7 +111,7 @@ void Game::drawField() const {
     auto TopW = SceneW * 0.20;
     auto BottomW = SceneW * 0.70;
 
-    Quad quad{ Vec2{(SceneW - BottomW) / 2, SceneH}, Vec2{(SceneW + BottomW) / 2, SceneH}, Vec2{(SceneW + TopW) / 2, 0}, Vec2{(SceneW - TopW) / 2, 0} };
+    Quad quad{ Vec2{(SceneW - TopW) / 2, 0}, Vec2{(SceneW + TopW) / 2, 0}, Vec2{(SceneW + BottomW) / 2, SceneH}, Vec2{(SceneW - BottomW) / 2, SceneH} };
 
     {
         const ScopedRenderTarget2D target(m_fieldRT.clear(UI::BackgroundColor));
@@ -120,6 +120,9 @@ void Game::drawField() const {
         for (uint8 i = 1; i < LaneNum; i++) {
             RectF{ Arg::topCenter(EdgeWidth + m_laneWidth * i, 0.0), 2.0, (double)FieldSize.y }.draw(UI::LaneLineColor);
         }
+
+        FontAsset(U"Menu")(U"COMBO").drawAt(FieldSize.x / 2.0, convertPosY(390), Palette::White);
+        FontAsset(U"Game.combo")(U"0").drawAt(FieldSize.x / 2.0, convertPosY(320), Palette::White);
 
         drawPressEffect();
 
@@ -132,7 +135,7 @@ void Game::drawField() const {
         Rect{ Arg::topLeft(0, 0), EdgeWidth, FieldSize.y }.draw(UI::EdgeColor);
         Rect{ Arg::topRight(FieldSize.x, 0), EdgeWidth+2, FieldSize.y }.draw(UI::EdgeColor);
 
-        Rect{ FieldSize }.draw(Arg::top = ColorF(UI::BlurColor, 0), Arg::bottom = ColorF(UI::BlurColor, 0.8));
+        Rect{ FieldSize }.draw(Arg::top = ColorF(UI::BlurColor, 0.8), Arg::bottom = ColorF(UI::BlurColor, 0));
 
     }
 
@@ -162,33 +165,33 @@ void Game::drawField() const {
 
 
     // debug
-    RectF{ FieldSize * 0.65 }(m_fieldRT.flipped()).draw();
+    RectF{ FieldSize * 0.65 }(m_fieldRT).draw();
 
 
 }
 
 void Game::drawPressEffect() const {
     for (uint8 i = 0; i < LaneNum; i++) {
-        RectF{ Arg::topLeft(EdgeWidth + m_laneWidth * i, 0), m_laneWidth, 180 }
-            .draw(Arg::top = ColorF(Palette::Aliceblue, m_pressEffectOpacity[i]), Arg::bottom = ColorF(Palette::Aliceblue, 0.00));
+        RectF{ Arg::bottomLeft(EdgeWidth + m_laneWidth * i, convertPosY(0)), m_laneWidth, 180 }
+            .draw(Arg::top = ColorF(Palette::Aliceblue, 0.00), Arg::bottom = ColorF(Palette::Aliceblue, m_pressEffectOpacity[i]));
     }
 }
 
 void Game::drawJudmentLine() const {
     
-    RectF{ Arg::leftCenter(0, m_judgementYPos), static_cast<double>(FieldSize.x), 7 }.drawShadow({ 0.0, 0.0 }, 12.0, 0.0, ColorF(UI::JudmentLineBlurColor));
+    RectF{ Arg::leftCenter(0, convertPosY(m_judgementYPos)), static_cast<double>(FieldSize.x), 7 }.drawShadow({ 0.0, 0.0 }, 12.0, 0.0, ColorF(UI::JudmentLineBlurColor));
     
-    RectF{ 0, m_judgementYPos, static_cast<double>(FieldSize.x), -3 }.draw(Arg::top(UI::JudmentLineColor), Arg::bottom(ColorF(UI::JudmentLineBlurColor, 0.5)));
-    RectF{ 0, m_judgementYPos, static_cast<double>(FieldSize.x), 3 }.draw(Arg::top(UI::JudmentLineColor), Arg::bottom(ColorF(UI::JudmentLineBlurColor, 0.5)));
-    RectF{ Arg::leftCenter(0, m_judgementYPos), static_cast<double>(FieldSize.x), 3 }.draw(ColorF(UI::JudmentLineColor, 0.6));
-    RectF{ Arg::leftCenter(0, m_judgementYPos), static_cast<double>(FieldSize.x), 4 }.stretched(2).drawFrame(0.5).stretched(1).drawFrame(0.5, UI::JudmentLineColor);
+    RectF{ 0, convertPosY(m_judgementYPos), static_cast<double>(FieldSize.x), -3 }.draw(Arg::top(UI::JudmentLineColor), Arg::bottom(ColorF(UI::JudmentLineBlurColor, 0.5)));
+    RectF{ 0, convertPosY(m_judgementYPos), static_cast<double>(FieldSize.x), 3 }.draw(Arg::top(UI::JudmentLineColor), Arg::bottom(ColorF(UI::JudmentLineBlurColor, 0.5)));
+    RectF{ Arg::leftCenter(0, convertPosY(m_judgementYPos)), static_cast<double>(FieldSize.x), 3 }.draw(ColorF(UI::JudmentLineColor, 0.6));
+    RectF{ Arg::leftCenter(0, convertPosY(m_judgementYPos)), static_cast<double>(FieldSize.x), 4 }.stretched(2).drawFrame(0.5).stretched(1).drawFrame(0.5, UI::JudmentLineColor);
 
 }
 
 void Game::drawBars() const {
     for (auto e : m_barMap) {
         double posY = calculateNoteY(e, getData().setting[U"SPEED"].value / getData().setting[U"SPEED"].scale);
-        RectF{ Arg::leftCenter(EdgeWidth, posY), m_laneWidth * LaneNum, 2.0 }.draw(UI::LaneLineColor);
+        RectF{ Arg::leftCenter(EdgeWidth, convertPosY(posY)), m_laneWidth * LaneNum, 2.0 }.draw(UI::LaneLineColor);
         if (posY > DrawLimitY) {
             break;
         }
@@ -206,21 +209,22 @@ void Game::drawNotes() const {
 bool Game::drawNote(Note note) const {
     double posY = calculateNoteY(note.timing, getData().setting[U"SPEED"].value / getData().setting[U"SPEED"].scale);
     if (note.type == 0) {
-        RectF{ Arg::leftCenter(EdgeWidth + m_laneWidth * note.lane, posY), m_laneWidth, 15 }(m_tapNoteTexture).draw();
+        RectF{ Arg::leftCenter(EdgeWidth + m_laneWidth * note.lane, convertPosY(posY)), m_laneWidth, 15 }(m_tapNoteTexture).draw();
     }
     if (note.type == 1) {
         double startPosY = posY;
         double startPosEndY = Min(calculateNoteY(note.sub, getData().setting[U"SPEED"].value / getData().setting[U"SPEED"].scale), (double)DrawLimitY);
 
-        RectF{ Arg::bottomCenter(EdgeWidth + m_laneWidth * note.lane + m_laneWidth / 2.0, (startPosEndY + startPosY) / 2), m_laneWidth * 0.90, (startPosEndY - startPosY) / 2.0 }
-            .draw(Arg::top = Color(242, 124, 208, 190), Arg::bottom = Color(19, 189, 225, 190));
-        RectF{ Arg::topCenter(EdgeWidth + m_laneWidth * note.lane + m_laneWidth / 2.0, (startPosEndY + startPosY) / 2), m_laneWidth * 0.90, (startPosEndY - startPosY) / 2.0 }
-            .draw(Arg::top = Color(19, 189, 225, 190), Arg::bottom = Color(116, 111, 217, 190));
-        RectF{ Arg::leftCenter(EdgeWidth + m_laneWidth * note.lane, startPosY), m_laneWidth, 15 }(m_holdNoteTexture).draw();
-        RectF{ Arg::leftCenter(EdgeWidth + m_laneWidth * note.lane, startPosEndY), m_laneWidth, 15 }(m_holdNoteTexture).draw();
+        RectF{ Arg::bottomCenter(EdgeWidth + m_laneWidth * note.lane + m_laneWidth / 2.0, convertPosY((startPosEndY + startPosY) / 2)), m_laneWidth * 0.90, (startPosEndY - startPosY) / 2.0 }
+            .draw(Arg::top = Color(116, 111, 217, 190), Arg::bottom = Color(19, 189, 225, 190));
+        RectF{ Arg::topCenter(EdgeWidth + m_laneWidth * note.lane + m_laneWidth / 2.0, convertPosY((startPosEndY + startPosY) / 2)), m_laneWidth * 0.90, (startPosEndY - startPosY) / 2.0 }
+            .draw(Arg::top = Color(19, 189, 225, 190), Arg::bottom = Color(242, 124, 208, 190));
+
+        RectF{ Arg::leftCenter(EdgeWidth + m_laneWidth * note.lane, convertPosY(startPosY)), m_laneWidth, 15 }(m_holdNoteTexture).draw();
+        RectF{ Arg::leftCenter(EdgeWidth + m_laneWidth * note.lane, convertPosY(startPosEndY)), m_laneWidth, 15 }(m_holdNoteTexture).draw();
     }
     if (note.type == 3) {
-        RectF{ Arg::leftCenter(EdgeWidth + m_laneWidth * note.lane, posY), m_laneWidth, 15 }(m_pressNoteTexture).draw();
+        RectF{ Arg::leftCenter(EdgeWidth + m_laneWidth * note.lane, convertPosY(posY)), m_laneWidth, 15 }(m_pressNoteTexture).draw();
     }
 
     return posY <= DrawLimitY;
