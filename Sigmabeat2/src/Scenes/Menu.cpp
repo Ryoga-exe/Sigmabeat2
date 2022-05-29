@@ -40,21 +40,21 @@ void Menu::update() {
         }
 
         if (m_tileState == 0.0) {
-            if (m_index + 1 < m_indexSize && KeyRight.down()) {
+            if (m_index + 1 < m_indexSize && (KeyRight | KeyL).down()) {
                 m_animateState = -1.0;
                 m_index++;
 
                 m_tileOffsetStopwatch.restart();
             }
 
-            if (m_index > 0 && KeyLeft.down()) {
+            if (m_index > 0 && (KeyLeft | KeyS).down()) {
                 m_animateState = 1.0;
                 m_index--;
 
                 m_tileOffsetStopwatch.restart();
             }
 
-            if (Abs(m_animateState) <= 0.05 && (KeyEnter | KeySpace).down()) {
+            if (Abs(m_animateState) <= 0.05 && (KeyEnter | KeySpace | KeyF | KeyJ).down()) {
                 m_settingIndex = 1;
                 m_stopwatch.restart();
             }
@@ -71,11 +71,11 @@ void Menu::update() {
     else if (m_settingState == 1) {
         if (m_tileState == 1.0) {
             if (Abs(m_animateState) <= 0.05 ) {
-                if (KeyEscape.down()) {
+                if (KeyEscape.down() || KeyD.pressedDuration() >= 1.0s) {
                     m_settingIndex = 1;
                     m_stopwatch.restart();
                 }
-                if ((KeyEnter | KeySpace).down() && SettingTiles[m_settingIndex] == U"MUSIC") {
+                if ((KeyEnter | KeySpace | KeyF | KeyJ).down() && SettingTiles[m_settingIndex] == U"MUSIC") {
                     if (m_scores.get(m_index).level[m_level] > 0) {
                         m_settingState = 2;
                         m_stopwatch.restart();
@@ -86,14 +86,14 @@ void Menu::update() {
             }
 
 
-            if (m_settingIndex + 1 < SettingTiles.size() && KeyRight.down()) {
+            if (m_settingIndex + 1 < SettingTiles.size() && (KeyRight | KeyL).down()) {
                 m_animateState = -1.0;
                 m_settingIndex++;
 
                 m_tileOffsetStopwatch.restart();
             }
 
-            if (m_settingIndex > 0 && KeyLeft.down()) {
+            if (m_settingIndex > 0 && (KeyLeft | KeyS).down()) {
                 m_animateState = 1.0;
                 m_settingIndex--;
 
@@ -126,19 +126,19 @@ void Menu::update() {
         m_audition.autoPlayAndStop();
 
         if (SettingTiles[m_settingIndex] == U"MUSIC") {
-            if (KeyUp.down()) {
+            if ((KeyUp | KeyK).down()) {
                 m_level = (m_level + 1) % Score::LevelNum;
             }
-            if (KeyDown.down()) {
+            if ((KeyDown | KeyD).down()) {
                 m_level = (m_level + Score::LevelNum - 1) % Score::LevelNum;
             }
         }
         else {
             auto& target = getData().setting[SettingTiles[m_settingIndex]];
-            if (KeyUp.down() && target.value + 1 <= target.maxValue) {
+            if ((KeyUp | KeyK).down() && target.value + 1 <= target.maxValue) {
                 target.value++;
             }
-            if (KeyDown.down() && target.value - 1 >= target.minValue) {
+            if ((KeyDown | KeyD).down() && target.value - 1 >= target.minValue) {
                 target.value--;
             }
         }
