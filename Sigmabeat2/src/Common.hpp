@@ -8,7 +8,8 @@ enum class SceneState {
     Setup,
     Title,
     Menu,
-    Game
+    Game,
+    Result,
 };
 
 struct GameSettingItem {
@@ -21,10 +22,14 @@ struct GameSettingItem {
 
 struct GameData {
 
+    GameData() : judges(4, 0) {}
+
     PlayerData::Data playerdata;
 
     int32 selectIndex = 0;
     int32 selectLevel = 0;
+    int32 score = 0;
+    Array<int32> judges;
     
     HashTable<String, GameSettingItem> setting = {
         { U"SPEED",  { 30, 10, 10, 100 } },
