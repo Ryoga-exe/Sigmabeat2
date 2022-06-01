@@ -4,6 +4,7 @@
 Game::Game(const InitData& init)
     : IScene(init)
     , m_hasStarted(false)
+    , m_hasPlayed(false)
     , m_fieldRT(FieldSize)
     , m_tapNoteTexture(U"dat/img/tapNote.png")
     , m_holdNoteTexture(U"dat/img/holdNote.png")
@@ -57,8 +58,9 @@ void Game::update() {
         m_hasStarted = true;
     }
 
-    if (m_hasStarted && !AudioAsset(U"GameMusic").isPlaying() && m_stopWatchElapsedMS >= 0) {
+    if (m_hasStarted && !m_hasPlayed && m_stopWatchElapsedMS >= 0) {
         AudioAsset(U"GameMusic").play();
+        m_hasPlayed = true;
     }
 
     // Speed
@@ -547,7 +549,7 @@ void Game::judgement() {
         }
         Vec2 effectPos{ EdgeWidth + m_laneWidth * e.lane + m_laneWidth / 2.0, convertPosY(DefaultJudmentYPos + 80) };
         if (e.type == 0) {
-            int32 noteFar = e.timing - m_stopWatchElapsedMS;
+            int32 noteFar = e.timing - m_stopWatchElapsedMS + getData().setting[U"TIMING"].value;
             if (noteFar < -JudgeFarMS[3]) {
                 m_effect.add<JudgeEffect>(effectPos, U"MISS", FontAsset(U"Tile.detail"), Palette::Gray);
                 m_combo = 0;
@@ -571,10 +573,10 @@ void Game::judgement() {
                         }
                         else {
                             if (noteFar < 0) {
-                                m_effect.add<JudgeEffect>(effectPos, U"LATE", FontAsset(U"Tile.detail"), Color(72, 84, 199));
+                                m_effect.add<JudgeEffect>(effectPos, U"LATE", FontAsset(U"Tile.detail"), Color(219, 81, 81));
                             }
                             else {
-                                m_effect.add<JudgeEffect>(effectPos, U"FAST", FontAsset(U"Tile.detail"), Color(219, 81, 81));
+                                m_effect.add<JudgeEffect>(effectPos, U"FAST", FontAsset(U"Tile.detail"), Color(72, 84, 199));
                             }
                         }
                     }
@@ -586,7 +588,7 @@ void Game::judgement() {
             }
         }
         if (e.type == 1) {
-            int32 noteFar = e.timing - m_stopWatchElapsedMS;
+            int32 noteFar = e.timing - m_stopWatchElapsedMS + getData().setting[U"TIMING"].value;
             if (noteFar < -JudgeFarMS[3]) {
                 m_effect.add<JudgeEffect>(effectPos, U"MISS", FontAsset(U"Tile.detail"), Palette::Gray);
                 m_combo = 0;
@@ -608,10 +610,10 @@ void Game::judgement() {
                         }
                         else {
                             if (noteFar < 0) {
-                                m_effect.add<JudgeEffect>(effectPos, U"LATE", FontAsset(U"Tile.detail"), Color(72, 84, 199));
+                                m_effect.add<JudgeEffect>(effectPos, U"LATE", FontAsset(U"Tile.detail"), Color(219, 81, 81));
                             }
                             else {
-                                m_effect.add<JudgeEffect>(effectPos, U"FAST", FontAsset(U"Tile.detail"), Color(219, 81, 81));
+                                m_effect.add<JudgeEffect>(effectPos, U"FAST", FontAsset(U"Tile.detail"), Color(72, 84, 199));
                             }
                         }
                     }
@@ -625,7 +627,7 @@ void Game::judgement() {
         }
         if (e.type == 21) {
             e.timing = m_stopWatchElapsedMS;
-            int32 noteFar = e.sub - m_stopWatchElapsedMS;
+            int32 noteFar = e.sub - m_stopWatchElapsedMS + getData().setting[U"TIMING"].value;
 
             if (noteFar <= 0) {
                 m_effect.add<JudgeEffect>(effectPos, U"PERFECT", FontAsset(U"Tile.detail"), Color(184, 245, 227));
@@ -645,7 +647,7 @@ void Game::judgement() {
                         }
                     }
                     else {
-                        m_effect.add<JudgeEffect>(effectPos, U"FAST", FontAsset(U"Tile.detail"), Color(219, 81, 81));
+                        m_effect.add<JudgeEffect>(effectPos, U"FAST", FontAsset(U"Tile.detail"), Color(72, 84, 199));
                     }
                 }
                 else {

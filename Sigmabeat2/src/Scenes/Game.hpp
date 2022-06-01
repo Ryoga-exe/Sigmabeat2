@@ -109,6 +109,7 @@ private:
     int32 m_index;
 
     bool m_hasStarted;
+    bool m_hasPlayed;
 
     Effect m_effect;
 };
