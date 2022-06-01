@@ -8,6 +8,7 @@
 #include "Scenes/Title.hpp"
 #include "Scenes/Menu.hpp"
 #include "Scenes/Game.hpp"
+#include "Scenes/Result.hpp"
 
 void Init() {
     System::SetTerminationTriggers(UserAction::CloseButtonClicked);
@@ -45,13 +46,14 @@ void Main() {
 
     MyApp manager;
     manager
-        .add<Setup>(SceneState::Setup)
-        .add<Title>(SceneState::Title)
-        .add<Menu >(SceneState::Menu)
-        .add<Game >(SceneState::Game)
+        .add<Setup >(SceneState::Setup)
+        .add<Title >(SceneState::Title)
+        .add<Menu  >(SceneState::Menu)
+        .add<Game  >(SceneState::Game)
+        .add<Result>(SceneState::Result)
         .setFadeColor(ColorF(1.0));
 
-    manager.init(SceneState::Game);
+    manager.init(SceneState::Menu);
 
     while (System::Update() && manager.update()) {
 
