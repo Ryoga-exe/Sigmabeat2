@@ -4,7 +4,7 @@
 namespace Score {
 
     Manager::Manager()
-        : m_hasInitialized(false), m_hasLoaded(false), m_defaultTexture(U"dat/img/icon.png"){
+        : m_hasInitialized(false), m_hasLoaded(false), m_defaultTexture(U"assets/images/icon.png"){
 
     }
 

@@ -1,7 +1,7 @@
 ﻿#include "Setup.hpp"
 
 Setup::Setup(const InitData& init)
-    : IScene(init), m_stopwatch(StartImmediately::Yes), m_authorLogo(U"dat/img/ryoga-exe.png"){
+    : IScene(init), m_stopwatch(StartImmediately::Yes), m_authorLogo(U"assets/images/ryoga-exe.png"){
     AudioAsset::LoadAsync(U"Opening");
 
     Scene::SetBackground(Palette::Whitesmoke);

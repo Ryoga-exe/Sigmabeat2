@@ -1,7 +1,7 @@
 ﻿#include "Title.hpp"
 
 Title::Title(const InitData& init)
-    : IScene(init), m_delta(0.0), m_titleLogo(U"dat/img/logo.png") {
+    : IScene(init), m_delta(0.0), m_titleLogo(U"assets/images/logo.png") {
 
     AudioAsset(U"Opening").setLoop(true);
     AudioAsset(U"Opening").play();

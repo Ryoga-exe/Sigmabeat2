@@ -6,12 +6,12 @@ Game::Game(const InitData& init)
     , m_hasStarted(false)
     , m_hasPlayed(false)
     , m_fieldRT(FieldSize)
-    , m_tapNoteTexture(U"dat/img/tapNote.png")
-    , m_holdNoteTexture(U"dat/img/holdNote.png")
-    , m_pressNoteTexture(U"dat/img/pressNote.png")
+    , m_tapNoteTexture(U"assets/images/tapNote.png")
+    , m_holdNoteTexture(U"assets/images/holdNote.png")
+    , m_pressNoteTexture(U"assets/images/pressNote.png")
     , m_pressEffectOpacity(LaneNum, 0.00)
-    , VS(HLSL{ U"example/shader/hlsl/homography.hlsl", U"VS" } | GLSL{ U"example/shader/glsl/homography.vert", {{ U"VSConstants2D", 0 }, { U"VSHomography", 1} } })
-    , PS(HLSL{ U"example/shader/hlsl/homography.hlsl", U"PS" } | GLSL{ U"example/shader/glsl/homography.frag", {{ U"PSConstants2D", 0 }, { U"PSHomography", 1} } }) {
+    , VS(HLSL{ U"assets/shaders/hlsl/homography.hlsl", U"VS" } | GLSL{ U"assets/shaders/glsl/homography.vert", {{ U"VSConstants2D", 0 }, { U"VSHomography", 1} } })
+    , PS(HLSL{ U"assets/shaders/hlsl/homography.hlsl", U"PS" } | GLSL{ U"assets/shaders/glsl/homography.frag", {{ U"PSConstants2D", 0 }, { U"PSHomography", 1} } }) {
 
     Scene::SetBackground(Palette::Whitesmoke);
     Scene::SetLetterbox(Palette::Whitesmoke);
