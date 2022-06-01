@@ -53,7 +53,7 @@ void Main() {
         .add<Result>(SceneState::Result)
         .setFadeColor(ColorF(1.0));
 
-    manager.init(SceneState::Menu);
+    manager.init(SceneState::Result);
 
     while (System::Update() && manager.update()) {
 

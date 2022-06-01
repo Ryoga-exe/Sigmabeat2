@@ -10,5 +10,6 @@ public:
 
 private:
     double m_delta = 0.0;
-    const Texture m_titleLogo;
+
+    bool m_playing;
 };

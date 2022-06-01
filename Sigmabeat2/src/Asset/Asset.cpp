@@ -17,5 +17,8 @@ namespace Asset {
         TextureAsset::Register(U"Icon.sliders-h", 0xf1de_icon, 100);
 
         AudioAsset::Register(U"Opening", U"assets/sounds/opening.wav");
+        AudioAsset::Register(U"Result", U"assets/sounds/result.wav");
+        AudioAsset::Register(U"SE.move", U"assets/sounds/Select_SE.wav");
+        AudioAsset::Register(U"SE.levelChange", U"assets/sounds/LevelChange_SE.ogg");
     }
 }

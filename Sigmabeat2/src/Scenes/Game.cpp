@@ -32,6 +32,10 @@ Game::Game(const InitData& init)
     m_speedMapIndex = 0;
     m_index = getData().selectIndex;
 
+    getData().judges.fill(0);
+    getData().score = 0;
+
+
     AudioAsset::Register(U"GameMusic", m_scores.getMusicPath(m_index));
     AudioAsset::LoadAsync(U"GameMusic");
 
@@ -39,8 +43,6 @@ Game::Game(const InitData& init)
 
     m_stopwatch.reset();
 
-    //-------------
-    ClearPrint();
 }
 
 Game::~Game() {
@@ -61,6 +63,11 @@ void Game::update() {
     if (m_hasStarted && !m_hasPlayed && m_stopWatchElapsedMS >= 0) {
         AudioAsset(U"GameMusic").play();
         m_hasPlayed = true;
+    }
+
+    if (m_endTime + 2000 < m_stopWatchElapsedMS) {
+        AudioAsset(U"GameMusic").stop(0.5s);
+        changeScene(SceneState::Result, 1.0s);
     }
 
     // Speed
@@ -92,8 +99,8 @@ void Game::update() {
     }
 
     if (KeyEscape.pressed()) {
-        changeScene(SceneState::Menu, 1.0s);
         AudioAsset(U"GameMusic").stop(0.7s);
+        changeScene(SceneState::Menu, 1.0s);
     }
 
     judgement();

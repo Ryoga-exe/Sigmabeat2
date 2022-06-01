@@ -17,7 +17,10 @@ Menu::Menu(const InitData& init)
 
     updateScaleRate();
     updateTiles();
-    
+
+    AudioAsset::Load(U"SE.move");
+    AudioAsset::Load(U"SE.levelChange");
+
 }
 
 Menu::~Menu() {
@@ -45,6 +48,7 @@ void Menu::update() {
                 m_index++;
 
                 m_tileOffsetStopwatch.restart();
+                AudioAsset(U"SE.move").playOneShot();
             }
 
             if (m_index > 0 && (KeyLeft | KeyS).down()) {
@@ -52,6 +56,7 @@ void Menu::update() {
                 m_index--;
 
                 m_tileOffsetStopwatch.restart();
+                AudioAsset(U"SE.move").playOneShot();
             }
 
             if (Abs(m_animateState) <= 0.05 && (KeyEnter | KeySpace | KeyF | KeyJ).down()) {
@@ -91,6 +96,7 @@ void Menu::update() {
                 m_settingIndex++;
 
                 m_tileOffsetStopwatch.restart();
+                AudioAsset(U"SE.move").playOneShot();
             }
 
             if (m_settingIndex > 0 && (KeyLeft | KeyS).down()) {
@@ -98,6 +104,7 @@ void Menu::update() {
                 m_settingIndex--;
 
                 m_tileOffsetStopwatch.restart();
+                AudioAsset(U"SE.move").playOneShot();
             }
         }
 
@@ -128,9 +135,11 @@ void Menu::update() {
         if (SettingTiles[m_settingIndex] == U"MUSIC") {
             if ((KeyUp | KeyK).down()) {
                 m_level = (m_level + 1) % Score::LevelNum;
+                AudioAsset(U"SE.levelChange").playOneShot();
             }
             if ((KeyDown | KeyD).down()) {
                 m_level = (m_level + Score::LevelNum - 1) % Score::LevelNum;
+                AudioAsset(U"SE.levelChange").playOneShot();
             }
         }
         else {
