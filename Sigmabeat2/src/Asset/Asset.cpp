@@ -8,8 +8,10 @@ namespace Asset {
         FontAsset::Register(U"Tile.title", 30, Typeface::Medium);
         FontAsset::Register(U"Tile.setting", 40, Typeface::Medium);
         FontAsset::Register(U"Tile.detail", 15, Typeface::Medium);
+        FontAsset::Register(U"Tile.detail.small", 10, Typeface::Medium);
 
         FontAsset::Register(U"Game.combo", 100, Typeface::Bold);
+        FontAsset::Register(U"Game.level", 35, Typeface::Bold);
 
 
 

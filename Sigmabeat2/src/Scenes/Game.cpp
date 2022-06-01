@@ -31,6 +31,7 @@ Game::Game(const InitData& init)
     m_judgeYMap.push_back(JudgeYNote{ .timing = 0, .posY = DefaultJudmentYPos, .durationMS = 0 });
     m_speedMapIndex = 0;
     m_index = getData().selectIndex;
+    m_level = getData().selectLevel;
 
     getData().judges.fill(0);
     getData().score = 0;
@@ -104,13 +105,45 @@ void Game::update() {
     }
 
     judgement();
-
-    // Print << m_stopWatchElapsedMS;
     
 }
 
 void Game::draw() const {
     drawField();
+
+    {
+        const Color levelColor = Score::LevelColor[m_level].gamma(0.5);
+        RectF{ 0, 0, 400, 140 }.drawShadow({0, 2}, 13, 2);
+        RectF{ 0, 0, 400, 20 }.draw(Palette::Black);
+        RectF{ 0, 20, 400, 60 }.draw(levelColor);
+        RectF{ 0, 80, 400, 60 }.draw(Palette::Whitesmoke);
+        RectF{ 10, 30, 100, 100 }.stretched(2).drawShadow({ 0, 2 }, 13, 2).draw(Palette::White);
+        RectF{ 10, 30, 100, 100 }(m_scores.getTexture(m_index)).draw();
+
+        RectF{ 120, 115, 270, 1.5 }.draw(levelColor);
+
+        RectF{ 0, 0, 400, 140 }.drawFrame(0.0, 1.0, Palette::Whitesmoke, Palette::Whitesmoke);
+
+        RectF{ 330, 25, 65, 65 }.drawShadow({ 0, 2 }, 13, 2).draw(ColorF(0, 0, 0, 0.3)).draw(Palette::Whitesmoke);
+        RectF{ 333, 45, 59, 42 }.draw(Color(15, 51, 66));
+
+        FontAsset(U"Tile.detail.small")(U"SPEED : x{:.2f}"_fmt(getData().setting[U"SPEED"].value / (double)getData().setting[U"SPEED"].scale)).draw(Arg::bottomLeft(10, 18), Palette::Lightgray);
+        // FontAsset(U"Tile.detail.small")(U"SPEED : x{:.2f}"_fmt(, Palette::Lightgray);
+
+
+        FontAsset(U"Tile.detail")(U"LEVEL").draw(Arg::bottomCenter(363.0, 45), Color(15, 51, 66));
+        FontAsset(U"Tile.title")(m_scores.get(m_index).level[m_level]).draw(Arg::center(362.5, 66), Palette::White);
+
+        FontAsset(U"Tile.detail")(U"TRACK ∞").draw(Vec2{ 120, 25 }, Palette::White);
+        
+        FontAsset(U"Game.level")(Score::LevelName[m_level].uppercased()).draw(Vec2{120, 35}, Palette::White);
+
+        FontAsset(U"Tile.detail")(m_scores.getTitle(m_index)).draw(Arg::bottomLeft(123, 110), Palette::Dimgray);
+        FontAsset(U"Tile.detail.small")(m_scores.getArtist(m_index)).draw(Arg::topLeft(123, 120), Palette::Dimgray);
+
+
+
+    }
 }
 
 void Game::drawField() const {
@@ -329,7 +362,6 @@ bool Game::loadNotes() {
                     }
                     else {
                         funcDelayMS = (barLength * (double)p / (double)q);
-                        Print << funcDelayMS;
                     }
                 }
                 else {

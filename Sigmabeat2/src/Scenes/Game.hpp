@@ -107,6 +107,7 @@ private:
     int32 m_endTime;
     int32 m_speedMapIndex;
     int32 m_index;
+    int32 m_level;
 
     bool m_hasStarted;
     bool m_hasPlayed;

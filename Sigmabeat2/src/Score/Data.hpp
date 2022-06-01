@@ -12,6 +12,12 @@ namespace Score {
         Color(238, 30 , 118), // Hard
         Color(186, 51 , 239)  // Expert
     };
+    const String LevelName[LevelNum] = {
+        U"Easy",
+        U"Normal",
+        U"Hard",
+        U"Expert",
+    };
     constexpr Color UnvalidLevelColor = Palette::Darkgray;
     constexpr Color UnvalidColor = Color(0);
 
