@@ -9,7 +9,9 @@ Game::Game(const InitData& init)
     , m_tapNoteTexture(U"assets/images/notes/tap.png")
     , m_holdNoteTexture(U"assets/images/notes/hold.png")
     , m_pressNoteTexture(U"assets/images/notes/press.png")
+    , m_backgroundTexture(U"assets/images/polygons/0.png")
     , m_pressEffectOpacity(LaneNum, 0.00)
+    , m_judgeRanks(5, 0)
     , VS(HLSL{ U"assets/shaders/hlsl/homography.hlsl", U"VS" } | GLSL{ U"assets/shaders/glsl/homography.vert", {{ U"VSConstants2D", 0 }, { U"VSHomography", 1} } })
     , PS(HLSL{ U"assets/shaders/hlsl/homography.hlsl", U"PS" } | GLSL{ U"assets/shaders/glsl/homography.frag", {{ U"PSConstants2D", 0 }, { U"PSHomography", 1} } }) {
 
@@ -18,6 +20,8 @@ Game::Game(const InitData& init)
 
     m_speed = 1.00;
     m_combo = 0;
+    m_maxCombo = 0;
+    m_scorePoint = 0;
     m_judgementYPos = DefaultJudmentYPos;
     m_laneWidth = (FieldSize.x - 2 * EdgeWidth) / LaneNum;
     m_posMilliSec = 0.00;
@@ -54,6 +58,14 @@ void Game::update() {
 
     m_posMilliSec = AudioAsset(U"GameMusic").posSec() * 1000.0;
     m_stopWatchElapsedMS = m_stopwatch.ms() - 4000;
+
+    m_maxCombo = Max(m_maxCombo, m_combo);
+
+    if (!m_notesMap.empty()) {
+        double score_tmp =
+            1000000 * ((m_judgeRanks[0] + m_judgeRanks[1] * 0.6 + m_judgeRanks[2] * 0.3 + m_judgeRanks[3] * 0.3) / m_notesMap.size());
+        m_scorePoint = static_cast<int32>(score_tmp);
+    }
 
     if (!m_hasStarted && AudioAsset::IsReady(U"GameMusic")) {
         m_stopwatch.start();
@@ -109,6 +121,13 @@ void Game::update() {
 }
 
 void Game::draw() const {
+
+    ColorF bgColors[4] = {};
+    for (int8 i = 0; i < 4; i++) {
+        bgColors[i] = ColorF(m_scores.get(m_index).backgroundColor[i]);
+    }
+    RectF{ Scene::Size() }.draw(bgColors);
+    RectF{ Scene::Size() }(m_backgroundTexture).draw(ColorF(1.0, 1.0, 1.0, 0.3));
     drawField();
 
     {
@@ -141,7 +160,30 @@ void Game::draw() const {
         FontAsset(U"Tile.detail")(m_scores.getTitle(m_index)).draw(Arg::bottomLeft(123, 110), Palette::Dimgray);
         FontAsset(U"Tile.detail.small")(m_scores.getArtist(m_index)).draw(Arg::topLeft(123, 120), Palette::Dimgray);
 
+    }
 
+    {
+        const auto [w, h] = Scene::Size();
+        const ColorF levelColor(0, 0, 0, 0.5);
+        RectF{ Arg::topRight(w, 0), 450, 100 }.drawShadow({ 0, 2 }, 13, 2);
+        RectF{ Arg::topRight(w, 0), 450, 20 }.draw(Palette::Black);
+        RectF{ Arg::topRight(w, 20), 450, 80 }.draw(levelColor);
+
+        RectF{ Arg::topRight(w, 0), 450, 100 }.drawFrame(0.0, 1.0, Palette::Whitesmoke, Palette::Whitesmoke);
+        
+        FontAsset(U"Tile.detail.small")(U"MISS : {:>4}"_fmt(m_judgeRanks[4])).draw(Arg::bottomCenter(w - 45, 18), Palette::Gray);
+        RectF(w - 90, 3, 0.5, 14).draw(Palette::Lightgray);
+        FontAsset(U"Tile.detail.small")(U"LATE : {:>4}"_fmt(m_judgeRanks[3])).draw(Arg::bottomCenter(w - 135, 18), Color(219, 81, 81));
+        RectF(w - 180, 3, 0.5, 14).draw(Palette::Lightgray);
+        FontAsset(U"Tile.detail.small")(U"FAST : {:>4}"_fmt(m_judgeRanks[2])).draw(Arg::bottomCenter(w - 220, 18), Color(72, 84, 199));
+        RectF(w - 260, 3, 0.5, 14).draw(Palette::Lightgray);
+        FontAsset(U"Tile.detail.small")(U"GREAT : {:>4}"_fmt(m_judgeRanks[1])).draw(Arg::bottomCenter(w - 305, 18), Palette::White);
+        RectF(w - 350, 3, 0.5, 14).draw(Palette::Lightgray);
+        FontAsset(U"Tile.detail.small")(U"PERFECT : {:>4}"_fmt(m_judgeRanks[0])).draw(Arg::bottomCenter(w - 400, 18), Color(184, 245, 227));
+
+        FontAsset(U"Tile.detail")(U"SCORE :").draw(Vec2{ w - 440, 60 }, Palette::White);
+        FontAsset(U"Game.score")(U"{:>7}"_fmt(m_scorePoint)).draw(Vec2{ w - 380, 35 }, Palette::White);
+        FontAsset(U"Tile.detail")(U"MAX COMBO : {:>4}"_fmt(m_maxCombo)).draw(Vec2{ w - 180, 60 }, Palette::White);
 
     }
 }
@@ -591,6 +633,7 @@ void Game::judgement() {
             int32 noteFar = e.timing - m_stopWatchElapsedMS + getData().setting[U"TIMING"].value;
             if (noteFar < -JudgeFarMS[3]) {
                 m_effect.add<JudgeEffect>(effectPos, U"MISS", FontAsset(U"Tile.detail"), Palette::Gray);
+                m_judgeRanks[4]++;
                 m_combo = 0;
                 e.type = 10;
             }
@@ -604,23 +647,27 @@ void Game::judgement() {
                         if (Abs(noteFar) <= JudgeFarMS[1]) {
                             if (Abs(noteFar) <= JudgeFarMS[0]) {
                                 m_effect.add<JudgeEffect>(effectPos, U"PERFECT", FontAsset(U"Tile.detail"), Color(184, 245, 227));
-
+                                m_judgeRanks[0]++;
                             }
                             else {
                                 m_effect.add<JudgeEffect>(effectPos, U"GREAT", FontAsset(U"Tile.detail"));
+                                m_judgeRanks[1]++;
                             }
                         }
                         else {
                             if (noteFar < 0) {
                                 m_effect.add<JudgeEffect>(effectPos, U"LATE", FontAsset(U"Tile.detail"), Color(219, 81, 81));
+                                m_judgeRanks[3]++;
                             }
                             else {
                                 m_effect.add<JudgeEffect>(effectPos, U"FAST", FontAsset(U"Tile.detail"), Color(72, 84, 199));
+                                m_judgeRanks[2]++;
                             }
                         }
                     }
                     else {
                         m_effect.add<JudgeEffect>(effectPos, U"MISS", FontAsset(U"Tile.detail"), Palette::Gray);
+                        m_judgeRanks[4]++;
                         m_combo = 0;
                     }
                 }
@@ -630,6 +677,7 @@ void Game::judgement() {
             int32 noteFar = e.timing - m_stopWatchElapsedMS + getData().setting[U"TIMING"].value;
             if (noteFar < -JudgeFarMS[3]) {
                 m_effect.add<JudgeEffect>(effectPos, U"MISS", FontAsset(U"Tile.detail"), Palette::Gray);
+                m_judgeRanks[4]++;
                 m_combo = 0;
                 e.type = 11;
             }
@@ -642,22 +690,27 @@ void Game::judgement() {
                         if (Abs(noteFar) <= JudgeFarMS[1]) {
                             if (Abs(noteFar) <= JudgeFarMS[0]) {
                                 m_effect.add<JudgeEffect>(effectPos, U"PERFECT", FontAsset(U"Tile.detail"), Color(184, 245, 227));
+                                m_judgeRanks[0]++;
                             }
                             else {
                                 m_effect.add<JudgeEffect>(effectPos, U"GREAT", FontAsset(U"Tile.detail"));
+                                m_judgeRanks[1]++;
                             }
                         }
                         else {
                             if (noteFar < 0) {
                                 m_effect.add<JudgeEffect>(effectPos, U"LATE", FontAsset(U"Tile.detail"), Color(219, 81, 81));
+                                m_judgeRanks[3]++;
                             }
                             else {
                                 m_effect.add<JudgeEffect>(effectPos, U"FAST", FontAsset(U"Tile.detail"), Color(72, 84, 199));
+                                m_judgeRanks[2]++;
                             }
                         }
                     }
                     else {
                         m_effect.add<JudgeEffect>(effectPos, U"MISS", FontAsset(U"Tile.detail"), Palette::Gray);
+                        m_judgeRanks[4]++;
                         m_combo = 0;
                         e.type = 11;
                     }
@@ -670,6 +723,7 @@ void Game::judgement() {
 
             if (noteFar <= 0) {
                 m_effect.add<JudgeEffect>(effectPos, U"PERFECT", FontAsset(U"Tile.detail"), Color(184, 245, 227));
+                m_judgeRanks[0]++;
                 e.type = 255;
                 m_combo++;
             }
@@ -680,17 +734,21 @@ void Game::judgement() {
                     if (Abs(noteFar) <= JudgeFarMS[1]) {
                         if (Abs(noteFar) <= JudgeFarMS[0]) {
                             m_effect.add<JudgeEffect>(effectPos, U"PERFECT", FontAsset(U"Tile.detail"), Color(184, 245, 227));
+                            m_judgeRanks[0]++;
                         }
                         else {
                             m_effect.add<JudgeEffect>(effectPos, U"GREAT", FontAsset(U"Tile.detail"));
+                            m_judgeRanks[1]++;
                         }
                     }
                     else {
                         m_effect.add<JudgeEffect>(effectPos, U"FAST", FontAsset(U"Tile.detail"), Color(72, 84, 199));
+                        m_judgeRanks[2]++;
                     }
                 }
                 else {
                     m_effect.add<JudgeEffect>(effectPos, U"MISS", FontAsset(U"Tile.detail"), Palette::Gray);
+                    m_judgeRanks[4]++;
                     e.type = 11;
                     m_combo = 0;
                 }

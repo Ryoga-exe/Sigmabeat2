@@ -95,10 +95,12 @@ private:
     };
     const int32 JudgeFarMS[4] = { 35, 65, 100, 150 };
     Array<double> m_pressEffectOpacity;
+    Array<int32> m_judgeRanks;
 
     const Texture m_tapNoteTexture;
     const Texture m_holdNoteTexture;
     const Texture m_pressNoteTexture;
+    const Texture m_backgroundTexture;
 
     double m_judgementYPos;
     double m_laneWidth;
@@ -108,6 +110,8 @@ private:
     int32 m_speedMapIndex;
     int32 m_index;
     int32 m_level;
+    int32 m_maxCombo;
+    int32 m_scorePoint;
 
     bool m_hasStarted;
     bool m_hasPlayed;

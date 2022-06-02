@@ -13,6 +13,9 @@ namespace Asset {
         FontAsset::Register(U"Game.combo", 100, Typeface::Bold);
         FontAsset::Register(U"Game.level", 35, Typeface::Bold);
 
+        FontAsset::Register(U"Game.score", 40, Typeface::Bold);
+
+
 
 
         TextureAsset::Register(U"Icon.cogs", 0xf085_icon, 100);

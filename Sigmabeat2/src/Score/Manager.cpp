@@ -151,10 +151,44 @@ namespace Score {
         }
         else if (tagname == U"#BGCOLOR") {
             auto arr = tagvalue.split(U',');
-            for (auto i : step(Min(arr.size(), (size_t)4))) {
-                arr[i].trim();
-                score.backgroundColor[i]
-                    = (arr[i].uppercased() == U"#RANDOM" ? RandomColor(/* { 0,255 }, { 0,255 }, { 0,255 } */) : Color(arr[i]));
+            if (arr.size() == 1) {
+                arr[0].trim();
+                for (auto i : step(4)) {
+                    score.backgroundColor[i]
+                        = (arr[0].uppercased() == U"#RANDOM" ? RandomColor(/* { 0,255 }, { 0,255 }, { 0,255 } */) : Color(arr[0]));
+                }
+            }
+            else if (arr.size() == 2) {
+                arr[0].trim();
+                arr[1].trim();
+                for (auto i : step(2)) {
+                    score.backgroundColor[i]
+                        = (arr[0].uppercased() == U"#RANDOM" ? RandomColor(/* { 0,255 }, { 0,255 }, { 0,255 } */) : Color(arr[0]));
+                }
+                for (auto i : step(2)) {
+                    score.backgroundColor[2 + i]
+                        = (arr[1].uppercased() == U"#RANDOM" ? RandomColor(/* { 0,255 }, { 0,255 }, { 0,255 } */) : Color(arr[1]));
+                }
+            }
+            else if (arr.size() == 3) {
+                arr[0].trim();
+                arr[1].trim();
+                arr[2].trim();
+                score.backgroundColor[0]
+                    = (arr[0].uppercased() == U"#RANDOM" ? RandomColor(/* { 0,255 }, { 0,255 }, { 0,255 } */) : Color(arr[0]));
+                score.backgroundColor[1]
+                    = (arr[0].uppercased() == U"#RANDOM" ? RandomColor(/* { 0,255 }, { 0,255 }, { 0,255 } */) : Color(arr[0]));
+                score.backgroundColor[2]
+                    = (arr[1].uppercased() == U"#RANDOM" ? RandomColor(/* { 0,255 }, { 0,255 }, { 0,255 } */) : Color(arr[1]));
+                score.backgroundColor[3]
+                    = (arr[2].uppercased() == U"#RANDOM" ? RandomColor(/* { 0,255 }, { 0,255 }, { 0,255 } */) : Color(arr[2]));
+            }
+            else {
+                for (auto i : step(Min(arr.size(), (size_t)4))) {
+                    arr[i].trim();
+                    score.backgroundColor[i]
+                        = (arr[i].uppercased() == U"#RANDOM" ? RandomColor(/* { 0,255 }, { 0,255 }, { 0,255 } */) : Color(arr[i]));
+                }
             }
         }
         return true;
