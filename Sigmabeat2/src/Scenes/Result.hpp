@@ -11,6 +11,8 @@ public:
     void draw() const override;
 
 private:
+    const String getRank(const int32 scorePoint) const;
+
     double m_delta = 0.0;
     const Texture m_backgroundTexture;
     Score::Manager& m_scores = Singleton<Score::Manager>::get_instance();

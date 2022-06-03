@@ -24,14 +24,25 @@ Result::~Result() {
 }
 
 void Result::update() {
+    m_delta += Scene::DeltaTime() * 100;
+
     if (!m_playing && AudioAsset::IsReady(U"Result")) {
         AudioAsset(U"Result").setLoop(true); 
         AudioAsset(U"Result").play();
         m_playing = true;
     }
+
+    if (m_delta >= 100 && !Keyboard::GetAllInputs().empty()) {
+        AudioAsset(U"Result").stop(0.5s);
+        changeScene(SceneState::Menu, 1.0s);
+    }
 }
 
 void Result::draw() const {
+
+    const double t = m_delta / 75.0;
+    const int32 desplayScore = static_cast<int32>(1000000 * Math::Clamp(EaseOutCubic(t), 0.0, 1.0));
+
     ColorF bgColors[4] = {};
     for (int8 i = 0; i < 4; i++) {
         bgColors[i] = ColorF(m_scores.get(m_index).backgroundColor[i]);
@@ -41,25 +52,36 @@ void Result::draw() const {
 
     const auto [w, h] = Scene::Size();
 
-    {
-        const ScopedRenderTarget2D target(m_fieldRT.clear(ColorF(0, 0, 0, 0)));
-        RectF{ Arg::leftCenter(0.0, 360 - 180 + 10.0), 1080.0, 1.5 }.draw(Color(28, 40, 214));
-        RectF{ Arg::leftCenter(0.0, 360 + 180 - 10.0), 1080.0, 1.5 }.draw(Color(28, 40, 214));
-
-        FontAsset(U"Game.score")(U"SCORE").draw(Arg::topLeft(50.0, 720 / 3.5), Color(28, 40, 214));
-        FontAsset(U"Game.score")(U"SCORE").region(Arg::topLeft(50.0, 720 / 3.5)).bottom().draw(2.0, Color(28, 40, 214));
-
-        FontAsset(U"Game.combo")(U"{}"_fmt(1000000)).draw(Arg::topLeft(50.0, 720 / 3.5 + 40), Color(28, 33, 105));
-
-        FontAsset(U"Game.score")(U"RANK").draw(Arg::topLeft(300.0, 720 / 3.5), Color(28, 40, 214));
-        FontAsset(U"Game.score")(U"RANK").region(Arg::topLeft(300.0, 720 / 3.5)).bottom().draw(2.0, Color(28, 40, 214));
-    }
-
-    Graphics2D::Flush();
-    m_fieldRT.resolve();
-
-    RectF{ Arg::leftCenter(0.0, h / 2.0), static_cast<double>(w), h * 0.5 }.draw(ColorF(1.0, 1.0, 1.0, 0.6));
+    RectF{ Arg::leftCenter(0.0, h / 2.0), static_cast<double>(w), h * 0.5 }.draw(ColorF(1.0, 1.0, 1.0, 0.7));
     RectF{ Arg::leftCenter(0.0, h / 2.0), static_cast<double>(w), h * 0.5 }(m_fieldRT).draw();
+
+    RectF{ Arg::leftCenter(0.0, h / 2.0 - h / 4.0 + 10.0), static_cast<double>(w), 1.5 }.draw(Color(28, 40, 214));
+    RectF{ Arg::leftCenter(0.0, h / 2.0 + h / 4.0 - 10.0), static_cast<double>(w), 1.5 }.draw(Color(28, 40, 214));
+
+    FontAsset(U"Game.score")(U"SCORE").draw(Arg::topLeft(50.0, h / 3.5), Color(28, 40, 214));
+    FontAsset(U"Game.score")(U"SCORE").region(Arg::topLeft(50.0, h / 3.5)).bottom().draw(2.0, Color(28, 40, 214));
+
+    FontAsset(U"Game.combo")(U"{}"_fmt(desplayScore)).draw(Arg::topLeft(50.0, h / 3.5 + 40), Color(28, 33, 105));
+
+    FontAsset(U"Game.score")(U"MAX COMBO : {}"_fmt(m_maxCombo)).draw(Arg::topLeft(50.0, h / 3.5 + 200), Color(96, 96, 102));
+
+    FontAsset(U"Game.score")(U"RANK").draw(Arg::topLeft(750.0, h / 3.5), Color(28, 40, 214));
+    FontAsset(U"Game.score")(U"RANK").region(Arg::topLeft(750.0, h / 3.5)).bottom().draw(2.0, Color(28, 40, 214));
+
+    FontAsset(U"Game.combo")(getRank(desplayScore)).draw(Arg::topLeft(750.0, h / 3.5 + 40), Color(28, 33, 105));
+
+    RectF{ Arg::topRight(480, h / 3.5 + 300 - 18), 450, 20 }.draw(ColorF(0.0, 0.0, 0.0, 0.3));
+
+    FontAsset(U"Tile.detail.small")(U"MISS : {:>4}"_fmt(m_judgeRanks[4])).draw(Arg::bottomCenter(480 - 45, h / 3.5 + 300), Palette::Gray);
+    RectF(480 - 90, h / 3.5 + 285, 0.5, 14).draw(Palette::Lightgray);
+    FontAsset(U"Tile.detail.small")(U"LATE : {:>4}"_fmt(m_judgeRanks[3])).draw(Arg::bottomCenter(480 - 135, h / 3.5 + 300), Color(219, 81, 81));
+    RectF(480 - 180, h / 3.5 + 285, 0.5, 14).draw(Palette::Lightgray);
+    FontAsset(U"Tile.detail.small")(U"FAST : {:>4}"_fmt(m_judgeRanks[2])).draw(Arg::bottomCenter(480 - 220, h / 3.5 + 300), Color(72, 84, 199));
+    RectF(480 - 260, h / 3.5 + 285, 0.5, 14).draw(Palette::Lightgray);
+    FontAsset(U"Tile.detail.small")(U"GREAT : {:>4}"_fmt(m_judgeRanks[1])).draw(Arg::bottomCenter(480 - 305, h / 3.5 + 300), Palette::White);
+    RectF(480 - 350, h / 3.5 + 285, 0.5, 14).draw(Palette::Lightgray);
+    FontAsset(U"Tile.detail.small")(U"PERFECT : {:>4}"_fmt(m_judgeRanks[0])).draw(Arg::bottomCenter(480 - 400, h / 3.5 + 300), Color(184, 245, 227));
+
 
     {
         const Color levelColor = Score::LevelColor[m_level].gamma(0.5);
@@ -92,31 +114,21 @@ void Result::draw() const {
         FontAsset(U"Tile.detail.small")(m_scores.getArtist(m_index)).draw(Arg::topLeft(123, 120), Palette::Dimgray);
 
     }
-    
-    /*
-    {
-        const auto [w, h] = Scene::Size();
-        const ColorF levelColor(0, 0, 0, 0.5);
-        RectF{ Arg::topRight(w, 0), 450, 100 }.drawShadow({ 0, 2 }, 13, 2);
-        RectF{ Arg::topRight(w, 0), 450, 20 }.draw(Palette::Black);
-        RectF{ Arg::topRight(w, 20), 450, 80 }.draw(levelColor);
+}
 
-        RectF{ Arg::topRight(w, 0), 450, 100 }.drawFrame(0.0, 1.0, Palette::Whitesmoke, Palette::Whitesmoke);
-        
-        FontAsset(U"Tile.detail.small")(U"MISS : {:>4}"_fmt(m_judgeRanks[4])).draw(Arg::bottomCenter(w - 45, 18), Palette::Gray);
-        RectF(w - 90, 3, 0.5, 14).draw(Palette::Lightgray);
-        FontAsset(U"Tile.detail.small")(U"LATE : {:>4}"_fmt(m_judgeRanks[3])).draw(Arg::bottomCenter(w - 135, 18), Color(219, 81, 81));
-        RectF(w - 180, 3, 0.5, 14).draw(Palette::Lightgray);
-        FontAsset(U"Tile.detail.small")(U"FAST : {:>4}"_fmt(m_judgeRanks[2])).draw(Arg::bottomCenter(w - 220, 18), Color(72, 84, 199));
-        RectF(w - 260, 3, 0.5, 14).draw(Palette::Lightgray);
-        FontAsset(U"Tile.detail.small")(U"GREAT : {:>4}"_fmt(m_judgeRanks[1])).draw(Arg::bottomCenter(w - 305, 18), Palette::White);
-        RectF(w - 350, 3, 0.5, 14).draw(Palette::Lightgray);
-        FontAsset(U"Tile.detail.small")(U"PERFECT : {:>4}"_fmt(m_judgeRanks[0])).draw(Arg::bottomCenter(w - 400, 18), Color(184, 245, 227));
-
-        FontAsset(U"Tile.detail")(U"SCORE :").draw(Vec2{ w - 440, 60 }, Palette::White);
-        FontAsset(U"Game.score")(U"{:>7}"_fmt(m_scorePoint)).draw(Vec2{ w - 380, 35 }, Palette::White);
-        FontAsset(U"Tile.detail")(U"MAX COMBO : {:>4}"_fmt(m_maxCombo)).draw(Vec2{ w - 180, 60 }, Palette::White);
-
-    }
-    */
+const String Result::getRank(const int32 scorePoint) const {
+    String ret;
+    if (scorePoint >= 1000000) ret = U"Σ";
+    else if (scorePoint >= 980000) ret = U"Χ";
+    else if (scorePoint >= 950000) ret = U"S+";
+    else if (scorePoint >= 900000) ret = U"S";
+    else if (scorePoint >= 850000) ret = U"A+";
+    else if (scorePoint >= 800000) ret = U"A";
+    else if (scorePoint >= 750000) ret = U"B+";
+    else if (scorePoint >= 700000) ret = U"B";
+    else if (scorePoint >= 600000) ret = U"C";
+    else if (scorePoint >= 500000) ret = U"D";
+    else if (scorePoint >= 400000) ret = U"E";
+    else ret = U"F";
+    return ret;
 }
