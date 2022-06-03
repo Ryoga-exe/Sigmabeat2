@@ -166,6 +166,9 @@ void Menu::draw() const {
     drawTiles();
     drawSelectedTile();
 
+    RectF{ 0, 0, Scene::Width(), 80 }.draw(ColorF(0, 0, 0, 0.5));
+    FontAsset(U"Menu")(U"MUSIC SELECT").draw(Arg::topLeft(10.0, 5.0), Palette::White);
+
 }
 
 void Menu::updateScaleRate() {
