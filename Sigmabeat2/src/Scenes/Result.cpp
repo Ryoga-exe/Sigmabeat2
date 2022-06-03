@@ -41,7 +41,7 @@ void Result::update() {
 void Result::draw() const {
 
     const double t = m_delta / 75.0;
-    const int32 desplayScore = static_cast<int32>(1000000 * Math::Clamp(EaseOutCubic(t), 0.0, 1.0));
+    const int32 desplayScore = static_cast<int32>(m_scorePoint * Math::Clamp(EaseOutCubic(t), 0.0, 1.0));
 
     ColorF bgColors[4] = {};
     for (int8 i = 0; i < 4; i++) {
