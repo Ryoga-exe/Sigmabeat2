@@ -27,6 +27,7 @@ private:
     int32  m_index;
     int32  m_level;
     Stopwatch m_stopwatch;
+    Stopwatch m_sleepTimer;
     Stopwatch m_tileOffsetStopwatch;
     Audition m_audition;
     

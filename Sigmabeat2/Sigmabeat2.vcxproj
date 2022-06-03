@@ -129,6 +129,7 @@
     <ClCompile Include="src\Scenes\Title.cpp" />
     <ClCompile Include="src\Score\Manager.cpp" />
     <ClCompile Include="src\UI\Tile.cpp" />
+    <ClCompile Include="src\Utils\Controller.cpp" />
     <ClCompile Include="src\Utils\Parser.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -346,6 +347,7 @@
     <ClInclude Include="src\Score\Manager.hpp" />
     <ClInclude Include="src\Score\Note\Note.hpp" />
     <ClInclude Include="src\UI\Tile.hpp" />
+    <ClInclude Include="src\Utils\Controller.hpp" />
     <ClInclude Include="src\Utils\Parser.hpp" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>

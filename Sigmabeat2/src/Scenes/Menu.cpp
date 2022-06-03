@@ -21,6 +21,8 @@ Menu::Menu(const InitData& init)
     AudioAsset::Load(U"SE.move");
     AudioAsset::Load(U"SE.levelChange");
 
+    m_sleepTimer.restart();
+
 }
 
 Menu::~Menu() {
@@ -29,8 +31,18 @@ Menu::~Menu() {
 
 void Menu::update() {
 
+    if (!Keyboard::GetAllInputs().empty()) {
+        m_sleepTimer.restart();
+    }
+
     getData().selectIndex = m_index;
     getData().selectLevel = m_level;
+
+    if (m_sleepTimer.elapsed() >= 1.5min) {
+        m_audition.stop(0.5s);
+
+        changeScene(SceneState::Setup, 1.0s);
+    }
 
     if (m_settingState == 0) {
         if (KeyEscape.down()) {
@@ -166,8 +178,8 @@ void Menu::draw() const {
     drawTiles();
     drawSelectedTile();
 
-    RectF{ 0, 0, Scene::Width(), 80 }.draw(ColorF(0, 0, 0, 0.5));
-    FontAsset(U"Menu")(U"MUSIC SELECT").draw(Arg::topLeft(10.0, 5.0), Palette::White);
+    //RectF{ 0, 0, Scene::Width(), 80 }.draw(ColorF(0, 0, 0, 0.5));
+    //FontAsset(U"Menu")(U"MUSIC SELECT").draw(Arg::topLeft(10.0, 5.0), Palette::White);
 
 }
 
