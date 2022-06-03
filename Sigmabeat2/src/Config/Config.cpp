@@ -14,6 +14,7 @@ namespace Config {
 
                 m_data.windowSize = { toml[U"Window.width"].get<int32>(), toml[U"Window.height"].get<int32>() };
                 m_data.windowSizable = toml[U"Window.sizable"].get<bool>();
+                m_data.isKeepSceneSize = toml[U"Window.keepScene"].get<bool>();
                 m_data.isArcadeMode = toml[U"System.arcade"].get<bool>();
 
                 for (const auto& object : toml[U"Score.directory"].arrayView()) {

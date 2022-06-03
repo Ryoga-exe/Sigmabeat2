@@ -79,6 +79,9 @@ void Game::update() {
     }
 
     if (m_endTime + 2000 < m_stopWatchElapsedMS) {
+        getData().judges = m_judgeRanks;
+        getData().score = m_scorePoint;
+        getData().maxCombo = m_maxCombo;
         AudioAsset(U"GameMusic").stop(0.5s);
         changeScene(SceneState::Result, 1.0s);
     }

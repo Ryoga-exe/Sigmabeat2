@@ -22,13 +22,14 @@ struct GameSettingItem {
 
 struct GameData {
 
-    GameData() : judges(4, 0) {}
+    GameData() : judges(5, 0) {}
 
     PlayerData::Data playerdata;
 
     int32 selectIndex = 0;
     int32 selectLevel = 0;
     int32 score = 0;
+    int32 maxCombo = 0;
     Array<int32> judges;
     
     HashTable<String, GameSettingItem> setting = {
