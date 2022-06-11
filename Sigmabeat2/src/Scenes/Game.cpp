@@ -1,5 +1,6 @@
 ﻿#include "Game.hpp"
 #include "Utils/Parser.hpp"
+#include "Config/Config.hpp"
 
 Game::Game(const InitData& init)
     : IScene(init)
@@ -16,7 +17,9 @@ Game::Game(const InitData& init)
     , PS(HLSL{ U"assets/shaders/hlsl/homography.hlsl", U"PS" } | GLSL{ U"assets/shaders/glsl/homography.frag", {{ U"PSConstants2D", 0 }, { U"PSHomography", 1} } }) {
 
     Scene::SetBackground(Palette::Whitesmoke);
-    Scene::SetLetterbox(Palette::Whitesmoke);
+    if (!Config::Get().keepSceneSize) {
+        Scene::SetLetterbox(Palette::Whitesmoke);
+    }
 
     m_speed = 1.00;
     m_combo = 0;

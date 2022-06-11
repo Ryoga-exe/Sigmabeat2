@@ -1,11 +1,14 @@
 ﻿#include "Setup.hpp"
+#include "Config/Config.hpp"
 
 Setup::Setup(const InitData& init)
     : IScene(init), m_stopwatch(StartImmediately::Yes), m_authorLogo(U"assets/images/ryoga-exe.png"){
     AudioAsset::LoadAsync(U"Opening");
 
     Scene::SetBackground(Palette::Whitesmoke);
-    Scene::SetLetterbox(Palette::Whitesmoke);
+    if (!Config::Get().keepSceneSize) {
+        Scene::SetLetterbox(Palette::Whitesmoke);
+    }
 
 }
 

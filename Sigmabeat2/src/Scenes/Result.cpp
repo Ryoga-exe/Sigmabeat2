@@ -1,4 +1,5 @@
 ﻿#include "Result.hpp"
+#include "Config/Config.hpp"
 
 Result::Result(const InitData& init)
     : IScene(init)
@@ -8,7 +9,9 @@ Result::Result(const InitData& init)
     , m_playing(false) {
 
     Scene::SetBackground(Palette::Whitesmoke);
-    Scene::SetLetterbox(Palette::Whitesmoke);
+    if (!Config::Get().keepSceneSize) {
+        Scene::SetLetterbox(Palette::Whitesmoke);
+    }
 
     m_index = getData().selectIndex;
     m_level = getData().selectLevel;

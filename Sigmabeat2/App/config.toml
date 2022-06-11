@@ -2,7 +2,7 @@
 width = 1280
 height = 720
 sizable = true
-keepSize = false
+keepSize = true
 
 [System]
 arcade = false

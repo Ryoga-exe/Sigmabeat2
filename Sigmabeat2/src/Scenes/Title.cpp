@@ -1,4 +1,5 @@
 ﻿#include "Title.hpp"
+#include "Config/Config.hpp"
 
 Title::Title(const InitData& init)
     : IScene(init), m_delta(0.0), m_titleLogo(U"assets/images/logo.png") {
@@ -7,7 +8,9 @@ Title::Title(const InitData& init)
     AudioAsset(U"Opening").play();
 
     Scene::SetBackground(Palette::Whitesmoke);
-    Scene::SetLetterbox(Palette::Whitesmoke);
+    if (!Config::Get().keepSceneSize) {
+        Scene::SetLetterbox(Palette::Whitesmoke);
+    }
 
 }
 
