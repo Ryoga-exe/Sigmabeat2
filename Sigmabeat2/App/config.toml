@@ -2,7 +2,8 @@
 width = 1280
 height = 720
 sizable = true
-keepSize = true
+keepSize = false
+letterboxColor = "#000000"
 
 [System]
 arcade = false

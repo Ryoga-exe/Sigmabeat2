@@ -7,6 +7,7 @@ namespace Config {
         bool windowSizable = true;
         bool isArcadeMode = false;
         bool keepSceneSize = false;
+        Color letterboxColor = Palette::Black;
         Array<FilePath> scoreDirectories;
     };
 

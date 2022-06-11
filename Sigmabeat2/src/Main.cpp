@@ -28,7 +28,7 @@ void Init() {
     Fullscreen::Init(data.windowSizable);
 
     Scene::SetBackground(Palette::Whitesmoke);
-    Scene::SetLetterbox(data.keepSceneSize ? Palette::Black : Palette::Whitesmoke);
+    Scene::SetLetterbox(data.keepSceneSize ? data.letterboxColor : Palette::Whitesmoke);
 
     Asset::Init();
 
