@@ -3,6 +3,7 @@
 #include "PlayerData/PlayerData.hpp"
 
 #define SIGMABEAT_VERSION U"0.2.0 dev"
+#define CONFIG_FILE U"config.toml"
 
 enum class SceneState {
     Setup,

@@ -8,7 +8,7 @@ namespace Config {
             ConfigManager() {}
 
             bool load() {
-                const TOMLReader toml(U"config.toml");
+                const TOMLReader toml(CONFIG_FILE);
 
                 if (!toml) return false;
 
