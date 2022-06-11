@@ -1,7 +1,8 @@
 ﻿#pragma once
-#include <Siv3D.hpp>      // OpenSiv3D v0.6.3
+#include <Siv3D.hpp>    // OpenSiv3D v0.6.3
 #include "PlayerData/PlayerData.hpp"
 
+#define APPNAME U"Sigmabeat2"
 #define SIGMABEAT_VERSION U"0.2.0 dev"
 #define CONFIG_FILE U"config.toml"
 
