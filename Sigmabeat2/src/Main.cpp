@@ -16,23 +16,24 @@ void Init() {
     Platform::Windows::TextInput::DisableIME();
 #endif
 
+    Graphics::SetVSyncEnabled(false);
+    Window::SetTitle(U"Sigmabeat");
+
+
     Config::Load();
     Config::Data& data = Config::Get();
 
-    Graphics::SetVSyncEnabled(false);
-    Window::SetTitle(U"Sigmabeat");
     Window::Resize(data.windowSize);
     Window::SetStyle(data.windowSizable ? WindowStyle::Sizable : WindowStyle::Fixed);
-
-    Scene::SetResizeMode(data.isKeepSceneSize ? ResizeMode::Keep : ResizeMode::Virtual);
+    Scene::SetResizeMode(data.keepSceneSize ? ResizeMode::Keep : ResizeMode::Virtual);
+    Fullscreen::Init(data.windowSizable);
 
     Scene::SetBackground(Palette::Whitesmoke);
     Scene::SetLetterbox(Palette::Whitesmoke);
 
-    Fullscreen::Init(data.windowSizable);
     Asset::Init();
 
-    Singleton<Score::Manager>::get_instance().init(data.scoreDirectory);
+    Singleton<Score::Manager>::get_instance().init(data.scoreDirectories);
     Singleton<Score::Manager>::get_instance().load();
 
 }

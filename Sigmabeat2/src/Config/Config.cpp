@@ -10,15 +10,17 @@ namespace Config {
             bool load() {
                 const TOMLReader toml(CONFIG_FILE);
 
-                if (!toml) return false;
+                if (!toml) {
+                    return false;
+                }
 
                 m_data.windowSize = { toml[U"Window.width"].get<int32>(), toml[U"Window.height"].get<int32>() };
                 m_data.windowSizable = toml[U"Window.sizable"].get<bool>();
-                m_data.isKeepSceneSize = toml[U"Window.keepSize"].get<bool>();
+                m_data.keepSceneSize = toml[U"Window.keepSize"].get<bool>();
                 m_data.isArcadeMode = toml[U"System.arcade"].get<bool>();
 
                 for (const auto& object : toml[U"Score.directory"].arrayView()) {
-                    m_data.scoreDirectory << object.get<FilePath>();
+                    m_data.scoreDirectories << object.get<FilePath>();
                 }
 
                 return true;
@@ -30,7 +32,6 @@ namespace Config {
 
         private:
             Data m_data;
-
         };
     }
 

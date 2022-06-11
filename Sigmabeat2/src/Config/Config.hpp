@@ -6,8 +6,8 @@ namespace Config {
         Size windowSize = { 1280, 720 };
         bool windowSizable = true;
         bool isArcadeMode = false;
-        bool isKeepSceneSize = false;
-        Array<FilePath> scoreDirectory;
+        bool keepSceneSize = false;
+        Array<FilePath> scoreDirectories;
     };
 
     bool Load();
