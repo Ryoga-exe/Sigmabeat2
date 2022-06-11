@@ -19,7 +19,6 @@ void Init() {
     Graphics::SetVSyncEnabled(false);
     Window::SetTitle(U"Sigmabeat");
 
-
     Config::Load();
     Config::Data& data = Config::Get();
 
