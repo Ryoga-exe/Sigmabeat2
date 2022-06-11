@@ -73,7 +73,7 @@ namespace UI {
             }
 
             FontAsset(U"Tile.detail")(U"NOTES DESIGNER : {}"_fmt(m_scores.getNoteDesigner(index))).draw(Arg::bottomLeft(10, TileSize.y - 5), Palette::White);
-            FontAsset(U"Tile.detail")(U"BPM : {}"_fmt(m_scores.getBPM(index))).draw(Arg::bottomRight(TileSize.x - 10, TileSize.y - 5), Palette::White);
+            FontAsset(U"Tile.detail")(U"BPM : {:.0f}"_fmt(m_scores.getBPM(index))).draw(Arg::bottomRight(TileSize.x - 10, TileSize.y - 5), Palette::White);
 
             RectF(TileSize).drawFrame(TilePadding, 0.0);
 
