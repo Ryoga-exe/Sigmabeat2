@@ -1,8 +1,8 @@
-- opening.wav
+- BGM/opening.wav
 composed by フトンガメ (@futon_Tortoise)
 
-- result.wav
+- BGM/result.wav
 composed by フトンガメ (@futon_Tortoise)
 
-- SE
+- SE/
 composed by OB
