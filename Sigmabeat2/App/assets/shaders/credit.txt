@@ -1,10 +1,10 @@
-- glsl/homography.frag
+[glsl/homography.frag]
 https://github.com/Siv3D/OpenSiv3D/blob/main/WindowsDesktop/App/example/shader/glsl/homography.frag
 
-- glsl/homography.vert
+[glsl/homography.vert]
 https://github.com/Siv3D/OpenSiv3D/blob/main/WindowsDesktop/App/example/shader/glsl/homography.vert
 
-- hlsl/homography.hlsl
+[hlsl/homography.hlsl]
 https://github.com/Siv3D/OpenSiv3D/blob/main/WindowsDesktop/App/example/shader/hlsl/homography.hlsl
 
 
