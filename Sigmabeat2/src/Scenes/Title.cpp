@@ -1,8 +1,9 @@
 ﻿#include "Title.hpp"
 #include "Config/Config.hpp"
+#include "Asset/Asset.hpp"
 
 Title::Title(const InitData& init)
-    : IScene(init), m_delta(0.0), m_titleLogo(U"assets/images/logo.png") {
+    : IScene(init), m_delta(0.0), m_titleLogo(Asset::Image::Logo) {
 
     AudioAsset(U"Opening").setLoop(true);
     AudioAsset(U"Opening").play();
