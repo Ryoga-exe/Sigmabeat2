@@ -178,6 +178,7 @@
     <ResourceCompile Include="App\Resource.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="App\assets\shaders\credit.txt" />
     <Text Include="App\dll\soundtouch\COPYING.TXT" />
     <Text Include="App\engine\font\fontawesome\LICENSE.txt" />
     <Text Include="App\engine\soundfont\GMGSx.sf2.txt" />
@@ -197,6 +198,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include=".editorconfig" />
+    <None Include="App\assets\shaders\glsl\homography.frag" />
+    <None Include="App\assets\shaders\glsl\homography.vert" />
     <None Include="App\config.toml" />
     <None Include="App\dll\soundtouch\SoundTouch_x64.dll" />
     <None Include="App\engine\font\fontawesome\fontawesome-brands.otf.zstdcmp" />
@@ -443,6 +446,11 @@
       <FileType>Document</FileType>
     </None>
     <None Include="App\example\shader\hlsl\terrain_normal.hlsl">
+      <FileType>Document</FileType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App\assets\shaders\hlsl\homography.hlsl">
       <FileType>Document</FileType>
     </None>
   </ItemGroup>

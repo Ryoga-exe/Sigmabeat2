@@ -163,6 +163,15 @@
     <Filter Include="Resource Files\assets\images\logos">
       <UniqueIdentifier>{15b4026b-a03a-440b-8f2c-d6361496976e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\assets\shaders">
+      <UniqueIdentifier>{04cb14e3-f275-4876-aa3e-beecacf69d43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\assets\shaders\glsl">
+      <UniqueIdentifier>{dcac33c1-76e3-4743-8748-3b6d6daaa22c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\assets\shaders\hlsl">
+      <UniqueIdentifier>{0ea871e4-527d-48d5-a4ab-35a0379fb53d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -383,6 +392,9 @@
     </Text>
     <Text Include="App\example\LICENSE.txt">
       <Filter>Resource Files\example</Filter>
+    </Text>
+    <Text Include="App\assets\shaders\credit.txt">
+      <Filter>Resource Files\assets\shaders</Filter>
     </Text>
   </ItemGroup>
   <ItemGroup>
@@ -845,6 +857,15 @@
     </None>
     <None Include="App\config.toml">
       <Filter>Resource Files</Filter>
+    </None>
+    <None Include="App\assets\shaders\glsl\homography.frag">
+      <Filter>Resource Files\assets\shaders\glsl</Filter>
+    </None>
+    <None Include="App\assets\shaders\glsl\homography.vert">
+      <Filter>Resource Files\assets\shaders\glsl</Filter>
+    </None>
+    <None Include="App\assets\shaders\hlsl\homography.hlsl">
+      <Filter>Resource Files\assets\shaders\hlsl</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
