@@ -776,6 +776,40 @@ void Game::judgement() {
                     m_combo++;
                 }
             }
+            if (noteFar < -JudgeFarMS[1]) {
+                if (m_keys[e.lane].pressed()) {
+                    e.type = NoteType::None;
+                    if (Abs(noteFar) <= JudgeFarMS[2]) {
+                        m_combo++;
+                        if (Abs(noteFar) <= JudgeFarMS[1]) {
+                            if (Abs(noteFar) <= JudgeFarMS[0]) {
+                                m_effect.add<JudgeEffect>(effectPos, U"PERFECT", FontAsset(U"Tile.detail"), Color(184, 245, 227));
+                                m_judgeRanks[0]++;
+                            }
+                            else {
+                                m_effect.add<JudgeEffect>(effectPos, U"GREAT", FontAsset(U"Tile.detail"));
+                                m_judgeRanks[1]++;
+                            }
+                        }
+                        else {
+                            if (noteFar < 0) {
+                                m_effect.add<JudgeEffect>(effectPos, U"LATE", FontAsset(U"Tile.detail"), Color(219, 81, 81));
+                                m_judgeRanks[3]++;
+                            }
+                            else {
+                                m_effect.add<JudgeEffect>(effectPos, U"FAST", FontAsset(U"Tile.detail"), Color(72, 84, 199));
+                                m_judgeRanks[2]++;
+                            }
+                        }
+                    }
+                    else {
+                        m_effect.add<JudgeEffect>(effectPos, U"MISS", FontAsset(U"Tile.detail"), Palette::Gray);
+                        m_judgeRanks[4]++;
+                        e.type = NoteType::None;
+                        m_combo = 0;
+                    }
+                }
+            }
 
             if (m_keys[e.lane].up()) {
                 if (Abs(noteFar) <= JudgeFarMS[3]) {
