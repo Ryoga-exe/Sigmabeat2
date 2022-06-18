@@ -32,6 +32,7 @@ struct GameData {
     int32 selectLevel = 0;
     int32 score = 0;
     int32 maxCombo = 0;
+    bool  isAuto = false;
     Array<int32> judges;
     
     HashTable<String, GameSettingItem> setting = {

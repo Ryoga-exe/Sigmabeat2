@@ -122,7 +122,12 @@ void Game::update() {
         changeScene(SceneState::Menu, 1.0s);
     }
 
-    judgement();
+    if (getData().isAuto) {
+        judgementAuto();
+    }
+    else {
+        judgement();
+    }
     
 }
 
@@ -838,6 +843,62 @@ void Game::judgement() {
                         }
                     }
                 }
+            }
+        }
+    }
+}
+
+void Game::judgementAuto() {
+    for (auto& e : m_notesMap) {
+        if (e.type == NoteType::PassedTap) {
+            double posY = calculateNoteY(e.timing, getData().setting[U"SPEED"].value / getData().setting[U"SPEED"].scale);
+            if (posY < -30.0) {
+                e.type = NoteType::None;
+            }
+        }
+        if (e.type == NoteType::PassedHoldStart) {
+            double posY = calculateNoteY(e.sub, getData().setting[U"SPEED"].value / getData().setting[U"SPEED"].scale);
+            if (posY < -30.0) {
+                e.type = NoteType::None;
+            }
+        }
+        Vec2 effectPos{ EdgeWidth + m_laneWidth * e.lane + m_laneWidth / 2.0, convertPosY(DefaultJudmentYPos + 80) };
+        if (e.type == NoteType::Tap) {
+            int32 noteFar = e.timing - m_stopWatchElapsedMS + getData().setting[U"TIMING"].value;
+            if (noteFar < 0) {
+                m_effect.add<JudgeEffect>(effectPos, U"PERFECT", FontAsset(U"Tile.detail"), Color(184, 245, 227));
+                m_judgeRanks[0]++;
+                m_combo++;
+                e.type = NoteType::None;
+            }
+        }
+        if (e.type == NoteType::HoldStart) {
+            int32 noteFar = e.timing - m_stopWatchElapsedMS + getData().setting[U"TIMING"].value;
+            if (noteFar < 0) {
+                m_effect.add<JudgeEffect>(effectPos, U"PERFECT", FontAsset(U"Tile.detail"), Color(184, 245, 227));
+                m_judgeRanks[0]++;
+                m_combo++;
+                e.type = NoteType::PressedHoldStart;
+            }
+        }
+        if (e.type == NoteType::PressedHoldStart) {
+            e.timing = m_stopWatchElapsedMS;
+            int32 noteFar = e.sub - m_stopWatchElapsedMS + getData().setting[U"TIMING"].value;
+
+            if (noteFar <= 0) {
+                m_effect.add<JudgeEffect>(effectPos, U"PERFECT", FontAsset(U"Tile.detail"), Color(184, 245, 227));
+                m_judgeRanks[0]++;
+                e.type = NoteType::None;
+                m_combo++;
+            }
+        }
+        if (e.type == NoteType::Press) {
+            int32 noteFar = e.timing - m_stopWatchElapsedMS + getData().setting[U"TIMING"].value;
+            if (noteFar < 0) {
+                m_effect.add<JudgeEffect>(effectPos, U"PERFECT", FontAsset(U"Tile.detail"), Color(184, 245, 227));
+                m_judgeRanks[0]++;
+                m_combo++;
+                e.type = NoteType::None;
             }
         }
     }

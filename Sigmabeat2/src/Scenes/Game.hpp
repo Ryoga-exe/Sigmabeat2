@@ -55,6 +55,7 @@ private:
     void drawPressEffect() const;
     void drawJudmentLine() const;
     void judgement();
+    void judgementAuto();
     bool loadNotes();
     bool applyMacro(String::value_type macro, String value, int32 timing, String::value_type spliter = U' ');
     double calculateNoteY(int32 timing, double speed) const;
