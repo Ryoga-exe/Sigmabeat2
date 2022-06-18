@@ -148,6 +148,21 @@
     <Filter Include="Source Files\Utils">
       <UniqueIdentifier>{a029fab7-122e-4f56-b30b-0ca5827457df}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\assets">
+      <UniqueIdentifier>{133a3a4d-caba-476f-97ee-5883f1d17eb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\assets\images">
+      <UniqueIdentifier>{8fce2647-4858-4f8d-9f89-965ea9314b1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\assets\images\polygons">
+      <UniqueIdentifier>{c28a8f33-5216-4aef-b861-3c8be0b9b113}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\assets\images\notes">
+      <UniqueIdentifier>{3a0a3b45-a1c7-4b56-b6d1-f8c9f561ed86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\assets\images\logos">
+      <UniqueIdentifier>{15b4026b-a03a-440b-8f2c-d6361496976e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -277,6 +292,42 @@
     </Image>
     <Image Include="App\example\obj\siv3d-kun-eye.png">
       <Filter>Resource Files\example\obj</Filter>
+    </Image>
+    <Image Include="App\assets\images\notes\hold.png">
+      <Filter>Resource Files\assets\images\notes</Filter>
+    </Image>
+    <Image Include="App\assets\images\notes\press.png">
+      <Filter>Resource Files\assets\images\notes</Filter>
+    </Image>
+    <Image Include="App\assets\images\notes\tap.png">
+      <Filter>Resource Files\assets\images\notes</Filter>
+    </Image>
+    <Image Include="App\assets\images\polygons\0.png">
+      <Filter>Resource Files\assets\images\polygons</Filter>
+    </Image>
+    <Image Include="App\assets\images\polygons\1.png">
+      <Filter>Resource Files\assets\images\polygons</Filter>
+    </Image>
+    <Image Include="App\assets\images\polygons\2.png">
+      <Filter>Resource Files\assets\images\polygons</Filter>
+    </Image>
+    <Image Include="App\assets\images\polygons\3.png">
+      <Filter>Resource Files\assets\images\polygons</Filter>
+    </Image>
+    <Image Include="App\assets\images\logos\ryoga-exe.png">
+      <Filter>Resource Files\assets\images\logos</Filter>
+    </Image>
+    <Image Include="App\assets\images\logos\sigmabeat.png">
+      <Filter>Resource Files\assets\images\logos</Filter>
+    </Image>
+    <Image Include="App\assets\images\logos\sigmabeat_.png">
+      <Filter>Resource Files\assets\images\logos</Filter>
+    </Image>
+    <Image Include="App\assets\images\logos\sigmabeat_greenback.png">
+      <Filter>Resource Files\assets\images\logos</Filter>
+    </Image>
+    <Image Include="App\assets\images\icon.png">
+      <Filter>Resource Files\assets\images</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>

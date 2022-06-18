@@ -137,6 +137,18 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <Image Include="App\assets\images\icon.png" />
+    <Image Include="App\assets\images\logos\ryoga-exe.png" />
+    <Image Include="App\assets\images\logos\sigmabeat.png" />
+    <Image Include="App\assets\images\logos\sigmabeat_.png" />
+    <Image Include="App\assets\images\logos\sigmabeat_greenback.png" />
+    <Image Include="App\assets\images\notes\hold.png" />
+    <Image Include="App\assets\images\notes\press.png" />
+    <Image Include="App\assets\images\notes\tap.png" />
+    <Image Include="App\assets\images\polygons\0.png" />
+    <Image Include="App\assets\images\polygons\1.png" />
+    <Image Include="App\assets\images\polygons\2.png" />
+    <Image Include="App\assets\images\polygons\3.png" />
     <Image Include="App\engine\texture\box-shadow\128.png" />
     <Image Include="App\engine\texture\box-shadow\16.png" />
     <Image Include="App\engine\texture\box-shadow\256.png" />
