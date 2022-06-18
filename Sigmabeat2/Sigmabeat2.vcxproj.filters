@@ -172,6 +172,15 @@
     <Filter Include="Resource Files\assets\shaders\hlsl">
       <UniqueIdentifier>{0ea871e4-527d-48d5-a4ab-35a0379fb53d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\assets\sounds">
+      <UniqueIdentifier>{01d5cd1b-a6bf-4e56-ad60-93bacbb10a99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\assets\sounds\BGM">
+      <UniqueIdentifier>{7173af7f-2db9-4acf-b936-c2a63071e786}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\assets\sounds\SE">
+      <UniqueIdentifier>{6f98481c-899d-4ef4-a611-e377a33188c1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -395,6 +404,9 @@
     </Text>
     <Text Include="App\assets\shaders\credit.txt">
       <Filter>Resource Files\assets\shaders</Filter>
+    </Text>
+    <Text Include="App\assets\sounds\credit.txt">
+      <Filter>Resource Files\assets\sounds</Filter>
     </Text>
   </ItemGroup>
   <ItemGroup>
@@ -867,6 +879,9 @@
     <None Include="App\assets\shaders\hlsl\homography.hlsl">
       <Filter>Resource Files\assets\shaders\hlsl</Filter>
     </None>
+    <None Include="App\assets\sounds\SE\LevelChange_SE.ogg">
+      <Filter>Resource Files\assets\sounds\SE</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Media Include="App\example\test.mp3">
@@ -877,6 +892,27 @@
     </Media>
     <Media Include="App\example\shot.mp3">
       <Filter>Resource Files\example</Filter>
+    </Media>
+    <Media Include="App\assets\sounds\BGM\opening.wav">
+      <Filter>Resource Files\assets\sounds\BGM</Filter>
+    </Media>
+    <Media Include="App\assets\sounds\BGM\result.wav">
+      <Filter>Resource Files\assets\sounds\BGM</Filter>
+    </Media>
+    <Media Include="App\assets\sounds\SE\Bad_SE.wav">
+      <Filter>Resource Files\assets\sounds\SE</Filter>
+    </Media>
+    <Media Include="App\assets\sounds\SE\Good_SE.wav">
+      <Filter>Resource Files\assets\sounds\SE</Filter>
+    </Media>
+    <Media Include="App\assets\sounds\SE\Select_bgm.wav">
+      <Filter>Resource Files\assets\sounds\SE</Filter>
+    </Media>
+    <Media Include="App\assets\sounds\SE\Select_BGM_02.wav">
+      <Filter>Resource Files\assets\sounds\SE</Filter>
+    </Media>
+    <Media Include="App\assets\sounds\SE\Select_SE.wav">
+      <Filter>Resource Files\assets\sounds\SE</Filter>
     </Media>
   </ItemGroup>
   <ItemGroup>

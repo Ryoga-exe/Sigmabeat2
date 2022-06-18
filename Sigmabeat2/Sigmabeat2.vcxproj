@@ -179,6 +179,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="App\assets\shaders\credit.txt" />
+    <Text Include="App\assets\sounds\credit.txt" />
     <Text Include="App\dll\soundtouch\COPYING.TXT" />
     <Text Include="App\engine\font\fontawesome\LICENSE.txt" />
     <Text Include="App\engine\soundfont\GMGSx.sf2.txt" />
@@ -200,6 +201,7 @@
     <None Include=".editorconfig" />
     <None Include="App\assets\shaders\glsl\homography.frag" />
     <None Include="App\assets\shaders\glsl\homography.vert" />
+    <None Include="App\assets\sounds\SE\LevelChange_SE.ogg" />
     <None Include="App\config.toml" />
     <None Include="App\dll\soundtouch\SoundTouch_x64.dll" />
     <None Include="App\engine\font\fontawesome\fontawesome-brands.otf.zstdcmp" />
@@ -329,6 +331,13 @@
     <None Include="App\example\zip\zip_test.zip" />
   </ItemGroup>
   <ItemGroup>
+    <Media Include="App\assets\sounds\BGM\opening.wav" />
+    <Media Include="App\assets\sounds\BGM\result.wav" />
+    <Media Include="App\assets\sounds\SE\Bad_SE.wav" />
+    <Media Include="App\assets\sounds\SE\Good_SE.wav" />
+    <Media Include="App\assets\sounds\SE\Select_bgm.wav" />
+    <Media Include="App\assets\sounds\SE\Select_BGM_02.wav" />
+    <Media Include="App\assets\sounds\SE\Select_SE.wav" />
     <Media Include="App\example\shot.mp3" />
     <Media Include="App\example\test.mp3" />
     <Media Include="App\example\video\river.mp4" />
