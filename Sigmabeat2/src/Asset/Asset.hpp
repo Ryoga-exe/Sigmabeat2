@@ -11,6 +11,11 @@ namespace Asset {
         constexpr FilePathView Logo = U"assets/images/logos/sigmabeat.png";
         constexpr FilePathView Ryoga_exe = U"assets/images/logos/ryoga-exe.png";
     }
+    namespace Shader {
+        const FilePath HomographyHLSL = U"assets/shaders/hlsl/homography.hlsl";
+        const FilePath HomographyVERT = U"assets/shaders/glsl/homography.vert";
+        const FilePath HomographyFRAG = U"assets/shaders/glsl/homography.frag";
+    }
 
     void Init();
 }

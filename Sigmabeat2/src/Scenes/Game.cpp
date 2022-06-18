@@ -1,6 +1,7 @@
 ﻿#include "Game.hpp"
 #include "Utils/Parser.hpp"
 #include "Config/Config.hpp"
+#include "Asset/Asset.hpp"
 
 Game::Game(const InitData& init)
     : IScene(init)
@@ -13,8 +14,8 @@ Game::Game(const InitData& init)
     , m_backgroundTexture(U"assets/images/polygons/0.png")
     , m_pressEffectOpacity(LaneNum, 0.00)
     , m_judgeRanks(5, 0)
-    , VS(HLSL{ U"assets/shaders/hlsl/homography.hlsl", U"VS" } | GLSL{ U"assets/shaders/glsl/homography.vert", {{ U"VSConstants2D", 0 }, { U"VSHomography", 1} } })
-    , PS(HLSL{ U"assets/shaders/hlsl/homography.hlsl", U"PS" } | GLSL{ U"assets/shaders/glsl/homography.frag", {{ U"PSConstants2D", 0 }, { U"PSHomography", 1} } }) {
+    , VS(HLSL{ Asset::Shader::HomographyHLSL, U"VS" } | GLSL{ Asset::Shader::HomographyVERT, {{ U"VSConstants2D", 0 }, { U"VSHomography", 1} } })
+    , PS(HLSL{ Asset::Shader::HomographyHLSL, U"PS" } | GLSL{ Asset::Shader::HomographyFRAG, {{ U"PSConstants2D", 0 }, { U"PSHomography", 1} } }) {
 
     Scene::SetBackground(Palette::Whitesmoke);
     if (!Config::Get().keepSceneSize) {
