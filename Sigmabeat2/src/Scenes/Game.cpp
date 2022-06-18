@@ -300,10 +300,10 @@ void Game::drawNotes() const {
 
 bool Game::drawNote(Note note) const {
     double posY = calculateNoteY(note.timing, getData().setting[U"SPEED"].value / getData().setting[U"SPEED"].scale);
-    if (note.type == 0 || note.type == 10) {
+    if (note.type == NoteType::Tap || note.type == NoteType::PassedTap) {
         RectF{ Arg::leftCenter(EdgeWidth + m_laneWidth * note.lane, convertPosY(posY)), m_laneWidth, 15 }(m_tapNoteTexture).draw();
     }
-    if (note.type == 1 || note.type == 21) {
+    if (note.type == NoteType::HoldStart || note.type == NoteType::PressedHoldStart) {
         double startPosY = posY;
         double startPosEndY = Min(calculateNoteY(note.sub, getData().setting[U"SPEED"].value / getData().setting[U"SPEED"].scale), (double)DrawLimitY);
 
@@ -315,7 +315,7 @@ bool Game::drawNote(Note note) const {
         RectF{ Arg::leftCenter(EdgeWidth + m_laneWidth * note.lane, convertPosY(startPosY)), m_laneWidth, 15 }(m_holdNoteTexture).draw();
         RectF{ Arg::leftCenter(EdgeWidth + m_laneWidth * note.lane, convertPosY(startPosEndY)), m_laneWidth, 15 }(m_holdNoteTexture).draw();
     }
-    if (note.type == 11) {
+    if (note.type == NoteType::PassedHoldStart) {
         double startPosY = posY;
         double startPosEndY = Min(calculateNoteY(note.sub, getData().setting[U"SPEED"].value / getData().setting[U"SPEED"].scale), (double)DrawLimitY);
 
@@ -327,7 +327,7 @@ bool Game::drawNote(Note note) const {
         RectF{ Arg::leftCenter(EdgeWidth + m_laneWidth * note.lane, convertPosY(startPosY)), m_laneWidth, 15 }(m_holdNoteTexture).draw();
         RectF{ Arg::leftCenter(EdgeWidth + m_laneWidth * note.lane, convertPosY(startPosEndY)), m_laneWidth, 15 }(m_holdNoteTexture).draw();
     }
-    if (note.type == 3) {
+    if (note.type == NoteType::Press) {
         RectF{ Arg::leftCenter(EdgeWidth + m_laneWidth * note.lane, convertPosY(posY)), m_laneWidth, 15 }(m_pressNoteTexture).draw();
     }
 
@@ -483,19 +483,19 @@ bool Game::loadNotes() {
                     Note note;
                     note.timing = static_cast<int32>(passedTime + barLength * counter / splitCounter);
                     if ('0' <= c && c <= '5') {
-                        note.type = 0;
+                        note.type = NoteType::Tap;
                         note.lane = (uint8)(c - '0');
                     }
                     if ('a' <= c && c <= 'f') {
-                        note.type = 1;
+                        note.type = NoteType::HoldStart;
                         note.lane = (uint8)(c - 'a');
                     }
                     if ('g' <= c && c <= 'l') {
-                        note.type = 2;
+                        note.type = NoteType::HoldEnd;
                         note.lane = (uint8)(c - 'g');
                     }
                     if ('m' <= c && c <= 'r') {
-                        note.type = 3;
+                        note.type = NoteType::Press;
                         note.lane = (uint8)(c - 'm');
                     }
                     m_notesMap.push_back(note);
@@ -515,10 +515,10 @@ bool Game::loadNotes() {
 
     Array<std::stack<int32>> longNotes(LaneNum);
     for (int32 i = static_cast<int32>(m_notesMap.size()) - 1; i >= 0; i--) {
-        if (m_notesMap[i].type == 2) {
+        if (m_notesMap[i].type == NoteType::HoldEnd) {
             longNotes[m_notesMap[i].lane].push(m_notesMap[i].timing);
         }
-        if (m_notesMap[i].type == 1 && !longNotes[m_notesMap[i].lane].empty()) {
+        if (m_notesMap[i].type == NoteType::HoldStart && !longNotes[m_notesMap[i].lane].empty()) {
             m_notesMap[i].sub = longNotes[m_notesMap[i].lane].top();
             longNotes[m_notesMap[i].lane].pop();
         }
@@ -622,31 +622,31 @@ double Game::calculateNoteY(int32 timing, double speed) const {
 void Game::judgement() {
     Array<bool> hasJudged(LaneNum, false);
     for (auto& e : m_notesMap) {
-        if (e.type == 10) {
+        if (e.type == NoteType::PassedTap) {
             double posY = calculateNoteY(e.timing, getData().setting[U"SPEED"].value / getData().setting[U"SPEED"].scale);
             if (posY < -30.0) {
-                e.type = 255;
+                e.type = NoteType::None;
             }
         }
-        if (e.type == 11) {
+        if (e.type == NoteType::PassedHoldStart) {
             double posY = calculateNoteY(e.sub, getData().setting[U"SPEED"].value / getData().setting[U"SPEED"].scale);
             if (posY < -30.0) {
-                e.type = 255;
+                e.type = NoteType::None;
             }
         }
         Vec2 effectPos{ EdgeWidth + m_laneWidth * e.lane + m_laneWidth / 2.0, convertPosY(DefaultJudmentYPos + 80) };
-        if (e.type == 0) {
+        if (e.type == NoteType::Tap) {
             int32 noteFar = e.timing - m_stopWatchElapsedMS + getData().setting[U"TIMING"].value;
             if (noteFar < -JudgeFarMS[3]) {
                 m_effect.add<JudgeEffect>(effectPos, U"MISS", FontAsset(U"Tile.detail"), Palette::Gray);
                 m_judgeRanks[4]++;
                 m_combo = 0;
-                e.type = 10;
+                e.type = NoteType::PassedTap;
             }
             if (m_keys[e.lane].down() && !hasJudged[e.lane]) {
 
                 if (Abs(noteFar) <= JudgeFarMS[3]) {
-                    e.type = 255;
+                    e.type = NoteType::None;
                     hasJudged[e.lane] = true;
                     if (Abs(noteFar) <= JudgeFarMS[2]) {
                         m_combo++;
@@ -679,17 +679,17 @@ void Game::judgement() {
                 }
             }
         }
-        if (e.type == 1) {
+        if (e.type == NoteType::HoldStart) {
             int32 noteFar = e.timing - m_stopWatchElapsedMS + getData().setting[U"TIMING"].value;
             if (noteFar < -JudgeFarMS[3]) {
                 m_effect.add<JudgeEffect>(effectPos, U"MISS", FontAsset(U"Tile.detail"), Palette::Gray);
                 m_judgeRanks[4]++;
                 m_combo = 0;
-                e.type = 11;
+                e.type = NoteType::PassedHoldStart;
             }
             if (m_keys[e.lane].down() && !hasJudged[e.lane]) {
                 if (Abs(noteFar) <= JudgeFarMS[3]) {
-                    e.type = 21;
+                    e.type = NoteType::PressedHoldStart;
                     hasJudged[e.lane] = true;
                     if (Abs(noteFar) <= JudgeFarMS[2]) {
                         m_combo++;
@@ -718,25 +718,25 @@ void Game::judgement() {
                         m_effect.add<JudgeEffect>(effectPos, U"MISS", FontAsset(U"Tile.detail"), Palette::Gray);
                         m_judgeRanks[4]++;
                         m_combo = 0;
-                        e.type = 11;
+                        e.type = NoteType::PassedHoldStart;
                     }
                 }
             }
         }
-        if (e.type == 21) {
+        if (e.type == NoteType::PressedHoldStart) {
             e.timing = m_stopWatchElapsedMS;
             int32 noteFar = e.sub - m_stopWatchElapsedMS + getData().setting[U"TIMING"].value;
 
             if (noteFar <= 0) {
                 m_effect.add<JudgeEffect>(effectPos, U"PERFECT", FontAsset(U"Tile.detail"), Color(184, 245, 227));
                 m_judgeRanks[0]++;
-                e.type = 255;
+                e.type = NoteType::None;
                 m_combo++;
             }
             if (m_keys[e.lane].up()) {
                 if (noteFar <= JudgeFarMS[2]) {
                     m_combo++;
-                    e.type = 255;
+                    e.type = NoteType::None;
                     if (Abs(noteFar) <= JudgeFarMS[1]) {
                         if (Abs(noteFar) <= JudgeFarMS[0]) {
                             m_effect.add<JudgeEffect>(effectPos, U"PERFECT", FontAsset(U"Tile.detail"), Color(184, 245, 227));
@@ -755,7 +755,7 @@ void Game::judgement() {
                 else {
                     m_effect.add<JudgeEffect>(effectPos, U"MISS", FontAsset(U"Tile.detail"), Palette::Gray);
                     m_judgeRanks[4]++;
-                    e.type = 11;
+                    e.type = NoteType::PassedHoldStart;
                     m_combo = 0;
                 }
             }
