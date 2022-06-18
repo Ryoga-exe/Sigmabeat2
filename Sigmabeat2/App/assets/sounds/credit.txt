@@ -1,8 +1,10 @@
-- BGM/opening.wav
+[BGM/opening.wav]
+[BGM/result.wav]
 composed by フトンガメ (@futon_Tortoise)
 
-- BGM/result.wav
-composed by フトンガメ (@futon_Tortoise)
-
-- SE/
+[SE/Bad_SE.wav]
+[SE/Good_SE.wav]
+[SE/Select_bgm.wav]
+[SE/Select_BGM_02.wav]
+[SE/Select_SE.wav]
 composed by OB
