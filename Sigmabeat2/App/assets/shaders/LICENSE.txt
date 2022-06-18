@@ -1,0 +1,13 @@
+- glsl/homography.frag
+https://github.com/Siv3D/OpenSiv3D/blob/main/WindowsDesktop/App/example/shader/glsl/homography.frag
+
+- glsl/homography.vert
+https://github.com/Siv3D/OpenSiv3D/blob/main/WindowsDesktop/App/example/shader/glsl/homography.vert
+
+- hlsl/homography.hlsl
+https://github.com/Siv3D/OpenSiv3D/blob/main/WindowsDesktop/App/example/shader/hlsl/homography.hlsl
+
+
+Original Source by Ryo Suzuki, OpenSiv3D Project.
+
+Licensed under the MIT License.
