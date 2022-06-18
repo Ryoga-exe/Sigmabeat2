@@ -117,9 +117,12 @@ void Game::update() {
         }
     }
 
-    if (KeyEscape.pressed()) {
+    if (KeyEscape.down()) {
         AudioAsset(U"GameMusic").stop(0.7s);
         changeScene(SceneState::Menu, 1.0s);
+    }
+    if (KeyF2.down()) {
+        getData().isAuto ^= true;
     }
 
     if (getData().isAuto) {
@@ -132,7 +135,6 @@ void Game::update() {
 }
 
 void Game::draw() const {
-
     ColorF bgColors[4] = {};
     for (int8 i = 0; i < 4; i++) {
         bgColors[i] = ColorF(m_scores.get(m_index).backgroundColor[i]);
@@ -158,6 +160,9 @@ void Game::draw() const {
         RectF{ 333, 45, 59, 42 }.draw(Color(15, 51, 66));
 
         FontAsset(U"Tile.detail.small")(U"SPEED : x{:.2f}"_fmt(getData().setting[U"SPEED"].value / (double)getData().setting[U"SPEED"].scale)).draw(Arg::bottomLeft(10, 18), Palette::Lightgray);
+        if (getData().isAuto) {
+            FontAsset(U"Tile.detail.small")(U"AUTO PLAY").draw(Arg::bottomLeft(100, 18), Palette::Lightgray);
+        }
         // FontAsset(U"Tile.detail.small")(U"SPEED : x{:.2f}"_fmt(, Palette::Lightgray);
 
 
