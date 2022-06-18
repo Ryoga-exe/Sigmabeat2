@@ -327,7 +327,7 @@ bool Game::drawNote(Note note) const {
         RectF{ Arg::leftCenter(EdgeWidth + m_laneWidth * note.lane, convertPosY(startPosY)), m_laneWidth, 15 }(m_holdNoteTexture).draw();
         RectF{ Arg::leftCenter(EdgeWidth + m_laneWidth * note.lane, convertPosY(startPosEndY)), m_laneWidth, 15 }(m_holdNoteTexture).draw();
     }
-    if (note.type == NoteType::Press) {
+    if (note.type == NoteType::Press || note.type == NoteType::PassedPress) {
         RectF{ Arg::leftCenter(EdgeWidth + m_laneWidth * note.lane, convertPosY(posY)), m_laneWidth, 15 }(m_pressNoteTexture).draw();
     }
 
@@ -757,6 +757,52 @@ void Game::judgement() {
                     m_judgeRanks[4]++;
                     e.type = NoteType::PassedHoldStart;
                     m_combo = 0;
+                }
+            }
+        }
+        if (e.type == NoteType::Press) {
+            int32 noteFar = e.timing - m_stopWatchElapsedMS + getData().setting[U"TIMING"].value;
+            if (noteFar < -JudgeFarMS[3]) {
+                m_effect.add<JudgeEffect>(effectPos, U"MISS", FontAsset(U"Tile.detail"), Palette::Gray);
+                m_judgeRanks[4]++;
+                m_combo = 0;
+                e.type = NoteType::PassedPress;
+            }
+            if (Abs(noteFar) <= JudgeFarMS[0]) {
+                if (m_keys[e.lane].pressed()) {
+                    m_effect.add<JudgeEffect>(effectPos, U"PERFECT", FontAsset(U"Tile.detail"), Color(184, 245, 227));
+                    m_judgeRanks[0]++;
+                    e.type = NoteType::None;
+                    m_combo++;
+                }
+            }
+
+            if (m_keys[e.lane].up()) {
+                if (Abs(noteFar) <= JudgeFarMS[3]) {
+                    e.type = NoteType::None;
+                    if (Abs(noteFar) <= JudgeFarMS[2]) {
+                        m_combo++;
+                        if (Abs(noteFar) <= JudgeFarMS[1]) {
+                            if (Abs(noteFar) <= JudgeFarMS[0]) {
+                                m_effect.add<JudgeEffect>(effectPos, U"PERFECT", FontAsset(U"Tile.detail"), Color(184, 245, 227));
+                                m_judgeRanks[0]++;
+                            }
+                            else {
+                                m_effect.add<JudgeEffect>(effectPos, U"GREAT", FontAsset(U"Tile.detail"));
+                                m_judgeRanks[1]++;
+                            }
+                        }
+                        else {
+                            if (noteFar < 0) {
+                                m_effect.add<JudgeEffect>(effectPos, U"LATE", FontAsset(U"Tile.detail"), Color(219, 81, 81));
+                                m_judgeRanks[3]++;
+                            }
+                            else {
+                                m_effect.add<JudgeEffect>(effectPos, U"FAST", FontAsset(U"Tile.detail"), Color(72, 84, 199));
+                                m_judgeRanks[2]++;
+                            }
+                        }
+                    }
                 }
             }
         }
