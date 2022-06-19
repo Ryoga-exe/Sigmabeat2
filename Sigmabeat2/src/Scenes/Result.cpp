@@ -1,10 +1,11 @@
 ﻿#include "Result.hpp"
 #include "Config/Config.hpp"
+#include "Asset/Asset.hpp"
 
 Result::Result(const InitData& init)
     : IScene(init)
     , m_delta(0.0)
-    , m_backgroundTexture(U"assets/images/polygons/0.png")
+    , m_backgroundTexture(Asset::Image::Polygon0)
     , m_fieldRT(360, 1080)
     , m_playing(false) {
 

@@ -14,6 +14,10 @@ namespace Asset {
         constexpr FilePathView TapNote = U"assets/images/notes/tap.png";
         constexpr FilePathView HoldNote = U"assets/images/notes/hold.png";
         constexpr FilePathView PressNote = U"assets/images/notes/press.png";
+        constexpr FilePathView Polygon0 = U"assets/images/polygons/0.png";
+        constexpr FilePathView Polygon1 = U"assets/images/polygons/1.png";
+        constexpr FilePathView Polygon2 = U"assets/images/polygons/2.png";
+        constexpr FilePathView Polygon3 = U"assets/images/polygons/3.png";
 
     }
     namespace Shader {
