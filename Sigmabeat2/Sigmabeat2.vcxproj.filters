@@ -106,6 +106,9 @@
     <Filter Include="Resource Files\assets\sounds\SE">
       <UniqueIdentifier>{6f98481c-899d-4ef4-a611-e377a33188c1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\scores">
+      <UniqueIdentifier>{6c353712-6b25-4d5f-ad1b-13aa362aab6f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
