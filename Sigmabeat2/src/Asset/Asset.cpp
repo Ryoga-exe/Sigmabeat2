@@ -21,9 +21,9 @@ namespace Asset {
         TextureAsset::Register(U"Icon.cogs", 0xf085_icon, 100);
         TextureAsset::Register(U"Icon.sliders-h", 0xf1de_icon, 100);
 
-        AudioAsset::Register(U"Opening", OpeningWav);
-        AudioAsset::Register(U"Result", ResultWav);
-        AudioAsset::Register(U"SE.move", Select_SE);
-        AudioAsset::Register(U"SE.levelChange", LevelChange_SE);
+        AudioAsset::Register(U"Opening", Sound::Opening);
+        AudioAsset::Register(U"Result", Sound::Result);
+        AudioAsset::Register(U"SE.move", Sound::Select);
+        AudioAsset::Register(U"SE.levelChange", Sound::LevelChange);
     }
 }
