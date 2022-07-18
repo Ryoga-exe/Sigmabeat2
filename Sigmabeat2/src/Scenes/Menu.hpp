@@ -30,6 +30,7 @@ private:
     Stopwatch m_sleepTimer;
     Stopwatch m_tileOffsetStopwatch;
     Audition m_audition;
+    Texture m_backgroundTexture;
     
     UI::Tile m_tile;
     int32  m_menuState;

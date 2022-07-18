@@ -1,8 +1,10 @@
 ﻿#include "Menu.hpp"
 #include "Config/Config.hpp"
+#include "Asset/Asset.hpp"
 
 Menu::Menu(const InitData& init)
     : IScene(init), m_tileOffsetXVelocity(0.0), m_animateState(0.0)
+    , m_backgroundTexture(Asset::Image::Polygon3)
     , m_tileOffsetStopwatch(StartImmediately::Yes), m_tileState(0.0), m_audition(0), m_menuState(0) {
 
     Scene::SetBackground(Color(220, 236, 250));
@@ -205,6 +207,19 @@ void Menu::updateTiles() {
 
 void Menu::drawBackground() const {
     const double bgOffset = 30 * m_scaleRate;
+
+    double r = abs(sin(Scene::Time() * 0.3));
+    const ColorF colors[4] = {
+        ColorF(0.0, 0.0, r, 0.20),
+        ColorF(0.0, 1.0, r, 0.20),
+        ColorF(1.0, 1.0, r, 0.20),
+        ColorF(1.0, 0.0, r, 0.20),
+    };
+    RectF{ Scene::Size() }.draw(colors);
+    RectF{ Scene::Size() }(m_backgroundTexture).draw(ColorF(1.0, 1.0, 1.0, 0.15));
+
+    RectF{ 20, 20, 7, 80 }.draw(Palette::White);
+    FontAsset(U"Game.score")(U"MUSIC SELECT").draw(40, 30);
 
     RectF(Arg::bottomCenter = Vec2{ Scene::CenterF().x, m_tileBaseY - bgOffset }, Scene::Width(), m_normalTileSize.y).stretched(80 * m_scaleRate).draw(ColorF(0, 0.5));
 

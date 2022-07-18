@@ -18,7 +18,6 @@ namespace Asset {
         constexpr FilePathView Polygon1 = U"assets/images/polygons/1.png";
         constexpr FilePathView Polygon2 = U"assets/images/polygons/2.png";
         constexpr FilePathView Polygon3 = U"assets/images/polygons/3.png";
-
     }
     namespace Shader {
         const FilePath HomographyHLSL = U"assets/shaders/hlsl/homography.hlsl";
