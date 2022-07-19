@@ -7,6 +7,8 @@ namespace Asset {
         constexpr FilePathView Result = U"assets/sounds/BGM/result.wav";
         constexpr FilePathView Select = U"assets/sounds/SE/Select_SE.wav";
         constexpr FilePathView LevelChange = U"assets/sounds/SE/LevelChange_SE.ogg";
+        constexpr FilePathView Good = U"assets/sounds/SE/Good_SE.wav";
+        constexpr FilePathView Bad = U"assets/sounds/SE/Bad_SE.wav";
     }
     namespace Image {
         constexpr FilePathView Logo = U"assets/images/logos/sigmabeat.png";

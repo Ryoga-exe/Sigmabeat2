@@ -203,6 +203,16 @@ void Game::draw() const {
         FontAsset(U"Tile.detail")(U"MAX COMBO : {:>4}"_fmt(m_maxCombo)).draw(Vec2{ w - 180, 60 }, Palette::White);
 
     }
+
+    if (m_stopWatchElapsedMS < 0) {
+        const auto [w, h] = Scene::Size();
+        const double t = (m_stopWatchElapsedMS + 4000.0) / 1000.0;
+        const double r = -Abs(t - 0.5) - Abs(t - 2.0) + 2.5;
+        const double x = (t < 1.0 ? (w / 2.0) * EaseOutExpo(t / 1.0) : (w / 2.0) + (w / 2.0) * EaseInExpo((t - 1.5) / 1.0));
+        RectF(Arg::leftCenter(0, h / 2.0), w, 200 * (t > 1.0 ? r : 1.0)).draw(ColorF(0.0, 0.7 * r));
+        FontAsset(U"Game.ready")(U"ARE YOU READY?").draw(Arg::center(x, h / 2.0), ColorF(1.0, r));
+    }
+
 }
 
 void Game::drawField() const {
