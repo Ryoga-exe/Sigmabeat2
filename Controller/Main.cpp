@@ -29,9 +29,8 @@ void Main() {
     Serial serial;
     size_t index = (options.size() - 1);
 
-    Array<bool> state(6);
-    Array<bool> now(6);
-    Array<bool> key(6, false);
+    Array<bool> state(ButtonSize);
+    Array<bool> key(ButtonSize, false);
     int8 idx = 0;
 
     while (System::Update()) {
@@ -57,26 +56,27 @@ void Main() {
         }
 
         if (const size_t available = serial.available()) {
-            auto readArr = serial.readBytes();
-            Print << readArr;
-            for (auto e : readArr) {
+            auto line = serial.readBytes();
+            Print << line;
+            for (auto e : line) {
                 if (e == '0') {
-                    if (idx >= 6) continue;
+                    if (idx >= ButtonSize) {
+                        continue;
+                    }
                     state[idx] = false;
                 }
                 else if (e == '1') {
-                    if (idx >= 6) continue;
+                    if (idx >= ButtonSize) {
+                        continue;
+                    }
                     state[idx] = true;
                 }
                 else {
                     ClearPrint();
                     Print << state;
 
-                    for (uint8 i = 0; i < 6; i++) {
-                        now[i] = state[i];
-                    }
-                    for (uint8 i = 0; i < 6; i++) {
-                        if (now[i]) {
+                    for (uint8 i = 0; i < ButtonSize; i++) {
+                        if (state[i]) {
                             if (!key[i]) {
                                 KeyAction(Keys[i], TRUE);
                                 key[i] = true;
@@ -95,10 +95,12 @@ void Main() {
             }
 
         }
-
-        int width = Scene::Width() / 6;
-        for (uint8 i = 0; i < 6; i++) {
-            if (now[i]) Rect(width * i, 300, width, 200).draw(Palette::Red);
+        
+        double width = static_cast<double>(Scene::Width()) / ButtonSize;
+        for (uint8 i = 0; i < ButtonSize; i++) {
+            if (state[i]) {
+                RectF(width * i, 300.0, width, 200.0).draw(Palette::Red);
+            }
         }
     }
 }
