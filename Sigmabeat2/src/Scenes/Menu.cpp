@@ -1,15 +1,16 @@
 ﻿#include "Menu.hpp"
 #include "Config/Config.hpp"
 #include "Asset/Asset.hpp"
+#include "UI/Color.hpp"
 
 Menu::Menu(const InitData& init)
     : IScene(init), m_tileOffsetXVelocity(0.0), m_animateState(0.0)
     , m_backgroundTexture(Asset::Image::Polygon3)
     , m_tileOffsetStopwatch(StartImmediately::Yes), m_tileState(0.0), m_audition(0), m_menuState(0) {
 
-    Scene::SetBackground(Color(220, 236, 250));
+    Scene::SetBackground(UI::MenuBackgroundColor);
     if (!Config::Get().keepSceneSize) {
-        Scene::SetLetterbox(Color(220, 236, 250));
+        Scene::SetLetterbox(UI::MenuBackgroundColor);
     }
 
     m_settingState = 0;

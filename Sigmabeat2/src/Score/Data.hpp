@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "Common.hpp"
+#include "UI/Color.hpp"
 
 namespace Score {
 
@@ -7,10 +8,10 @@ namespace Score {
     constexpr uint32 LevelNum = 4;
 
     constexpr Color LevelColor[LevelNum] = {
-        Color(102, 221, 17 ), // Easy
-        Color(255, 170, 1  ), // Normal
-        Color(238, 30 , 118), // Hard
-        Color(186, 51 , 239)  // Expert
+        UI::EasyColor,
+        UI::NormalColor,
+        UI::HardColor,
+        UI::ExpertColor
     };
     const String LevelName[LevelNum] = {
         U"Easy",
@@ -18,7 +19,7 @@ namespace Score {
         U"Hard",
         U"Expert",
     };
-    constexpr Color UnvalidLevelColor = Palette::Darkgray;
+    constexpr Color UnvalidLevelColor = UI::UnvalidLevelColor;
     constexpr Color UnvalidColor = Color(0);
 
     struct Data {

@@ -109,6 +109,12 @@
     <Filter Include="Resource Files\scores">
       <UniqueIdentifier>{6c353712-6b25-4d5f-ad1b-13aa362aab6f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\UI">
+      <UniqueIdentifier>{ca009405-cead-4914-b76c-ff6d631fd100}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI">
+      <UniqueIdentifier>{d274b24f-75eb-4c21-9a4c-ddbaa33a9565}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -147,9 +153,6 @@
     <ClCompile Include="src\Score\Manager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\UI\Tile.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -164,6 +167,9 @@
     </ClCompile>
     <ClCompile Include="src\Utils\Controller.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UI\Tile.cpp">
+      <Filter>Source Files\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -544,9 +550,6 @@
     <ClInclude Include="src\Score\Manager.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\UI\Tile.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Common.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -567,6 +570,15 @@
     </ClInclude>
     <ClInclude Include="src\Utils\Combo.hpp">
       <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UI\Tile.hpp">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UI\Effect.hpp">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UI\Color.hpp">
+      <Filter>Header Files\UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
