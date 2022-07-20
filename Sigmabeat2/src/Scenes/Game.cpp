@@ -23,8 +23,6 @@ Game::Game(const InitData& init)
     }
 
     m_speed = 1.00;
-    m_combo = 0;
-    m_maxCombo = 0;
     m_scorePoint = 0;
     m_judgementYPos = DefaultJudmentYPos;
     m_laneWidth = (FieldSize.x - 2 * EdgeWidth) / LaneNum;
@@ -63,8 +61,6 @@ void Game::update() {
     m_posMilliSec = AudioAsset(U"GameMusic").posSec() * 1000.0;
     m_stopWatchElapsedMS = m_stopwatch.ms() - 4000;
 
-    m_maxCombo = Max(m_maxCombo, m_combo);
-
     if (!m_notesMap.empty()) {
         double score_tmp =
             1000000 * ((m_judgeRanks[0] + m_judgeRanks[1] * 0.6 + m_judgeRanks[2] * 0.3 + m_judgeRanks[3] * 0.3) / m_notesMap.size());
@@ -85,7 +81,7 @@ void Game::update() {
     if (m_endTime + 2000 < m_stopWatchElapsedMS) {
         getData().judges = m_judgeRanks;
         getData().score = m_scorePoint;
-        getData().maxCombo = m_maxCombo;
+        getData().maxCombo = m_combo.getMaxCombo();
         AudioAsset(U"GameMusic").stop(0.5s);
         changeScene(SceneState::Result, 1.0s);
     }
@@ -200,7 +196,7 @@ void Game::draw() const {
 
         FontAsset(U"Tile.detail")(U"SCORE :").draw(Vec2{ w - 440, 60 }, Palette::White);
         FontAsset(U"Game.score")(U"{:>7}"_fmt(m_scorePoint)).draw(Vec2{ w - 380, 35 }, Palette::White);
-        FontAsset(U"Tile.detail")(U"MAX COMBO : {:>4}"_fmt(m_maxCombo)).draw(Vec2{ w - 180, 60 }, Palette::White);
+        FontAsset(U"Tile.detail")(U"MAX COMBO : {:>4}"_fmt(m_combo.getMaxCombo())).draw(Vec2{ w - 180, 60 }, Palette::White);
 
     }
 
@@ -233,7 +229,7 @@ void Game::drawField() const {
         }
 
         FontAsset(U"Menu")(U"COMBO").drawAt(FieldSize.x / 2.0, convertPosY(380), Palette::White);
-        FontAsset(U"Game.combo")(m_combo).drawAt(FieldSize.x / 2.0, convertPosY(300), Palette::White);
+        FontAsset(U"Game.combo")(m_combo).drawAt(100.0, FieldSize.x / 2.0, convertPosY(300), Palette::White);
 
         drawPressEffect();
 

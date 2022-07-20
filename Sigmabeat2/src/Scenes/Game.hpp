@@ -3,6 +3,7 @@
 #include "Base/Singleton.hpp"
 #include "Score/Manager.hpp"
 #include "Score/Note/Note.hpp"
+#include "Utils/Combo.hpp"
 
 namespace UI {
     constexpr Color BackgroundColor(Palette::Black);
@@ -106,13 +107,12 @@ private:
     double m_judgementYPos;
     double m_laneWidth;
     double m_speed;
-    int32 m_combo;
     int32 m_endTime;
     int32 m_speedMapIndex;
     int32 m_index;
     int32 m_level;
-    int32 m_maxCombo;
     int32 m_scorePoint;
+    Utils::Combo m_combo;
 
     bool m_hasStarted;
     bool m_hasPlayed;

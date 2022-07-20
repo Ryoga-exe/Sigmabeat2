@@ -274,6 +274,7 @@
     <ClInclude Include="src\Score\Manager.hpp" />
     <ClInclude Include="src\Score\Note\Note.hpp" />
     <ClInclude Include="src\UI\Tile.hpp" />
+    <ClInclude Include="src\Utils\Combo.hpp" />
     <ClInclude Include="src\Utils\Controller.hpp" />
     <ClInclude Include="src\Utils\Parser.hpp" />
     <ClInclude Include="stdafx.h" />
