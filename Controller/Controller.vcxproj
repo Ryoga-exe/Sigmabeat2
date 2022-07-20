@@ -12,9 +12,9 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{eb63ff1d-9ebb-42c8-8c5f-be3825fd578d}</ProjectGuid>
+    <ProjectGuid>{a014fc9a-2477-4f8c-a563-52aee314fa03}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>Sigmabeat2</RootNamespace>
+    <RootNamespace>Controller</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -49,16 +49,16 @@
     <IntDir>$(SolutionDir)Intermediate\$(ProjectName)\Debug\Intermediate\</IntDir>
     <TargetName>$(ProjectName)(debug)</TargetName>
     <LocalDebuggerWorkingDirectory>$(ProjectDir)App</LocalDebuggerWorkingDirectory>
-    <IncludePath>$(SIV3D_0_6_3)\include;$(SIV3D_0_6_3)\include\ThirdParty;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SIV3D_0_6_3)\lib\Windows;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SIV3D_0_6_4)\include;$(SIV3D_0_6_4)\include\ThirdParty;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SIV3D_0_6_4)\lib\Windows;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)Intermediate\$(ProjectName)\Release\</OutDir>
     <IntDir>$(SolutionDir)Intermediate\$(ProjectName)\Release\Intermediate\</IntDir>
     <LocalDebuggerWorkingDirectory>$(ProjectDir)App</LocalDebuggerWorkingDirectory>
-    <IncludePath>$(SIV3D_0_6_3)\include;$(SIV3D_0_6_3)\include\ThirdParty;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SIV3D_0_6_3)\lib\Windows;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SIV3D_0_6_4)\include;$(SIV3D_0_6_4)\include\ThirdParty;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SIV3D_0_6_4)\lib\Windows;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -74,7 +74,6 @@
       <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <ForcedIncludeFiles>stdafx.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
-      <AdditionalIncludeDirectories>$(ProjectDir)src</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -101,7 +100,6 @@
       <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <ForcedIncludeFiles>stdafx.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
-      <AdditionalIncludeDirectories>$(ProjectDir)src</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -115,41 +113,13 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\Asset\Asset.cpp" />
-    <ClCompile Include="src\Audition\Audition.cpp" />
-    <ClCompile Include="src\Base\Singleton.cpp" />
-    <ClCompile Include="src\Config\Config.cpp" />
-    <ClCompile Include="src\Fullscreen\Fullscreen.cpp" />
-    <ClCompile Include="src\Main.cpp" />
-    <ClCompile Include="src\Notification\Notification.cpp" />
-    <ClCompile Include="src\PlayerData\PlayerData.cpp" />
-    <ClCompile Include="src\Scenes\Game.cpp" />
-    <ClCompile Include="src\Scenes\Menu.cpp" />
-    <ClCompile Include="src\Scenes\Result.cpp" />
-    <ClCompile Include="src\Scenes\Setup.cpp" />
-    <ClCompile Include="src\Scenes\Title.cpp" />
-    <ClCompile Include="src\Score\Manager.cpp" />
-    <ClCompile Include="src\UI\Tile.cpp" />
-    <ClCompile Include="src\Utils\Controller.cpp" />
-    <ClCompile Include="src\Utils\Parser.cpp" />
+    <ClCompile Include="Main.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="App\assets\images\icon.png" />
-    <Image Include="App\assets\images\logos\ryoga-exe.png" />
-    <Image Include="App\assets\images\logos\sigmabeat.png" />
-    <Image Include="App\assets\images\logos\sigmabeat_.png" />
-    <Image Include="App\assets\images\logos\sigmabeat_greenback.png" />
-    <Image Include="App\assets\images\notes\hold.png" />
-    <Image Include="App\assets\images\notes\press.png" />
-    <Image Include="App\assets\images\notes\tap.png" />
-    <Image Include="App\assets\images\polygons\0.png" />
-    <Image Include="App\assets\images\polygons\1.png" />
-    <Image Include="App\assets\images\polygons\2.png" />
-    <Image Include="App\assets\images\polygons\3.png" />
     <Image Include="App\engine\texture\box-shadow\128.png" />
     <Image Include="App\engine\texture\box-shadow\16.png" />
     <Image Include="App\engine\texture\box-shadow\256.png" />
@@ -162,38 +132,14 @@
     <ResourceCompile Include="App\Resource.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="App\assets\shaders\credit.txt" />
-    <Text Include="App\assets\sounds\credit.txt" />
     <Text Include="App\dll\soundtouch\COPYING.TXT" />
-    <Text Include="App\engine\font\fontawesome\LICENSE.txt" />
-    <Text Include="App\engine\soundfont\GMGSx.sf2.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App\assets\shaders\glsl\homography.frag" />
-    <None Include="App\assets\shaders\glsl\homography.vert" />
-    <None Include="App\assets\sounds\SE\LevelChange_SE.ogg" />
-    <None Include="App\config.toml" />
     <None Include="App\dll\soundtouch\SoundTouch_x64.dll" />
-    <None Include="App\engine\font\fontawesome\fontawesome-brands.otf.zstdcmp" />
-    <None Include="App\engine\font\fontawesome\fontawesome-solid.otf.zstdcmp" />
-    <None Include="App\engine\font\materialdesignicons\license.md" />
-    <None Include="App\engine\font\materialdesignicons\materialdesignicons-webfont.ttf.zstdcmp" />
     <None Include="App\engine\font\min\LICENSE" />
     <None Include="App\engine\font\min\siv3d-min.woff" />
     <None Include="App\engine\font\mplus\LICENSE_E" />
-    <None Include="App\engine\font\mplus\mplus-1p-black.ttf.zstdcmp" />
-    <None Include="App\engine\font\mplus\mplus-1p-bold.ttf.zstdcmp" />
-    <None Include="App\engine\font\mplus\mplus-1p-heavy.ttf.zstdcmp" />
-    <None Include="App\engine\font\mplus\mplus-1p-light.ttf.zstdcmp" />
-    <None Include="App\engine\font\mplus\mplus-1p-medium.ttf.zstdcmp" />
     <None Include="App\engine\font\mplus\mplus-1p-regular.ttf.zstdcmp" />
-    <None Include="App\engine\font\mplus\mplus-1p-thin.ttf.zstdcmp" />
-    <None Include="App\engine\font\noto-cjk\LICENSE" />
-    <None Include="App\engine\font\noto-cjk\NotoSansCJK-Regular.ttc.zstdcmp" />
-    <None Include="App\engine\font\noto-cjk\NotoSansJP-Regular.otf.zstdcmp" />
-    <None Include="App\engine\font\noto-emoji\LICENSE" />
-    <None Include="App\engine\font\noto-emoji\NotoColorEmoji.ttf.zstdcmp" />
-    <None Include="App\engine\font\noto-emoji\NotoEmoji-Regular.ttf.zstdcmp" />
     <None Include="App\engine\shader\d3d11\apply_srgb_curve.ps" />
     <None Include="App\engine\shader\d3d11\bitmapfont.ps" />
     <None Include="App\engine\shader\d3d11\copy.ps" />
@@ -244,46 +190,9 @@
     <None Include="App\engine\shader\glsl\sprite.vert" />
     <None Include="App\engine\shader\glsl\square_dot.frag" />
     <None Include="App\engine\shader\glsl\texture.frag" />
-    <None Include="App\engine\soundfont\GMGSx.sf2.zstdcmp" />
   </ItemGroup>
   <ItemGroup>
-    <Media Include="App\assets\sounds\BGM\opening.wav" />
-    <Media Include="App\assets\sounds\BGM\result.wav" />
-    <Media Include="App\assets\sounds\SE\Bad_SE.wav" />
-    <Media Include="App\assets\sounds\SE\Good_SE.wav" />
-    <Media Include="App\assets\sounds\SE\Select_bgm.wav" />
-    <Media Include="App\assets\sounds\SE\Select_BGM_02.wav" />
-    <Media Include="App\assets\sounds\SE\Select_SE.wav" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="src\Asset\Asset.hpp" />
-    <ClInclude Include="src\Audition\Audition.hpp" />
-    <ClInclude Include="src\Base\Singleton.hpp" />
-    <ClInclude Include="src\Common.hpp" />
-    <ClInclude Include="src\Config\Config.hpp" />
-    <ClInclude Include="src\Fullscreen\Fullscreen.hpp" />
-    <ClInclude Include="src\Notification\Notification.hpp" />
-    <ClInclude Include="src\PlayerData\PlayerData.hpp" />
-    <ClInclude Include="src\Scenes\Game.hpp" />
-    <ClInclude Include="src\Scenes\Menu.hpp" />
-    <ClInclude Include="src\Scenes\Result.hpp" />
-    <ClInclude Include="src\Scenes\Setup.hpp" />
-    <ClInclude Include="src\Scenes\Title.hpp" />
-    <ClInclude Include="src\Score\Data.hpp" />
-    <ClInclude Include="src\Score\Manager.hpp" />
-    <ClInclude Include="src\Score\Note\Note.hpp" />
-    <ClInclude Include="src\UI\Color.hpp" />
-    <ClInclude Include="src\UI\Effect.hpp" />
-    <ClInclude Include="src\UI\Tile.hpp" />
-    <ClInclude Include="src\Utils\Combo.hpp" />
-    <ClInclude Include="src\Utils\Controller.hpp" />
-    <ClInclude Include="src\Utils\Parser.hpp" />
     <ClInclude Include="stdafx.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App\assets\shaders\hlsl\homography.hlsl">
-      <FileType>Document</FileType>
-    </None>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

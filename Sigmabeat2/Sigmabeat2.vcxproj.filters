@@ -464,7 +464,6 @@
     <None Include="App\engine\soundfont\GMGSx.sf2.zstdcmp">
       <Filter>Resource Files\engine\soundfont</Filter>
     </None>
-    <None Include=".editorconfig" />
     <None Include="App\engine\font\min\LICENSE">
       <Filter>Resource Files\engine\font\min</Filter>
     </None>
