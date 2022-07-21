@@ -5,3 +5,5 @@
 </h1>
 
 **Sigmabeat2** is a rhythm game made with [OpenSiv3D](https://github.com/Siv3D/OpenSiv3D)
+
+![Screenshot](./docs/Screenshot.png)
