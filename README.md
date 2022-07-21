@@ -2,6 +2,7 @@
 <a href="https://github.com/ryoga-exe/Sigmabeat2/blob/main/LICENSE"><img src="https://img.shields.io/github/license/ryoga-exe/Sigmabeat2"/></a>
 <a href="https://github.com/ryoga-exe/Sigmabeat2/issues"><img src="https://img.shields.io/github/issues/ryoga-exe/Sigmabeat2"/></a>
 <a href="https://github.com/ryoga-exe/Sigmabeat2/"><img src="https://img.shields.io/github/languages/top/ryoga-exe/Sigmabeat2"/></a>
+<a href="https://twitter.com/intent/follow?screen_name=SigmabeatDev"><img src="https://img.shields.io/twitter/follow/SigmabeatDev?color=1DA1F2&logo=twitter"></a>
 </h1>
 
 **Sigmabeat2** is a rhythm game made with [OpenSiv3D](https://github.com/Siv3D/OpenSiv3D)
