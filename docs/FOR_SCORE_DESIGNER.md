@@ -134,3 +134,95 @@
   - `#` から始まる記法において 1/16 だけ反映を遅らせます 例えば `96/192` とすると 96/192 だけ遅らせます。分子に 0 を指定すると元に戻ります。
 - `#FUNCDELAYMS 200`
   - `#FUNCDELAY` をミリ秒で指定する版です。
+
+### 例
+
+複雑な譜面の例 (https://twitter.com/Ryoga_exe/status/1550082078586576896) でプレイしている譜面の序盤の部分
+
+```
+{#FuncDelay 0/192
+#BPMChange 42.667
+#FuncDelay 0/192
+#Speed 0
+#FuncDelay 64/192
+#Speed 0.667
+#FuncDelay 65/192
+#Speed 0
+#FuncDelay 67/192
+#Speed 0.667
+#FuncDelay 68/192
+#Speed 0
+#FuncDelay 70/192
+#Speed 0.667
+#FuncDelay 71/192
+#Speed 0
+#FuncDelay 73/192
+#Speed 0.667
+#FuncDelay 74/192
+#Speed 0
+#FuncDelay 75/192
+#Speed 0.667
+#FuncDelay 76/192
+#Speed 0
+#FuncDelay 77/192
+#Speed 0.667
+#FuncDelay 78/192
+#Speed 0
+#FuncDelay 80/192
+#Speed 0.667
+#FuncDelay 81/192
+#Speed 0
+#FuncDelay 101/192
+#Speed 0.667
+#FuncDelay 102/192
+#Speed 0
+#FuncDelay 104/192
+#Speed 0.667
+#FuncDelay 105/192
+#Speed 0
+#FuncDelay 107/192
+#Speed 0.667
+#FuncDelay 108/192
+#Speed 0
+#FuncDelay 110/192
+#Speed 0.667
+#FuncDelay 111/192
+#Speed 0
+#FuncDelay 113/192
+#Speed 0.667
+#FuncDelay 114/192
+#Speed 0
+#FuncDelay 115/192
+#Speed 0.667
+#FuncDelay 116/192
+#Speed 0
+#FuncDelay 119/192
+#Speed 0.667
+#FuncDelay 120/192
+#Speed 0
+#FuncDelay 123/192
+#Speed 0.667
+#FuncDelay 124/192
+#Speed 0
+#FuncDelay 176/192
+#Speed 0.033
+#FuncDelay 180/192
+#Speed 0.067
+#FuncDelay 184/192
+#Speed 0.1
+#FuncDelay 188/192
+#Speed 0.133
+	,,,
+#FuncDelay 0/192
+#BPMChange 128
+#FuncDelay 0/192
+#Speed 0.5
+	d,,je,
+	ck,,id,
+	bj,,hc,
+#FuncDelay 0/192
+#BPMChange 256
+#FuncDelay 0/192
+#Speed 0.6
+	3,,3,
+```
