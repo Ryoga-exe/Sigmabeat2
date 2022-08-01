@@ -10,3 +10,18 @@
 ## Screenshot
 
 ![Screenshot](./docs/Screenshot.png)
+
+## Build
+
+### Requirements
+
+It requires **Siv3D v0.6.4** for Windows. You can download it from [here](https://siv3d.github.io/download/windows/)
+
+System requirements
+
+|    |   |
+| ---- | ---- |
+|  OS  | Windows 10 (64-bit) / Windows 11 |
+| CPU	 |Intel / AMD CPU |
+| Output Devices | Monitors and speakers |
+| IDE  |  Microsoft Visual C++ 2022 17.2 <br/> (Install "Desktop development with C++" from the Visual Studio Installer) |
