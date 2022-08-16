@@ -11,6 +11,8 @@
 
 ![Screenshot](./docs/Screenshot.png)
 
+[Watch the video on YouTube](https://youtu.be/3_WWAGTadlg)
+
 ## Build
 
 ### Requirements
